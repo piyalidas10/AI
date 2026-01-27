@@ -126,6 +126,7 @@ Example: A robot that knows it's a robot and has desires.
 
 <details>
 <summary><strong>AI Subdomains</strong></summary>
+
 ```
               Artificial Intelligence
                      │
