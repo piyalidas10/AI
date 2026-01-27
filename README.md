@@ -42,6 +42,8 @@ LLM generates grounded answer
 <details>
 <summary><strong>🧑‍💻 Copilots (Human-in-the-loop AI)</strong></summary>
 
+<img src="https://github.com/piyalidas10/AI/blob/7c2a01da3be24e55c8a8d631773c8efbcdd6ffdb/imgs/modern_ai_system.jpg" width="500px" />
+
 Copilot ≠ Agent
   -  Agent: autonomous
   -  Copilot: assists a human
