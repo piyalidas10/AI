@@ -13,6 +13,8 @@ Data → ML → DL → Transformers → LLMs
 [![20 AI Concepts Explained in 40 Minutes]](https://www.youtube.com/watch?v=OYvlznJ4IZQ)  
 [![RAG Explained For Beginners]](https://www.youtube.com/watch?v=_HQ2H_0Ayy0)  
 
+[![AI Complete OneShot Course for Beginners - HINDI]](https://www.youtube.com/watch?v=D1eL1EnxXXQ)
+
 </details>
 
 <details>
@@ -119,6 +121,152 @@ Example: A robot that knows it's a robot and has desires.
   -  Stock prediction
   -  weather forecasting
   -  demand planning
+
+</details>
+
+<details>
+<summary><strong>AI Subdomains</strong></summary>
+```
+              Artificial Intelligence
+                     │
+     ┌───────────────┼────────────────┐
+     │               │                │
+Machine Learning   Symbolic AI     Search/Planning
+     │
+Deep Learning
+     │
+ ┌───┼────┐
+NLP  CV  Speech
+     │
+Generative AI
+     │
+Multimodal + Agents
+```
+  
+**1️⃣ Machine Learning (ML)**  
+Pattern learning from structured data
+Products
+  -  Netflix / Amazon → Recommendation engines
+  -  Stripe / PayPal → Fraud detection
+  -  Google Ads → Click-through prediction
+  -  Uber → Demand & pricing prediction
+
+📌 Mostly tabular data + classical ML
+
+**2️⃣ Deep Learning (DL)**  
+High-dimensional pattern recognition
+Products
+  -  Google Photos → Image recognition
+  -  Tesla Autopilot → Perception systems
+  -  YouTube → Video classification
+  -  Spotify → Audio understanding
+
+📌 Neural networks + GPUs
+
+**3️⃣ Natural Language Processing (NLP)**
+Understanding & generating text
+Products
+  -  Gmail → Smart Reply
+  -  Google Search → Query understanding
+  -  Zendesk / Intercom → Support automation
+  -  Grammarly → Writing assistance
+
+📌 Text → meaning → action
+
+**4️⃣ Computer Vision (CV)**  
+Understanding images & videos
+Products
+  -  Face ID (Apple) → Face recognition
+  -  Google Lens → Image search
+  -  Amazon Go → Checkout-free stores
+  -  Medical imaging tools → Tumor detection
+
+📌 Cameras + CNNs + DL
+
+**5️⃣ Speech & Audio AI**  
+Voice & sound processing
+Products
+  -  Alexa / Siri / Google Assistant → Voice assistants
+  -  Zoom → Live captions
+  -  Call center IVR systems → Speech recognition
+  -  Descript → Audio editing with text
+
+📌 ASR + TTS pipelines
+
+**6️⃣ Generative AI 🔥**  
+Creates new content
+Products
+  -  ChatGPT / Claude / Gemini → Text generation
+  -  DALL·E / Midjourney → Image generation
+  -  GitHub Copilot → Code generation
+  -  Notion AI → Content creation
+
+📌 LLMs + Diffusion models
+
+**7️⃣ Reinforcement Learning (RL)**  
+Decision-making via rewards
+Products
+  -  AlphaGo → Game strategy
+  -  Robotics systems → Motion control
+  -  Ad bidding systems → Budget optimization
+  -  Warehouse robots (Amazon) → Navigation
+
+📌 Trial → reward → optimize
+
+**8️⃣ Knowledge Representation & Reasoning (KRR)**   
+Rules, logic, symbolic reasoning
+Products
+  -  Tax software → Rule-based compliance
+  -  Medical expert systems → Diagnosis support
+  -  Policy engines → Access control decisions
+
+📌 Often combined with ML today
+
+**9️⃣ Search, Planning & Optimization**  
+Finding best paths & schedules
+Products
+  -  Google Maps → Route planning
+  -  Airline scheduling systems
+  -  Delivery optimization (UPS, FedEx)
+
+📌 Classical AI still very relevant
+
+**🔟 Multimodal AI**  
+Multiple input types together
+Products
+  -  ChatGPT (Vision) → Image + text
+  -  Google Gemini → Text + image + code
+  -  Microsoft Copilot → Docs + charts + text
+
+📌 Next-gen assistants
+
+**1️⃣1️⃣ AI Agents & Autonomous Systems 🔥**  
+Plan → decide → act
+Products
+  -  AutoGPT / LangGraph agents → Task automation
+  -  Trading bots → Market actions
+  -  Research agents → Report generation
+  -  Customer support agents → End-to-end resolution
+
+📌 LLM + tools + memory
+
+**1️⃣2️⃣ Explainable AI (XAI)**  
+Transparency & trust
+Products
+  -  Credit scoring systems → Decision explanations
+  -  Healthcare AI tools → Diagnosis justification
+  -  Regulated finance tools → Auditability
+
+📌 Mandatory in regulated industries
+
+**1️⃣3️⃣ Responsible & Ethical AI**  
+Safety, fairness, governance
+Products
+  -  OpenAI / Google AI guardrails
+  -  Content moderation systems
+  -  Bias detection platforms
+
+📌 Invisible but critical
 
 </details>
 
