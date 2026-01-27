@@ -145,7 +145,7 @@ Multimodal + Agents
 ```
   
 **1️⃣ Machine Learning (ML)**  
-Pattern learning from structured data
+Pattern learning from structured data  
 Products
   -  Netflix / Amazon → Recommendation engines
   -  Stripe / PayPal → Fraud detection
@@ -155,7 +155,7 @@ Products
 📌 Mostly tabular data + classical ML
 
 **2️⃣ Deep Learning (DL)**  
-High-dimensional pattern recognition
+High-dimensional pattern recognition  
 Products
   -  Google Photos → Image recognition
   -  Tesla Autopilot → Perception systems
@@ -165,7 +165,7 @@ Products
 📌 Neural networks + GPUs
 
 **3️⃣ Natural Language Processing (NLP)**
-Understanding & generating text
+Understanding & generating text  
 Products
   -  Gmail → Smart Reply
   -  Google Search → Query understanding
@@ -175,7 +175,7 @@ Products
 📌 Text → meaning → action
 
 **4️⃣ Computer Vision (CV)**  
-Understanding images & videos
+Understanding images & videos  
 Products
   -  Face ID (Apple) → Face recognition
   -  Google Lens → Image search
@@ -185,7 +185,7 @@ Products
 📌 Cameras + CNNs + DL
 
 **5️⃣ Speech & Audio AI**  
-Voice & sound processing
+Voice & sound processing  
 Products
   -  Alexa / Siri / Google Assistant → Voice assistants
   -  Zoom → Live captions
@@ -195,7 +195,7 @@ Products
 📌 ASR + TTS pipelines
 
 **6️⃣ Generative AI 🔥**  
-Creates new content
+Creates new content  
 Products
   -  ChatGPT / Claude / Gemini → Text generation
   -  DALL·E / Midjourney → Image generation
@@ -205,7 +205,7 @@ Products
 📌 LLMs + Diffusion models
 
 **7️⃣ Reinforcement Learning (RL)**  
-Decision-making via rewards
+Decision-making via rewards  
 Products
   -  AlphaGo → Game strategy
   -  Robotics systems → Motion control
@@ -215,7 +215,7 @@ Products
 📌 Trial → reward → optimize
 
 **8️⃣ Knowledge Representation & Reasoning (KRR)**   
-Rules, logic, symbolic reasoning
+Rules, logic, symbolic reasoning  
 Products
   -  Tax software → Rule-based compliance
   -  Medical expert systems → Diagnosis support
@@ -224,7 +224,7 @@ Products
 📌 Often combined with ML today
 
 **9️⃣ Search, Planning & Optimization**  
-Finding best paths & schedules
+Finding best paths & schedules  
 Products
   -  Google Maps → Route planning
   -  Airline scheduling systems
@@ -233,7 +233,7 @@ Products
 📌 Classical AI still very relevant
 
 **🔟 Multimodal AI**  
-Multiple input types together
+Multiple input types together  
 Products
   -  ChatGPT (Vision) → Image + text
   -  Google Gemini → Text + image + code
@@ -242,7 +242,7 @@ Products
 📌 Next-gen assistants
 
 **1️⃣1️⃣ AI Agents & Autonomous Systems 🔥**  
-Plan → decide → act
+Plan → decide → act  
 Products
   -  AutoGPT / LangGraph agents → Task automation
   -  Trading bots → Market actions
@@ -252,7 +252,7 @@ Products
 📌 LLM + tools + memory
 
 **1️⃣2️⃣ Explainable AI (XAI)**  
-Transparency & trust
+Transparency & trust  
 Products
   -  Credit scoring systems → Decision explanations
   -  Healthcare AI tools → Diagnosis justification
@@ -261,7 +261,7 @@ Products
 📌 Mandatory in regulated industries
 
 **1️⃣3️⃣ Responsible & Ethical AI**  
-Safety, fairness, governance
+Safety, fairness, governance  
 Products
   -  OpenAI / Google AI guardrails
   -  Content moderation systems
