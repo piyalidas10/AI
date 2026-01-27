@@ -19,6 +19,107 @@ Data → ML → DL → Transformers → LLMs
 </details>
 
 <details>
+<summary><strong>RAG (Retrieval-Augmented Generation)</strong></summary>
+
+Problem GenAI has
+  -  Hallucinates
+  -  No access to your private data
+  -  Knowledge cutoff
+
+RAG Solution
+```
+User Question
+ ↓
+Search company data (DB, PDFs, APIs)
+ ↓
+Inject relevant context into prompt
+ ↓
+LLM generates grounded answer
+```
+
+</details>
+
+<details>
+<summary><strong>🧑‍💻 Copilots (Human-in-the-loop AI)</strong></summary>
+
+Copilot ≠ Agent
+  -  Agent: autonomous
+  -  Copilot: assists a human
+
+```
+User working
+ ↓
+Context capture (code, doc, email)
+ ↓
+LLM suggestion
+ ↓
+Human approves/edits
+```
+Real products
+  -  GitHub Copilot
+  -  Microsoft 365 Copilot
+  -  Cursor / Codeium
+
+</details>
+
+<details>
+<summary><strong>Enterprise Support AI - Putting EVERYTHING Together (One Real System)</strong></summary>
+
+```
+Chat UI
+ ↓
+Copilot UX
+ ↓
+RAG (company KB, tickets)
+ ↓
+Agent (can create Jira tickets)
+ ↓
+LLM (GenAI)
+ ↓
+Safe Response
+```
+This system uses:
+  -  AI (rules)
+  -  ML (ticket classification)
+  -  Deep Learning (language understanding)
+  -  GenAI (response generation)
+  -  RAG (company data)
+  -  Agents (task execution)
+  -  Copilot (human approval)
+
+</details>
+
+<details>
+<summary><strong>ChatGPT</strong></summary>
+
+**ChatGPT = Generative AI system built on Deep Learning (Transformers) with system layers around it**  
+In real systems, it’s combined with RAG for grounding, agents for autonomy, and copilots for human-assisted workflows.
+```
+User
+ ↓
+Frontend (Chat UI / API Client)
+ ↓
+Prompt Orchestrator
+  - System prompt
+  - User prompt
+  - Context
+ ↓
+LLM (GPT-4/5, etc.)
+ ↓
+Optional:
+ - Tools / Functions
+ - Browsing
+ - Code execution
+ ↓
+Response Formatter
+ ↓
+User
+```
+👉 ChatGPT itself is NOT just a model. It’s a full AI product wrapping a GenAI model.
+
+</details>
+
+<details>
 <summary><strong>What is AI ? How many types of AI ?</strong></summary>
 AI is a computer program that can do things that normally require a human mind. This includes things like learning, recognizing patterns, understanding language, and making decisions.
 
@@ -146,24 +247,36 @@ Multimodal + Agents
 ```
   
 **1️⃣ Machine Learning (ML)**  
-Pattern learning from structured data  
+Learns patterns from historical data   
 Products
   -  Netflix / Amazon → Recommendation engines
   -  Stripe / PayPal → Fraud detection
   -  Google Ads → Click-through prediction
   -  Uber → Demand & pricing prediction
+  -  Credit scoring systems
+  -  Fraud detection
+  -  Search ranking
 
-📌 Mostly tabular data + classical ML
+Used heavily in:
+  -  FinTech
+  -  E-commerce
+  -  Marketing analytics
 
 **2️⃣ Deep Learning (DL)**  
-High-dimensional pattern recognition  
+Understands complex data (image, speech, text)    
 Products
   -  Google Photos → Image recognition
   -  Tesla Autopilot → Perception systems
   -  YouTube → Video classification
   -  Spotify → Audio understanding
+  -  Face ID
+  -  Speech-to-text (Alexa, Siri)
+  -  Autonomous driving vision
 
-📌 Neural networks + GPUs
+Used heavily in:
+  -  Computer Vision
+  -  Speech recognition
+  -  NLP (pre-GenAI era)
 
 **3️⃣ Natural Language Processing (NLP)**
 Understanding & generating text  
@@ -202,6 +315,7 @@ Products
   -  DALL·E / Midjourney → Image generation
   -  GitHub Copilot → Code generation
   -  Notion AI → Content creation
+  -  Adobe Firefly → design
 
 📌 LLMs + Diffusion models
 
