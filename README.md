@@ -10,11 +10,11 @@ Data → ML → DL → Transformers → LLMs
 
 <details>
 <summary><strong>AI Youtube Videos</strong></summary>
-[![20 AI Concepts Explained in 40 Minutes]](https://www.youtube.com/watch?v=OYvlznJ4IZQ)  
-[![RAG Explained For Beginners]](https://www.youtube.com/watch?v=_HQ2H_0Ayy0)  
-
-[![AI Complete OneShot Course for Beginners - HINDI]](https://www.youtube.com/watch?v=D1eL1EnxXXQ)
-[![AI full Course for Beginners | Learn N8N, Web Dev, AI Content & AI Agents - HINDI]](https://www.youtube.com/watch?v=DaUxBGfYSVQ)
+  
+  -  [![20 AI Concepts Explained in 40 Minutes]](https://www.youtube.com/watch?v=OYvlznJ4IZQ)
+  -  [![RAG Explained For Beginners]](https://www.youtube.com/watch?v=_HQ2H_0Ayy0)
+  -  [![AI Complete OneShot Course for Beginners - HINDI]](https://www.youtube.com/watch?v=D1eL1EnxXXQ)
+  -  [![AI full Course for Beginners | Learn N8N, Web Dev, AI Content & AI Agents - HINDI]](https://www.youtube.com/watch?v=DaUxBGfYSVQ)
 
 </details>
 
