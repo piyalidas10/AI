@@ -123,6 +123,8 @@ User
 <summary><strong>What is AI ? How many types of AI ?</strong></summary>
 AI is a computer program that can do things that normally require a human mind. This includes things like learning, recognizing patterns, understanding language, and making decisions.
 
+<img src="https://github.com/piyalidas10/AI/blob/88c87d782663baaca78aef01e7df91fbb8712541/imgs/ai_img.png" width="100%" max-width="700px" />
+
 This is the classic way to think about AI's "level of intelligence."
 
 1️⃣ Types of AI based on Capability
