@@ -547,3 +547,17 @@ Tesla shows innovation strength, but near-term margin pressure limits upside in 
 
 </details>
 
+<details>
+<summary><strong>AI Questions & Answers</strong></summary>
+
+Q: What happens if RAG returns irrelevant docs?  
+👉 “We add confidence scoring and allow the model to say ‘I don’t know’.”
+
+Q: Can RAG be attacked?  
+👉 “Yes, via indirect prompt injection embedded in documents.”
+
+Q: Why not let Angular call OpenAI directly?  
+👉 “Security, cost control, prompt safety, and auditability.”
+
+</details>
+
