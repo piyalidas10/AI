@@ -8,6 +8,57 @@ Data → ML → DL → Transformers → LLMs
               Real Applications
 ```
 
+## 🧠 What is Ollama?
+Ollama is a tool that lets you run Large Language Models (LLMs) locally on your own machine.  
+
+> Think of it as: “Docker for AI models”
+> Instead of calling OpenAI / Gemini / Claude over the internet, Ollama runs models offline, locally, and securely.
+
+<details>
+<summary><strong>🧩 What problems does Ollama solve?</strong></summary>
+
+**Without Ollama:**  
+  -  You depend on cloud APIs 🌐
+  -  You pay per request 💰
+  -  Your data leaves your system 🔓
+
+**With Ollama:**  
+✅ Runs fully local  
+✅ No internet needed after download  
+✅ Your data never leaves your laptop  
+✅ Free & open-source  
+✅ Simple CLI + REST API
+
+**🤖 What models can Ollama run?**  
+Ollama supports many popular open-source LLMs:  
+| Model         | Best For                |
+| ------------- | ----------------------- |
+| **Llama 3**   | General chat, reasoning |
+| **Mistral**   | Fast & lightweight      |
+| **CodeLlama** | Coding assistant        |
+| **Phi**       | Small, fast, low RAM    |
+| **Gemma**     | Google’s open LLM       |
+
+**🏗 How Ollama works (simple architecture)**  
+```
+You (CLI / Angular / API)
+        |
+        v
+Ollama Server (localhost:11434)
+        |
+        v
+LLM Model (Llama, Mistral, etc.)
+        |
+        v
+Response (Text / Stream)
+```
+  -  Ollama runs a local AI server
+  -  Your app talks to it via HTTP API
+  -  Model runs on CPU or GPU
+
+</details>
+
+## AI
 <details>
 <summary><strong>AI Youtube Videos</strong></summary>
   
