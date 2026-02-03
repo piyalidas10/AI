@@ -1,5 +1,8 @@
 # AI
 AI Terms You Need to Know: Agents, RAG, ASI &amp; More
+
+Prompts : https://prompts.chat/prompts
+
 ```
 Data → ML → DL → Transformers → LLMs
                      ↓
