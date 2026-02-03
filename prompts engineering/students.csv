@@ -1,0 +1,51 @@
+student_id,first_name,last_name,gender,age,grade_level,gpa,major,attendance_rate,extracurricular_activities,scholarship_status,math_score,science_score,english_score,history_score,graduation_year,enrollment_date,parent_education,household_income,study_hours_per_week
+1001,Emma,Johnson,F,18,12,3.85,Science,95,Debate Club,Full,92,95,88,85,2025,2021-09-01,Bachelor,75000,15
+1002,Liam,Smith,M,17,11,3.62,Arts,90,Drama Club,None,78,82,92,88,2026,2022-09-01,High School,62000,12
+1003,Olivia,Williams,F,18,12,3.92,Math,98,Math Team,Partial,96,90,89,87,2025,2021-09-01,Master,85000,20
+1004,Noah,Brown,M,16,10,3.45,Undecided,85,Football,None,82,78,80,75,2027,2023-09-01,Associate,58000,8
+1005,Ava,Jones,F,17,11,3.78,Science,92,Science Club,Partial,88,94,85,83,2026,2022-09-01,Doctorate,92000,18
+1006,Ethan,Garcia,M,18,12,3.25,History,80,Basketball,None,75,72,78,89,2025,2021-09-01,High School,48000,6
+1007,Sophia,Miller,F,16,10,3.95,Math,97,Chess Club,Full,94,92,90,88,2027,2023-09-01,Bachelor,76000,22
+1008,Mason,Davis,M,17,11,3.58,Arts,88,Band,None,80,75,90,85,2026,2022-09-01,Associate,59000,10
+1009,Isabella,Rodriguez,F,18,12,3.82,Science,94,Robotics Club,Partial,90,96,86,84,2025,2021-09-01,Master,88000,16
+1010,Lucas,Martinez,M,16,10,3.15,Undecided,78,Swimming,None,72,68,74,70,2027,2023-09-01,High School,45000,5
+1011,Mia,Hernandez,F,17,11,3.88,Math,96,Math Team,Full,95,90,88,87,2026,2022-09-01,Bachelor,78000,19
+1012,Alexander,Lopez,M,18,12,3.42,History,86,Debate Club,None,78,75,80,92,2025,2021-09-01,High School,52000,9
+1013,Charlotte,Gonzalez,F,16,10,3.76,Science,91,Science Club,Partial,86,93,84,82,2027,2023-09-01,Associate,62000,14
+1014,Benjamin,Wilson,M,17,11,3.29,Arts,82,Drama Club,None,76,73,85,79,2026,2022-09-01,High School,49000,7
+1015,Amelia,Anderson,F,18,12,3.91,Math,97,Chess Club,Full,93,89,92,90,2025,2021-09-01,Doctorate,95000,21
+1016,James,Thomas,M,16,10,3.38,Undecided,84,Football,None,80,76,78,75,2027,2023-09-01,Bachelor,67000,8
+1017,Evelyn,Taylor,F,17,11,3.72,Science,90,Robotics Club,Partial,87,92,83,81,2026,2022-09-01,Master,82000,15
+1018,Henry,Moore,M,18,12,3.21,History,79,Basketball,None,74,70,76,88,2025,2021-09-01,High School,47000,6
+1019,Abigail,Jackson,F,16,10,3.89,Math,95,Math Team,Full,92,88,90,87,2027,2023-09-01,Bachelor,79000,18
+1020,Michael,White,M,17,11,3.55,Arts,87,Band,None,79,74,89,84,2026,2022-09-01,Associate,56000,11
+1021,Emily,Harris,F,18,12,3.81,Science,93,Science Club,Partial,89,95,85,83,2025,2021-09-01,Master,86000,17
+1022,Daniel,Martin,M,16,10,3.12,Undecided,77,Swimming,None,70,67,73,69,2027,2023-09-01,High School,44000,5
+1023,Harper,Thompson,F,17,11,3.87,Math,95,Chess Club,Full,94,89,87,86,2026,2022-09-01,Bachelor,77000,20
+1024,Matthew,Garcia,M,18,12,3.41,History,85,Debate Club,None,77,74,79,91,2025,2021-09-01,High School,51000,9
+1025,Sofia,Martinez,F,16,10,3.75,Science,90,Robotics Club,Partial,85,92,83,81,2027,2023-09-01,Associate,61000,14
+1026,Joseph,Robinson,M,17,11,3.28,Arts,81,Drama Club,None,75,72,84,78,2026,2022-09-01,High School,48000,7
+1027,Scarlett,Clark,F,18,12,3.90,Math,96,Math Team,Full,92,88,91,89,2025,2021-09-01,Doctorate,93000,22
+1028,Samuel,Rodriguez,M,16,10,3.37,Undecided,83,Football,None,79,75,77,74,2027,2023-09-01,Bachelor,66000,8
+1029,Victoria,Lewis,F,17,11,3.71,Science,89,Science Club,Partial,86,91,82,80,2026,2022-09-01,Master,81000,16
+1030,David,Lee,M,18,12,3.20,History,78,Basketball,None,73,69,75,87,2025,2021-09-01,High School,46000,6
+1031,Grace,Walker,F,16,10,3.88,Math,94,Chess Club,Full,91,87,89,86,2027,2023-09-01,Bachelor,78000,19
+1032,Christopher,Hall,M,17,11,3.54,Arts,86,Band,None,78,73,88,83,2026,2022-09-01,Associate,55000,10
+1033,Chloe,Allen,F,18,12,3.80,Science,92,Robotics Club,Partial,88,94,84,82,2025,2021-09-01,Master,85000,17
+1034,Andrew,Young,M,16,10,3.11,Undecided,76,Swimming,None,69,66,72,68,2027,2023-09-01,High School,43000,5
+1035,Zoey,Hernandez,F,17,11,3.86,Math,94,Math Team,Full,93,88,86,85,2026,2022-09-01,Bachelor,76000,20
+1036,Jack,King,M,18,12,3.40,History,84,Debate Club,None,76,73,78,90,2025,2021-09-01,High School,50000,9
+1037,Lily,Wright,F,16,10,3.74,Science,89,Science Club,Partial,84,91,82,80,2027,2023-09-01,Associate,60000,15
+1038,Ryan,Lopez,M,17,11,3.27,Arts,80,Drama Club,None,74,71,83,77,2026,2022-09-01,High School,47000,7
+1039,Layla,Hill,F,18,12,3.89,Math,95,Chess Club,Full,91,87,90,88,2025,2021-09-01,Doctorate,92000,21
+1040,Nathan,Scott,M,16,10,3.36,Undecided,82,Football,None,78,74,76,73,2027,2023-09-01,Bachelor,65000,8
+1041,Hannah,Green,F,17,11,3.70,Science,88,Robotics Club,Partial,85,90,81,79,2026,2022-09-01,Master,80000,16
+1042,Wyatt,Adams,M,18,12,3.19,History,77,Basketball,None,72,68,74,86,2025,2021-09-01,High School,45000,6
+1043,Zoe,Baker,F,16,10,3.87,Math,93,Math Team,Full,90,86,88,85,2027,2023-09-01,Bachelor,77000,18
+1044,Logan,Gonzalez,M,17,11,3.53,Arts,85,Band,None,77,72,87,82,2026,2022-09-01,Associate,54000,11
+1045,Penelope,Nelson,F,18,12,3.79,Science,91,Science Club,Partial,87,93,83,81,2025,2021-09-01,Master,84000,16
+1046,Owen,Carter,M,16,10,3.10,Undecided,75,Swimming,None,68,65,71,67,2027,2023-09-01,High School,42000,5
+1047,Riley,Mitchell,F,17,11,3.85,Math,93,Chess Club,Full,92,87,85,84,2026,2022-09-01,Bachelor,75000,19
+1048,Gabriel,Perez,M,18,12,3.39,History,83,Debate Club,None,75,72,77,89,2025,2021-09-01,High School,49000,9
+1049,Nora,Roberts,F,16,10,3.73,Science,88,Robotics Club,Partial,83,90,81,79,2027,2023-09-01,Associate,59000,14
+1050,Elijah,Turner,M,17,11,3.26,Arts,79,Drama Club,None,73,70,82,76,2026,2022-09-01,High School,46000,7
