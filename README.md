@@ -75,6 +75,8 @@ Response (Text / Stream)
 <details>
 <summary><strong>RAG (Retrieval-Augmented Generation)</strong></summary>
 
+<img src="https://github.com/piyalidas10/AI/blob/a9da8107a506f6bb6e0d714051e58382f0f6f038/imgs/rag.png" width="600px"/>
+
 Problem GenAI has
   -  Hallucinates
   -  No access to your private data
