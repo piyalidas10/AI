@@ -2,6 +2,8 @@
 
 > **Prompt engineering is the practice of controlling LLM output by combining user questions, system instructions, and retrieved external data.**
 
+<img src="https://github.com/piyalidas10/AI/blob/dfdab04347ea66789b5ad43405451a0b46ab217e/prompts%20engineering/img/prompt_engineering.png" width="600px" />
+
 When you talk to an AI model, there are two main things involved.
   -  First, there is the user prompt — this is the question you ask.
   -  Second, there are instructions, also called the system prompt.
