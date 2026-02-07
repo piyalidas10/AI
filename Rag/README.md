@@ -17,7 +17,11 @@ Data Sources  →  Vector DB  →  LLM
 2️⃣ Query Phase (Runtime / Every question)
 ```
 
-### 📊 Proper RAG Diagram (Clean & Correct)
+<details>
+
+<summary><strong>Proper RAG Diagram (Clean & Correct)</strong></summary>
+
+## 📊 Proper RAG Diagram (Clean & Correct)
 ```
 ┌───────────────────────────────┐
  │        DATA SOURCES            │
@@ -112,7 +116,13 @@ Each record contains:
   -  FAISS
   -  Weaviate
 
-### 🔁 What EXACTLY Happens When User Enters a Prompt (Step-by-Step)
+</details>
+
+<details>
+
+<summary><strong>What EXACTLY Happens When User Enters a Prompt</strong></summary>
+
+## 🔁 What EXACTLY Happens When User Enters a Prompt (Step-by-Step)
 “When a user enters a prompt, RAG converts it into an embedding, retrieves semantically similar document chunks from a vector database, injects them into the prompt, and then lets the LLM generate a grounded response.”
 ```
 ════════════════ QUERY TIME ════════════════
@@ -175,7 +185,7 @@ User: "How does RAG work?"
 > ⚠️ Same embedding model must be used (e.g., text-embedding-3-large, nomic-embed-text, etc.)
 > ⚠️ This is critical for correct similarity search
 
-**🔹 6. Similarity Search**  
+**🔹 2. Similarity Search**  
 Vector DB compares:
 ```
 Query Vector
@@ -193,7 +203,7 @@ Example:
   -  Chunk from “RAG architecture.pdf”
   -  Chunk from “LLM retrieval notes.txt”
 
-**🔹 7. Prompt Augmentation**  
+**🔹 3. Prompt Augmentation**  
 Now the system builds the final prompt. LLM prompt becomes:
 ```
 SYSTEM:
@@ -210,13 +220,19 @@ How does RAG work?
 
 > 👉 This is why it’s called Retrieval-Augmented Generation (RAG)
 
-**🔹 8. LLM Generates Answer**  
+**🔹 4. LLM Generates Answer**  
 Now the LLM:
   -  Reads only the provided context
   -  Generates a grounded, accurate answer using your private data
   -  Avoids hallucination
 
 > ✅ Output is based on your documents, not training data
+
+</details>
+
+<details>
+
+<summary><strong>RAG Questions & Answers</strong></summary>
 
 ### 🎯 Why RAG Is Powerful
 | Problem            | Without RAG | With RAG |
@@ -278,7 +294,6 @@ Common real-world data sources 👇
 
 ⚠️ Usually summarized before embedding
 
-
 ### 2️⃣ How does data reach RAG? (Important)
 Ans. RAG never pulls data live at answer time (usually).
 
@@ -331,6 +346,6 @@ You decide:
  - How often to update it
  - How fresh it should be
 
-
+</details>
 
 
