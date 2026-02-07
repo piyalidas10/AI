@@ -1,3 +1,21 @@
+<details>
+
+<summary><strong>How LLMs Actually Generate Text</strong></summary>
+
+# How LLMs Actually Generate Text
+
+English : 
+Hindi : https://www.youtube.com/watch?v=K45s2PgywvI
+
+<iframe width="600px" height="100%" src="https://youtu.be/NKnZYvZA7w4?si=reEexdwDFe5GUKEk" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+
+</details>
+
+<details>
+
+<summary><strong>Ways an LLM Can Generate Answers</strong></summary>
+
 # Ways an LLM Can Generate Answers
 LLMs generate answers by predicting the most probable next tokens based on input prompt patterns, utilizing internal knowledge or provided context. Key methods include Retrieval-Augmented Generation (RAG) for external data, direct generation from training, chain-of-thought reasoning for complex queries, and fine-tuning for domain-specific accuracy. 
 
@@ -156,6 +174,7 @@ Instructions + Memory + Tools + (Optional RAG) → LLM → Answer
 | Memory          | ⚠️           | ❌              | Personalization   |
 | RAG             | ✅           | ❌              | Private knowledge |
 
+</details>
 
 
 
