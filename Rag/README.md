@@ -1,5 +1,10 @@
 # ✅ RAG (Retrieval-Augmented Generation)
 
+```
+Data Sources  →  Vector DB  →  LLM
+     (You own)      (RAG)       (Reasoning)
+```
+
 **“RAG retrieves relevant knowledge from a vector database and injects it into the LLM prompt so the model generates grounded, context-aware answers instead of hallucinating.”**
 
 **🔷LLM does NOT read your documents directly. It retrieves relevant chunks from a vector DB and augments the prompt with them before generating an answer.**
@@ -219,5 +224,111 @@ Now the LLM:
 | Up-to-date info    | ❌         | ✅       |
 | Fine-tuning needed | Yes         | No       |
 | Cost               | High        | Lower    |
+
+### 1️⃣ Where does RAG get its data from?
+ANs. RAG data sources are external systems. RAG does not invent data. You explicitly ingest data into the vector database during the indexing phase.
+
+> “RAG gets its data from external knowledge sources such as documents, databases, or APIs that are ingested, embedded, and stored in a vector database. At query time, it retrieves relevant chunks from this indexed data to augment the LLM’s response.”
+
+Common real-world data sources 👇
+##### 📁 Files & Documents (most common)
+ - PDFs (manuals, policies, invoices)
+ - Word / Text files
+ - PowerPoint decks
+ - CSV / Excel files
+
+**✅ Example:**
+ - Company HR policy PDFs
+ - Product documentation
+
+##### 🗄️ Databases
+ - PostgreSQL / MySQL
+ - MongoDB
+ - Data warehouse tables
+
+**✅ Example:**
+ - Orders table
+ - Customer support tickets
+👉 Rows → text → chunks → embeddings
+
+##### 🌐 APIs & Services
+ - Internal microservices
+ - REST / GraphQL APIs
+ - SaaS tools (Jira, Confluence, Notion)
+
+**✅ Example:**
+ - Jira issues
+ - Confluence wiki pages
+
+##### ☁️ Cloud Storage
+ - AWS S3
+ - Azure Blob
+ - Google Cloud Storage
+
+**✅ Example:**
+ - Logs
+ - Uploaded customer documents
+
+##### 📡 Streaming / Event Data (advanced)
+ - Kafka topics
+ - Event logs
+ - IoT feeds (snapshotted)
+
+⚠️ Usually summarized before embedding
+
+
+### 2️⃣ How does data reach RAG? (Important)
+Ans. RAG never pulls data live at answer time (usually).
+
+**✅ Correct flow**
+```
+External Data Source
+      ↓
+Ingestion Pipeline
+      ↓
+Parsing + Cleaning
+      ↓
+Chunking
+      ↓
+Embedding
+      ↓
+Vector Database
+```
+👉 At query time, RAG only talks to the vector DB, not the raw source.
+
+### 3️⃣ Example: Enterprise RAG Data Sources
+**🏢 Company Chatbot**
+| Source     | Purpose          |
+| ---------- | ---------------- |
+| PDFs       | HR policies      |
+| DB tables  | Employee info    |
+| Confluence | Engineering docs |
+| Jira       | Incident history |
+
+**🧪 Local Ollama RAG**
+| Source       | Purpose        |
+| ------------ | -------------- |
+| Local folder | Markdown docs  |
+| CSV files    | Knowledge base |
+| SQLite       | App data       |
+
+### 4️⃣ What RAG does NOT use as a data source ❌
+
+❌ LLM training data  
+❌ Internet (unless you build a crawler)  
+❌ User prompt history (unless you store it)  
+
+LLM = reasoning engine, not knowledge store.
+
+### 5️⃣ Who decides the data source?
+
+👉 You do. RAG is just a pattern, not a product.
+
+You decide:
+ - What data to ingest
+ - How often to update it
+ - How fresh it should be
+
+
 
 
