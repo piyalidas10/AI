@@ -77,11 +77,6 @@ Response (Text / Stream)
 
 <img src="https://github.com/piyalidas10/AI/blob/a9da8107a506f6bb6e0d714051e58382f0f6f038/imgs/rag.png" width="600px"/>
 
-Problem GenAI has
-  -  Hallucinates
-  -  No access to your private data
-  -  Knowledge cutoff
-
 RAG Solution
 ```
 User Question
@@ -92,6 +87,9 @@ Inject relevant context into prompt
  ↓
 LLM generates grounded answer
 ```
+
+> 🔷LLM does NOT read your documents directly. It retrieves relevant chunks from a vector DB and augments the prompt with them before generating an answer.
+> “RAG retrieves relevant knowledge from a vector database and injects it into the LLM prompt so the model generates grounded, context-aware answers instead of hallucinating.”
 
 </details>
 
