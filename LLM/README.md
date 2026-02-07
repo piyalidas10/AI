@@ -1,4 +1,8 @@
 # Ways an LLM Can Generate Answers
+LLMs generate answers by predicting the most probable next tokens based on input prompt patterns, utilizing internal knowledge or provided context. Key methods include Retrieval-Augmented Generation (RAG) for external data, direct generation from training, chain-of-thought reasoning for complex queries, and fine-tuning for domain-specific accuracy. 
+
+<img src="https://github.com/piyalidas10/AI/blob/8065893907efccdfec20640b92b24e194dc81552/LLM/img/LLM.png" width="600px" />
+
 ### 1️⃣ Pure Generation (Pretrained Knowledge)
 **No external data**
 
