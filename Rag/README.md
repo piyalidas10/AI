@@ -19,6 +19,37 @@ Data Sources  →  Vector DB  →  LLM
 
 <details>
 
+<summary><strong>What is RAG ?</strong></summary>
+
+## What is RAG ?
+> chatGPT or Deepseek are good for generaic answers but if you ask a specific question related to your datatbase, it will fail. Because it has not seen that data. So along with the question we also provide the additional data and instructions how to access the data. Example "what are the table names and column names are present in the database?" These instructions must be very precise that is why data scientists and prompt engineers come into pictures. Which is why it is known as prompt engineering. When now you are asking a question you are supplimenting it or augmenting it with your database and additional instructions to formulate these answers. So the LLM goes and generate a response by retrieving the data from your database. The whole setup is known as Retrieval-Augmented Generation (RAG)
+
+1️⃣ Why ChatGPT / DeepSeek fail for database-specific questions
+Models like ChatGPT or DeepSeek are trained on public, generic data
+     
+
+They do not have access to:
+     -Your internal databases
+
+Company sales data
+
+Private tables or schemas
+
+📌 Example:
+
+“What were my sales last quarter?”
+
+❌ The LLM cannot answer this on its own because:
+
+It has never seen your database
+
+It cannot directly query your systems
+
+
+</details>
+
+<details>
+
 <summary><strong>Proper RAG Diagram (Clean & Correct)</strong></summary>
 
 ## 📊 Proper RAG Diagram (Clean & Correct)
