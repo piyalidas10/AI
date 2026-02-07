@@ -24,6 +24,10 @@ Data Sources  →  Vector DB  →  LLM
 ## What is RAG ?
 > chatGPT or Deepseek are good for generaic answers but if you ask a specific question related to your datatbase, it will fail. Because it has not seen that data. So along with the question we also provide the additional data and instructions how to access the data. Example "what are the table names and column names are present in the database?" These instructions must be very precise that is why data scientists and prompt engineers come into pictures. Which is why it is known as prompt engineering. When now you are asking a question you are supplimenting it or augmenting it with your database and additional instructions to formulate these answers. So the LLM goes and generate a response by retrieving the data from your database. The whole setup is known as Retrieval-Augmented Generation (RAG)
 
+Retrieval-Augmented Generation (RAG) is a technique where an LLM retrieves relevant external data at query time and uses it, along with precise instructions, to generate accurate and context-aware responses without retraining the model.
+
+<img src="https://github.com/piyalidas10/AI/blob/fcc09341ef2c5a7309d03d57af14ed8bf402fc70/Rag/img/RAG1.png" width="600px" />
+
 #### 1️⃣ Why ChatGPT / DeepSeek fail for database-specific questions
 
   -  Models like ChatGPT or DeepSeek are trained on public, generic data
@@ -35,9 +39,92 @@ Data Sources  →  Vector DB  →  LLM
 📌 Example: “What were my sales last quarter?”
 
 ❌ The LLM cannot answer this on its own because:
-     It has never seen your database
-     It cannot directly query your systems
+  -  It has never seen your database
+  -  It cannot directly query your systems
 
+#### 2️⃣ The need for supplying external data
+
+To answer specific business questions, we must provide the data explicitly.
+
+This means:
+  -  Fetching data from:
+       -  Databases (Sales, Inventory, Finance)
+       -  CSV / Excel files
+       -  APIs or internal systems
+  -  Supplying that data along with the user’s question
+
+📌 This is where retrieval comes into the picture.
+
+#### 3️⃣ Adding precise instructions (System Prompt)
+
+Along with data, we also provide very precise instructions, such as:
+  -  What tables exist
+  -  What columns exist
+  -  How the data should be interpreted
+
+📌 Example system instructions:
+```
+You are an intelligent assistant.
+The database contains two tables:
+1. sales
+2. inventory
+Use this data to answer the user query accurately.
+```
+✔️ These instructions guide the LLM  
+✔️ Prevent hallucinations  
+✔️ Ensure correct interpretation of data  
+
+#### 4️⃣ Role of Data Scientists & Prompt Engineers
+
+This is where Data Scientists and Prompt Engineers come into the picture.
+
+Their responsibilities:
+  -  Designing clear and unambiguous prompts
+  -  Structuring retrieved data properly
+  -  Ensuring:
+       -  Correct context
+       -  Minimal noise
+       -  Accurate responses
+
+📌 This discipline is called Prompt Engineering.
+> Poor prompt → Wrong answer
+> Well-engineered prompt → Accurate, grounded answer
+
+#### 5️⃣ Augmenting the question with data (Core idea of RAG)
+
+When a user asks a question:
+  -  We augment (supplement) the question with:
+      -  Retrieved data from the database
+      -  System instructions
+
+📌 Final prompt sent to the LLM looks like:
+```
+Question + Retrieved Data + Instructions
+```
+This is the augmentation part.
+
+#### 6️⃣ Retrieval + Generation flow
+
+The LLM does not directly access the database.
+
+Instead:
+  -  Relevant data is retrieved first
+  -  Data is injected into the prompt
+  -  The LLM generates an answer using only that context
+
+> 📌 Example output: “Sales in the last quarter was $2.3M”
+
+✔️ Factual  
+✔️ Based on your data  
+✔️ No guessing  
+
+#### 7️⃣ Why this setup is called Retrieval-Augmented Generation (RAG)
+| Term       | Meaning                                       |
+| ---------- | --------------------------------------------- |
+| Retrieval  | Fetching relevant data from your database     |
+| Augmented  | Adding that data + instructions to the prompt |
+| Generation | LLM generates a natural language response     |
+📌 Entire setup = RAG
 
 </details>
 
