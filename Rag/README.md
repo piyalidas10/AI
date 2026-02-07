@@ -26,11 +26,11 @@ Data Sources  →  Vector DB  →  LLM
 
 #### 1️⃣ Why ChatGPT / DeepSeek fail for database-specific questions
 
-Models like ChatGPT or DeepSeek are trained on public, generic data
-They do not have access to:
-     Your internal databases
-     Company sales data
-     Private tables or schemas
+  -  Models like ChatGPT or DeepSeek are trained on public, generic data
+  -  They do not have access to:
+       -  Your internal databases
+       -  Company sales data
+       -  Private tables or schemas
 
 📌 Example: “What were my sales last quarter?”
 
