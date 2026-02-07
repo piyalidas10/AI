@@ -1,5 +1,7 @@
 # ✅ RAG (Retrieval-Augmented Generation)
 
+<img src="https://github.com/piyalidas10/AI/blob/3f48d0a94bd2fb9b9b4227611974dbdf2ac676e0/Rag/img/RAG.png" width="600px" />
+
 ```
 Data Sources  →  Vector DB  →  LLM
      (You own)      (RAG)       (Reasoning)
