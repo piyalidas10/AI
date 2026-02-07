@@ -4,10 +4,8 @@
 
 # How LLMs Actually Generate Text
 
-English : https://www.youtube.com/watch?v=NKnZYvZA7w4
-<video src="https://www.youtube.com/watch?v=NKnZYvZA7w4" controls width="640" height="480"></video>
-
-Hindi : https://www.youtube.com/watch?v=K45s2PgywvI
+  -  English : https://www.youtube.com/watch?v=NKnZYvZA7w4
+  -  Hindi : https://www.youtube.com/watch?v=K45s2PgywvI
 
 
 
