@@ -16,6 +16,7 @@ Ollama is a tool that lets you run Large Language Models (LLMs) locally on your 
 
 > Think of it as: “Docker for AI models”
 > Instead of calling OpenAI / Gemini / Claude over the internet, Ollama runs models offline, locally, and securely.
+> Ollama is designed to run large language models locally on your machine. That’s why we install it in the system — it provides the runtime environment, model management, and API endpoints that your code can connect to.
 
 <details>
 <summary><strong>🧩 What problems does Ollama solve?</strong></summary>
