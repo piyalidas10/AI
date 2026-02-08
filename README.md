@@ -20,6 +20,52 @@ Ollama is a tool that lets you run Large Language Models (LLMs) locally on your 
 
 > Ollama is designed to run large language models locally on your machine. That’s why we install it in the system — it provides the runtime environment, model management, and API endpoints that your code can connect to.
 
+
+## Pre-trained LLM vs RAG
+
+**Pre-trained LLM**
+--------------------------------------------------------------------------------------------------------------------------------
+“A pre-trained LLM is a closed-knowledge system. It can only answer based on what it learned during training, which makes it unsuitable for dynamic or enterprise-specific data without augmentation like RAG.”
+
+  -  It creates responses based on user input or a query
+  -  The LLM was trained once on a fixed dataset (internet text, books, code, etc.)
+  -  It predicts the next token based on patterns learned during training. Training happened in the past.
+  -  After training: ❌ It cannot learn new facts ❌ It cannot see your private data ❌ It cannot query databases or APIs
+  -  Key problems one its knowledge is limited to what it was trained on and is not up to date
+  -  It doesn't provide reliable sources. It does not think, search, verify facts, access live systems
+  -  User sends a Query. LLM generates a Response. Communication is stateless:
+        -  No memory
+        -  No awareness of past interactions
+        -  No access to external sources
+        -  This is a closed-book exam model.
+  -  LLMs fail when questions depend on information that was NOT part of training
+
+Examples:
+  -  ❌ “What tables are in my PostgreSQL database?”
+  -  ❌ “What’s today’s production error log?”
+  -  ❌ “What policy did my company publish last week?”
+
+The model will either:
+  -  Hallucinate
+  -  Give a generic answer
+  -  Say it doesn’t know
+
+
+RAG
+--------------------------------------------------------------------------------------------------------------------------------
+Modern production systems add:
+  -  🔍 Retrieval (Vector DB)
+  -  📄 External data (PDFs, DBs, APIs)
+  -  🧠 Grounding (context injection)
+
+That upgraded version is called **RAG (Retrieval-Augmented Generation)**.
+
+  -  RG uses the latest data stored in a vector database
+  -  The data is converted into Vector embeddings, mathematical representations of text and saved in the database
+  -  When a query is made relevant data is retrieved and passed to the LLM (large language model)
+  -  LLM (large language model) which then generates a contextual and accurate response
+
+
 <details>
 <summary><strong>🧩 What problems does Ollama solve?</strong></summary>
 
