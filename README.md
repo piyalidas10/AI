@@ -23,8 +23,7 @@ Ollama is a tool that lets you run Large Language Models (LLMs) locally on your 
 
 ## Pre-trained LLM vs RAG
 
-**Pre-trained LLM**
---------------------------------------------------------------------------------------------------------------------------------
+**Pre-trained LLM**  
 “A pre-trained LLM is a closed-knowledge system. It can only answer based on what it learned during training, which makes it unsuitable for dynamic or enterprise-specific data without augmentation like RAG.”
 
   -  It creates responses based on user input or a query
@@ -51,8 +50,7 @@ The model will either:
   -  Say it doesn’t know
 
 
-RAG
---------------------------------------------------------------------------------------------------------------------------------
+**RAG**  
 Modern production systems add:
   -  🔍 Retrieval (Vector DB)
   -  📄 External data (PDFs, DBs, APIs)
