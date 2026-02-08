@@ -29,7 +29,10 @@ Ollama is a tool that lets you run Large Language Models (LLMs) locally on your 
   -  It creates responses based on user input or a query
   -  The LLM was trained once on a fixed dataset (internet text, books, code, etc.)
   -  It predicts the next token based on patterns learned during training. Training happened in the past.
-  -  After training: ❌ It cannot learn new facts ❌ It cannot see your private data ❌ It cannot query databases or APIs
+  -  After training:
+      -  ❌ It cannot learn new facts
+      -  ❌ It cannot see your private data
+      -  ❌ It cannot query databases or APIs
   -  Key problems one its knowledge is limited to what it was trained on and is not up to date
   -  It doesn't provide reliable sources. It does not think, search, verify facts, access live systems
   -  User sends a Query. LLM generates a Response. Communication is stateless:
