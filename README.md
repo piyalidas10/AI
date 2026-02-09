@@ -20,6 +20,9 @@ Ollama is a tool that lets you run Large Language Models (LLMs) locally on your 
 
 > Ollama is designed to run large language models locally on your machine. That’s why we install it in the system — it provides the runtime environment, model management, and API endpoints that your code can connect to.
 
+## Transformers
+The Transformer is the backbone of an LLM, enabling it to understand long-range context, learn deep semantic relationships using self-attention, and scale efficiently to massive datasets.
+Think of the Transformer as the engine, and the LLM as a very large, very well-trained version of that engine 🚀
 
 ## Pre-trained LLM vs RAG
 
