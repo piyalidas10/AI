@@ -35,6 +35,41 @@ Project B → FastAPI 0.110
 Both can run safely using separate venvs.
 ```
 
+### 🤔 Why should virtual environments NOT be pushed?
+
+Because:
+
+**1️⃣ They are machine-specific**
+
+Your myenv contains:
+    -   Installed packages
+    -   OS-specific binaries
+    -   Python executable files
+    -   
+If someone clones your repo:
+    -   It may break on Mac/Linux if created on Windows
+    -   It may contain unnecessary 1000+ files
+
+**2️⃣ It makes the repo HUGE**
+
+A virtual environment can be:
+    -   100MB+
+    -   Thousands of files
+
+Bad practice to push.
+
+## 👨‍💻 When someone clones your repo
+
+They should do:
+```
+python -m venv myenv
+myenv\Scripts\activate   # Windows
+pip install -r requirements.txt
+```
+
+Boom 💥 Same environment recreated.
+
+# Installation Required
 ### ✅ Step 1: Check Python Installation
 
 Open terminal / CMD:
@@ -266,3 +301,21 @@ You will use Postman to:
     -   FastAPI calls LangChain
     -   LangChain calls Ollama
     -   Get response back
+
+## ✅ Correct Way to Handle Dependencies
+
+Instead of pushing myenv, you should push:
+
+📄 requirements.txt
+
+Run this:
+```
+pip freeze > requirements.txt
+```
+
+Then commit:
+```
+git add requirements.txt
+git commit -m "Add requirements file"
+git push
+```
