@@ -24,6 +24,8 @@ pip install -r requirements.txt
 
 Boom 💥 Same environment recreated.
 
+<img src="./imgs/project_structure.png" width="600px">
+
 # Run Fast API
 Open terminal or CMD:
 ```
