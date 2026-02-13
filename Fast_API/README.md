@@ -58,7 +58,7 @@ A virtual environment can be:
 
 Bad practice to push.
 
-## 👨‍💻 When someone clones your repo
+# 👨‍💻 After CLoning Repo
 
 They should do:
 ```
@@ -69,7 +69,7 @@ pip install -r requirements.txt
 
 Boom 💥 Same environment recreated.
 
-# Installation Required
+# Create Fast API endpoint to trigger from POSTMAN
 ### ✅ Step 1: Check Python Installation
 
 Open terminal / CMD:
