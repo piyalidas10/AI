@@ -12,6 +12,16 @@ This updates OpenAPI spec and Swagger UI dynamically.
 | GET /docs   | Swagger UI             |
 | POST /posts | Works                  |
 
+✅ Postman acts as the client.  
+✅ FastAPI acts as the backend API server.
+
+
+## 🔥 Postman Triggers FastAPI - How This Works Internally
+    -   Postman sends HTTP request
+    -   FastAPI receives request
+    -   FastAPI validates data (Pydantic)
+    -   Your function runs
+    -   JSON response is returned to Postman
 
 # 👨‍💻 After CLoning Repo
 
