@@ -39,7 +39,7 @@ So available endpoint is:
 ```
 POST http://127.0.0.1:8000/posts
 ```
-add the endpoint in POSTMAN and click on Send button
+add the endpoint in POSTMAN and click on Send button    
 <img src="./imgs/Postman_to_FastAPI.png" width="600px">
 
 
