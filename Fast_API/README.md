@@ -12,8 +12,41 @@ This updates OpenAPI spec and Swagger UI dynamically.
 | GET /docs   | Swagger UI             |
 | POST /posts | Works                  |
 
+
+# 👨‍💻 After CLoning Repo
+
+They should do:
+```
+python -m venv myenv
+myenv\Scripts\activate   # Windows
+pip install -r requirements.txt
+```
+
+Boom 💥 Same environment recreated.
+
+# Run Fast API
+Open terminal or CMD:
+```
+uvicorn main:app --reload
+```
+
+You will see:
+```
+Uvicorn running on http://127.0.0.1:8000
+```
+
+So available endpoint is:
+```
+POST http://127.0.0.1:8000/posts
+```
+add the endpoint in POSTMAN and click on Send button
 <img src="./imgs/Postman_to_FastAPI.png" width="600px">
 
+
+SWAGGER - Open this in browser:
+```
+http://127.0.0.1:8000/docs
+```
 <img src="./imgs/swagger_fastapi.png" width="600px">
 
 
@@ -57,17 +90,6 @@ A virtual environment can be:
     -   Thousands of files
 
 Bad practice to push.
-
-# 👨‍💻 After CLoning Repo
-
-They should do:
-```
-python -m venv myenv
-myenv\Scripts\activate   # Windows
-pip install -r requirements.txt
-```
-
-Boom 💥 Same environment recreated.
 
 # Create Fast API endpoint to trigger from POSTMAN
 ### ✅ Step 1: Check Python Installation
