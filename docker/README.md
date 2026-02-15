@@ -441,10 +441,10 @@ Scalable & cloud-native.
 ✔ Legacy monolithic apps 
 
 **🎯 When to Use Docker?**  
-✔ Microservices  
+✔ Microservices   
 ✔ CI/CD  
-✔ DevOps pipelines 
-✔ Cloud-native apps  
+✔ DevOps pipelines   
+✔ Cloud-native apps    
 ✔ Fast scaling 
 
 ## Docker Compose vs Docker Container
@@ -452,11 +452,13 @@ Scalable & cloud-native.
 Docker Compose is a tool for managing multi-container applications, while the docker container command is used for managing individual containers. Docker Compose uses a single YAML configuration file to define how all the services of an application should work together, which simplifies running complex, multi-service applications. 
 
 #### Docker Container
+
     -   Function: Manages individual containers, such as starting, stopping, or viewing the status of a single, running instance of a Docker image.
     -   Usage: It uses direct command-line arguments (e.g., docker run, docker stop, docker network create) which can become complex and lengthy when managing multiple containers and their configurations.
     -   Best For: Simple applications with a single service, quick testing of an individual image, or performing one-off administrative tasks. 
 
 #### Docker Compose
+
     -   Function: Orchestrates an entire application stack consisting of multiple, interconnected services (e.g., a web application, a database, and a cache).
     -   Usage: It uses a declarative configuration file (docker-compose.yml or compose.yml) where you define services, networks, and volumes. A single command, such as docker compose up, then creates and starts all the defined services and their dependencies automatically.
     -   Best For: Multi-service applications, ensuring consistent development and CI/CD environments, managing dependencies between services, and simplifying the setup and tear-down of complex application environments. 
