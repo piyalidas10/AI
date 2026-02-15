@@ -353,3 +353,224 @@ git add requirements.txt
 git commit -m "Add requirements file"
 git push
 ```
+
+## 🚀 Updated Complete Flow Diagram
+```
+┌────────────────────────┐
+│        Postman         │
+│  (Client / API Tester) │
+└───────────┬────────────┘
+            │
+            │  POST /posts
+            │  JSON Body
+            │
+            ▼
+┌────────────────────────┐
+│     FastAPI Server     │
+│  (Running via Uvicorn) │
+└───────────┬────────────┘
+            │
+            │ 1️⃣ Pydantic Validation
+            │   (PostRequest Model)
+            │
+            ├───────────────┐
+            │               │
+            │               ▼
+            │      ❌ Validation Error?
+            │         (Missing field / wrong type)
+            │
+            │               │
+            │               ▼
+            │      RequestValidationError
+            │               │
+            │               ▼
+            │     validation_exception_handler
+            │               │
+            │               ▼
+            │        422 ErrorResponse
+            │
+            │
+            ▼
+ 2️⃣ Business Logic Execution
+        create_post()
+
+            │
+            ├───────────────┐
+            │               │
+            │               ▼
+            │    ❌ userId <= 0 ?
+            │
+            │               │
+            │               ▼
+            │      BusinessException
+            │               │
+            │               ▼
+            │  business_exception_handler
+            │               │
+            │               ▼
+            │         400 ErrorResponse
+            │
+            │
+            ▼
+ 3️⃣ Success Response Generated
+            │
+            ▼
+  201 Created (SuccessResponse)
+            │
+            ▼
+┌────────────────────────┐
+│        Postman         │
+│   Structured Response  │
+└────────────────────────┘
+```
+
+## 🔥 Enterprise Error Handling Flow (Detailed View)
+✅ Case 1: Success
+
+Input
+```
+{
+  "title": "Test",
+  "body": "FastAPI Enterprise",
+  "userId": 1
+}
+```
+
+Flow
+```
+Postman
+   ↓
+FastAPI
+   ↓
+Pydantic validation ✔
+   ↓
+Business logic ✔
+   ↓
+201 Created
+```
+
+Response
+```
+{
+  "success": true,
+  "data": {
+    "title": "Test",
+    "body": "FastAPI Enterprise",
+    "userId": 1,
+    "id": 101
+  },
+  "timestamp": "2026-02-14T10:00:00"
+}
+```
+
+**❌ Case 2: Validation Error (422)**
+
+If userId is missing or wrong type:
+```
+Postman
+   ↓
+FastAPI
+   ↓
+Pydantic Validation ❌
+   ↓
+RequestValidationError
+   ↓
+validation_exception_handler
+   ↓
+422 Structured Error
+```
+
+Response:
+```
+{
+  "success": false,
+  "error": {
+    "code": "VALIDATION_ERROR",
+    "message": "Invalid request payload",
+    "details": [...]
+  },
+  "timestamp": "...",
+  "path": "/posts"
+}
+```
+
+**❌ Case 3: Business Rule Error (400)**
+
+If:
+```
+"userId": 0
+```
+
+Flow:
+```
+create_post()
+   ↓
+BusinessException Raised
+   ↓
+business_exception_handler
+   ↓
+400 Structured Error
+```
+
+Response:
+```
+{
+  "success": false,
+  "error": {
+    "code": "INVALID_USER_ID",
+    "message": "User ID must be greater than 0",
+    "details": null
+  },
+  "timestamp": "...",
+  "path": "/posts"
+}
+```
+
+**❌ Case 4: Unexpected Server Error (500)**
+
+If any unhandled exception occurs:
+```
+Exception
+   ↓
+global_exception_handler
+   ↓
+500 INTERNAL_SERVER_ERROR
+```
+
+# Build DOCKER Image
+Make sure you are inside Fast_API folder:
+```
+cd Fast_API
+```
+
+Then:
+```
+docker build -t fastapi-enterprise .
+```
+⚠ The . is important (current folder context).
+
+<img src="./imgs/docker.png" width="600px">
+
+<img src="./imgs/docker_desktop.png" width="600px">
+
+# ▶ Run Docker Image inside Container 
+```
+docker run -p 8000:8000 fastapi-enterprise
+```
+
+**🌐 Test**
+
+Open in browser:
+```
+http://localhost:8000
+```
+
+Swagger:
+```
+http://localhost:8000/docs
+```
+
+Test with Postman:
+```
+POST http://localhost:8000/posts
+```
