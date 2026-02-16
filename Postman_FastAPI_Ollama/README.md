@@ -29,9 +29,9 @@ ollama pull llama3
 ```
 "docker build -t fastapi-ollama ."
 ```
-<img src="docker_img_create.png" width="600px">
+<img src="imgs/docker_img_create.png" width="600px">
 This creates an image named fastapi-ollama.
-<img src="docker_image.png" width="600px">
+<img src="imgs/docker_image.png" width="600px">
 4. Now you must run a Docker container from the already build Docker Image (fastapi-ollama).
 Run the container (this actually starts FastAPI) using CMD
 ```
@@ -45,10 +45,10 @@ Inside Docker Desktop, Click the ▶️ Run button next to fastapi-ollama. Click
 | Host Port      | 8000  |
 | Container Port | 8000  |
 
-<img src="docker_image.png" width="600px">
+<img src="imgs/docker_image.png" width="600px">
 
 It will open a popup.
-<img src="run_docker_2.png" width="600px">
+<img src="imgs/run_docker_2.png" width="600px">
 
 **If Verify It Is Running**     
 Run this command:
@@ -61,7 +61,7 @@ CONTAINER ID   IMAGE                PORTS
 xxxxx          fastapi-enterprise   0.0.0.0:8000->8000/tcp
 ```
 **Now FastAPI is running inside Docker.**    
-<img src="docker_running.png" width="600px">
+<img src="imgs/docker_running.png" width="600px">
 
 ```
 Your Code (main.py)
@@ -76,13 +76,13 @@ FastAPI running on :8000
 ```
 http://localhost:8000/docs
 ```
-<img src="fast_api_docs.png" width="600px">
+<img src="imgs/fast_api_docs.png" width="600px">
 
 6. Make sure Ollama is running
 ```
 ollama run phi3
 ```
-<img src="ollama_model_run_testing.png" width="600px">
+<img src="imgs/ollama_model_run_testing.png" width="600px">
 
 7. Trigger from Postman
 ```
@@ -104,7 +104,7 @@ Response
     "timestamp": "2026-02-16T15:34:54.448505"
 }
 ```
-<img src="Postman_Test.png" width="600px">
+<img src="imgs/Postman_Test.png" width="600px">
 
 **✅ Expected Flow**
 
