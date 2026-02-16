@@ -32,6 +32,7 @@ ollama pull llama3
 <img src="imgs/docker_img_create.png" width="600px">
 This creates an image named fastapi-ollama.
 <img src="imgs/docker_image.png" width="600px">
+
 4. Now you must run a Docker container from the already build Docker Image (fastapi-ollama).
 Run the container (this actually starts FastAPI) using CMD
 ```
@@ -48,6 +49,7 @@ Inside Docker Desktop, Click the ▶️ Run button next to fastapi-ollama. Click
 <img src="imgs/docker_image.png" width="600px">
 
 It will open a popup.
+
 <img src="imgs/run_docker_2.png" width="600px">
 
 **If Verify It Is Running**     
@@ -153,14 +155,4 @@ Postman → FastAPI → LangChain → Ollama
 5️⃣ FastAPI returns response  
 6️⃣ Postman displays it   
 
-## 🔥 Want Enterprise Version?
-
-I can upgrade this to:  
-✅ Proper error response structure (400, 500)   
-✅ Logging  
-✅ Async version (faster)   
-✅ Streaming response   
-✅ Zero-shot / Few-shot endpoint    
-✅ Dockerized version   
-✅ LangChain integration instead of direct requests 
 
