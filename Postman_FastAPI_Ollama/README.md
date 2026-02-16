@@ -147,12 +147,152 @@ Postman → FastAPI → LangChain → Ollama
 4️⃣ Possibly Docker containerization
 
 ## 🧠 What Happened Internally
+1️⃣ Postman sends request
+2️⃣ Docker forwards port
+3️⃣ Uvicorn receives request
+4️⃣ FastAPI matches route
+5️⃣ Pydantic validates body
+6️⃣ Your function executes
+7️⃣ FastAPI calls Ollama
+8️⃣ Ollama runs model
+9️⃣ Response returned
+🔟 Postman displays output
 
-1️⃣ Postman sends prompt  
-2️⃣ FastAPI receives JSON 
-3️⃣ FastAPI calls Ollama API  
-4️⃣ Ollama generates response 
-5️⃣ FastAPI returns response  
-6️⃣ Postman displays it   
+## 🚀 Full Flow: Postman → Docker → FastAPI → Ollama → Response
+**🟢 Step 1: You Click "Send" in Postman**
 
+Postman sends this HTTP request:
+```
+{
+  "prompt": "Explain Docker in simple words"
+}
+```
 
+To:
+```
+http://localhost:8000/generate
+```
+
+**🟢 Step 2: Request Reaches Your Local Machine**
+
+Because Docker mapping shows:
+```
+8000:8000
+```
+
+Meaning:
+```
+Your PC Port 8000  →  Container Port 8000
+```
+So request enters Docker container.
+
+**🟢 Step 3: Uvicorn Receives the Request**
+
+Inside container:
+```
+uvicorn main:app --host 0.0.0.0 --port 8000
+```
+
+Uvicorn does:
+    -   Accept HTTP request
+    -   Pass it to FastAPI app
+    -   Match route /generate
+
+**🟢 Step 4: FastAPI Matches Endpoint**
+
+FastAPI finds:
+```
+@app.post("/generate")
+```
+
+It then:
+1. Reads JSON body
+2. Validates using:
+```
+class PromptRequest(BaseModel):
+    prompt: str
+```
+
+If valid → move forward     
+If invalid → returns 422 error      
+
+**🟢 Step 5: Your Function Executes**
+
+This runs:
+```
+def generate_text(request: PromptRequest):
+```
+
+Now:
+```
+request.prompt = "Explain Docker in simple words"
+```
+
+**🟢 Step 6: FastAPI Calls Ollama**
+
+Your code:
+```
+ollama_url = "http://host.docker.internal:11434/api/generate"
+```
+
+FastAPI (inside Docker) sends POST request to:
+```
+Ollama running on your host machine
+```
+
+Payload:
+```
+{
+  "model": "phi3",
+  "prompt": "Explain Docker in simple words",
+  "stream": false
+}
+```
+
+**🟢 Step 7: Ollama Processes the Prompt**
+
+Internally Ollama:
+1. Loads model phi3
+2. Tokenizes prompt
+3. Runs transformer inference
+4. Generates output text
+5. Returns JSON response
+
+Example:
+```
+{
+  "response": "Docker is a tool that packages applications..."
+}
+```
+
+**🟢 Step 8: FastAPI Receives Ollama Response**
+
+Your code:
+```
+result = response.json()
+```
+
+Extracts:
+```
+result.get("response")
+```
+
+**🟢 Step 9: FastAPI Builds Final Response**
+
+Returns:
+```
+{
+  "success": true,
+  "model": "phi3",
+  "response": "Docker is a tool...",
+  "timestamp": "2026-02-16T..."
+}
+```
+
+**🟢 Step 10: Response Goes Back**
+
+Flow back:
+```
+Ollama → FastAPI → Uvicorn → Docker → Your PC → Postman
+```
+Postman shows result.
