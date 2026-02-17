@@ -22,12 +22,12 @@ Response
 ```
 Then pull a model:
 ```
-ollama pull llama3
+ollama pull phi3
 ```
 2. Open cmd inside "Postman_FastAPI_Ollama" folder   
 3. Run the docker command in cmd to Build Docker Image
 ```
-"docker build -t fastapi-ollama ."
+docker build -t fastapi-ollama .
 ```
 <img src="imgs/docker_img_create.png" width="600px">
 This creates an image named fastapi-ollama.
@@ -296,3 +296,22 @@ Flow back:
 Ollama → FastAPI → Uvicorn → Docker → Your PC → Postman
 ```
 Postman shows result.
+
+
+## Update PromptRequest Model
+```
+from pydantic import BaseModel, Field
+from typing import Optional
+
+class PromptRequest(BaseModel):
+    prompt: str
+    system: Optional[str] = "You are a helpful AI assistant."
+    temperature: Optional[float] = Field(default=0.7, ge=0.0, le=2.0)
+    top_p: Optional[float] = Field(default=0.9, ge=0.0, le=1.0)
+    top_k: Optional[int] = Field(default=40, ge=1)
+```
+
+✅ What This Does
+   -  Optional → user can omit fields
+   -  Field → adds validation
+   -  ge / le → prevents invalid values
