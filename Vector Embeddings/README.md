@@ -58,7 +58,9 @@ Nomic embeddings (nomic-embed-text) are a specific, high-performance, open-sourc
 Text embeddings are the broader category of converting text into numerical vectors, while Nomic specializes in better, faster, and open-source alternatives for retrieval and semantic search.
 
 **Nomic Embeddings**  
-  -  Performance: Specifically, nomic-embed-text is noted for superior performance on both short and long context tasks compared to older OpenAI models.
+  -  Performance: Specifically, **nomic-embed-text** is noted for superior performance on both short and long context tasks compared to older OpenAI models.
+        - nomic-embed-text-v1 with Qdrant : https://qdrant.tech/documentation/embeddings/nomic/
+        - ollama : https://ollama.com/library/nomic-embed-text
   -  Key Features: It is a 137M parameter, open-source model designed for high-performance RAG (Retrieval-Augmented Generation).
   -  Context Window: Supports a very large context length (up to 8192 tokens).
   -  Usage: Nomic provides specific task types (e.g., search_query, search_document, classification, clustering) to optimize for different NLP tasks. 
