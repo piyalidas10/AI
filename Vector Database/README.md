@@ -3,6 +3,20 @@ A vector database stores and searches high-dimensional embeddings (vectors) — 
 — enabling very fast similarity search and semantic retrieval, which traditional databases can’t do efficiently. 
 They’re essential in modern AI applications like semantic search, recommendation engines, RAG (Retrieval-Augmented Generation), personalized search, and more.
 
+## 📊 Vector DB Performance Comparison (for AI / RAG / Semantic Search)
+| **Database**               | **Latency**       | **Scalability**            | **Metadata Filtering** | **Hybrid Search** | **Best Strength**                                    |
+| -------------------------- | ----------------- | -------------------------- | ---------------------- | ----------------- | ---------------------------------------------------- |
+| **Pinecone**               | ⭐⭐⭐⭐ (sub-100 ms) | ⭐⭐⭐⭐ (Large clusters)      | ⭐⭐⭐⭐                   | ⭐⭐⭐⭐              | Managed service, excellent performance & reliability |
+| **Qdrant**                 | ⭐⭐⭐⭐ (sub-100 ms) | ⭐⭐⭐⭐ (billions of vectors) | ⭐⭐⭐⭐                   | ⭐⭐⭐⭐              | Strong filter + real-time updates                    |
+| **Weaviate**               | ⭐⭐⭐⭐ (fast)       | ⭐⭐⭐⭐ (distributed)         | ⭐⭐⭐⭐                   | ⭐⭐⭐⭐              | Hybrid search, semantic search focus                 |
+| **Marqo**                  | ⭐⭐⭐ (good)        | ⭐⭐⭐ (medium-high)          | ⭐⭐⭐                    | ⭐⭐⭐⭐              | Multimodal support (text+images)                     |
+| **Milvus**                 | ⭐⭐⭐⭐ (optimized)  | ⭐⭐⭐⭐⭐ (very large)         | ⭐⭐⭐⭐                   | ⭐⭐⭐               | Best for massive workloads                           |
+| **ChromaDB**               | ⭐⭐⭐ (lightweight) | ⭐⭐ (local/smaller)         | ⭐⭐                     | ⭐⭐                | Great for prototyping & edge                         |
+| **FAISS** (lib)            | ⭐⭐⭐⭐ (very fast)  | ⭐⭐⭐⭐ (depending on index)  | ⭐⭐                     | ⭐⭐                | Low-level embeddings search                          |
+| **Elasticsearch** + vector | ⭐⭐⭐ (slower)      | ⭐⭐⭐⭐                       | ⭐⭐⭐⭐⭐                  | ⭐⭐⭐⭐              | Enterprise search + hybrid                           |
+| **MongoDB Atlas Vector**   | ⭐⭐⭐               | ⭐⭐⭐⭐                       | ⭐⭐⭐⭐                   | ⭐⭐⭐               | Combined document + vector search                    |
+
+
 ## 🧠 How Many Vector DBs Are Available?
 There are dozens of vector databases and vector search systems — ranging from full DB systems to library-based solutions. 
 Some extend general-purpose databases with vector support, and others are specialized standalone vector DBs. 
