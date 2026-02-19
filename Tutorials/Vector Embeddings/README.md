@@ -75,3 +75,17 @@ Key Differences
   -  Performance: Nomic aims to outperform standard, often proprietary, text embeddings.
   -  Accessibility: Nomic is open-source and often more cost-effective compared to closed, API-driven text embeddings.
   -  Focus: Nomic is tailored heavily towards Retrieval-Augmented Generation (RAG) and handling large documents.
+
+
+## 🔹 Can You Use Different LLMs with Same Embedding?
+
+YES ✅
+
+Example:
+  - Embedding: nomic-embed-text
+  - LLM:
+    - Llama 3
+    - Mistral
+    - Phi-3
+
+Embedding model and LLM are independent. That’s a very important architecture principle.
