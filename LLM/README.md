@@ -1,8 +1,5 @@
 # LLM
 
-
-
-
 <details>
 
 <summary><strong>How LLMs Actually Generate Text</strong></summary>
@@ -12,8 +9,66 @@
   -  English : https://www.youtube.com/watch?v=NKnZYvZA7w4
   -  Hindi : https://www.youtube.com/watch?v=K45s2PgywvI
 
+s
 
 
+</details>
+
+<details>
+
+<summary><strong>What is Quantization in LLM?</strong></summary>
+
+Quantization = Reducing the precision of model weights
+Instead of storing weights in:
+  - FP32 (32-bit float) → very large
+  - FP16 (16-bit float) → smaller
+  - INT8 / INT4 (8-bit / 4-bit) → much smaller
+  - We compress the model to reduce:
+
+✅ RAM usage ✅ VRAM usage ✅ Disk size ✅ Inference latency
+
+But slightly reduce accuracy.
+
+Without quantization:
+  - 7B model FP16 → ~14 GB RAM
+  - 7B model Q4 → ~4–5 GB RAM
+
+So quantization allows you to:
+  - Run LLM on laptop 💻
+  - Run multiple models
+  - Deploy with Docker easily
+  - Use in FastAPI backend efficiently
+
+| Quant Type | Bits             | Quality   | RAM Usage | Speed     |
+| ---------- | ---------------- | --------- | --------- | --------- |
+| Q2_K       | 2-bit            | Low       | Very Low  | Fast      |
+| Q4_0       | 4-bit            | Good      | Low       | Very Fast |
+| Q4_K_M     | 4-bit (improved) | Very Good | Low       | Fast      |
+| Q5_K_M     | 5-bit            | High      | Medium    | Medium    |
+| Q8_0       | 8-bit            | Very High | Higher    | Slower    |
+
+👉 For production + local dev → Q4_K_M is best balance.
+
+Without Quantization (FP16)
+  - High accuracy
+  - Large memory
+  - GPU required
+
+With Q4
+  - Slight accuracy drop
+  - 60–75% memory reduction
+  - Runs on CPU
+
+Avoid Q2 if:
+  - You need high reasoning accuracy
+  - Doing math-heavy tasks
+  - Doing code generation
+  - Fine-tuning tasks
+
+Use Q5 or Q8 for:
+  - Code generation
+  - Enterprise AI
+  - Complex reasoning
 
 </details>
 
