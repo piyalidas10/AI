@@ -3,6 +3,20 @@ A vector database stores and searches high-dimensional embeddings (vectors) — 
 — enabling very fast similarity search and semantic retrieval, which traditional databases can’t do efficiently. 
 They’re essential in modern AI applications like semantic search, recommendation engines, RAG (Retrieval-Augmented Generation), personalized search, and more.
 
+## What are the key components of how vector databases operate?
+Vector databases function through a combination of vector search, distance metrics, and vector indexing. These components work together to enable efficient retrieval of relevant data by comparing similarities between vectors, quantifying these similarities using distance metrics, and organising vector embeddings for streamlined retrieval operations. Let's explore each of these components to understand how vector databases function.
+
+**Vector Search**  
+At the core of vector databases is the concept of vector search. This process involves comparing the similarity between vectors, where each vector represents an object or data point. By analyzing the semantic meaning encoded within these vectors, the database can efficiently retrieve objects that are similar to a given query vector.
+
+**Distance Metrics**  
+To quantify the similarity between vectors, distance metrics are used. Common distance metrics include Euclidean distance, Manhattan distance, and cosine similarity. These metrics calculate the "distance" between vectors in multi-dimensional space, helping to identify the most relevant search results based on their proximity to the query vector. For an in-depth understanding of distance metrics in vector search, explore this Weaviate article.
+
+**Vector Indexing**  
+Efficient data retrieval is crucial for the performance of vector databases, especially when dealing with large-scale datasets. Vector indexing is the process of organizing vector embeddings in a structured manner to expedite retrieval operations. Techniques such as clustering and indexing algorithms like Hierarchical Navigable Small World (HNSW) are commonly employed for this purpose.
+
+To see an overview of these concepts in action, Figure 3 illustrates a content-based retrieval workflow using vector space embeddings, demonstrating how documents, images, and audio can be transformed into vector representations and retrieved through an Approximate Nearest Neighbour (ANN) search.
+
 ## 📊 Vector DB Performance Comparison (for AI / RAG / Semantic Search)
 | **Database**               | **Latency**       | **Scalability**            | **Metadata Filtering** | **Hybrid Search** | **Best Strength**                                    |
 | -------------------------- | ----------------- | -------------------------- | ---------------------- | ----------------- | ---------------------------------------------------- |
