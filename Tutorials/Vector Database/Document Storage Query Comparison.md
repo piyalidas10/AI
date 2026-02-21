@@ -5,7 +5,7 @@
 1️⃣ Document Ingestion (Storing Phase)
 2️⃣ Query Search (Retrieval Phase)
 
-### 🟦 PART 1: Document → Vector → Store in Vector DB
+## 🟦 PART 1: Document → Vector → Store in Vector DB
 **🔹 Step 1: Raw Document**
 
 Example document:
@@ -60,7 +60,7 @@ This makes nearest neighbor search very fast.
 
 Now documents are ready to search.
 
-### 🟢 PART 2: Query → Compare → Return Top-K
+## 🟢 PART 2: Query → Compare → Return Top-K
 🔹 Step 5: User Sends Query
 
 User asks:
@@ -108,7 +108,7 @@ Doc C → 0.30
 If K = 2
 
 Return:
-````
+```
 Doc A
 Doc B
 ```
