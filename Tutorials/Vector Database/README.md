@@ -11,6 +11,12 @@ They’re essential in modern AI applications like semantic search, recommendati
 | SQL queries     | Mathematical similarity |
 | Fast filtering  | Fast similarity search  |
 
+Vector DBs are used whenever:
+  -  Meaning matters more than exact words
+  -  You deal with unstructured data
+  -  You need AI-powered search
+  -  You want LLM memory
+
 ## What are the key components of how vector databases operate?
 Vector databases function through a combination of vector search, distance metrics, and vector indexing. These components work together to enable efficient retrieval of relevant data by comparing similarities between vectors, quantifying these similarities using distance metrics, and organising vector embeddings for streamlined retrieval operations. Let's explore each of these components to understand how vector databases function.
 
