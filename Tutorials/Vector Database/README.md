@@ -3,6 +3,14 @@ A vector database stores and searches high-dimensional embeddings (vectors) — 
 — enabling very fast similarity search and semantic retrieval, which traditional databases can’t do efficiently. 
 They’re essential in modern AI applications like semantic search, recommendation engines, RAG (Retrieval-Augmented Generation), personalized search, and more.
 
+## 🔥 Why Vector DB Is Powerful
+| Traditional DB  | Vector DB               |
+| --------------- | ----------------------- |
+| Exact match     | Meaning-based           |
+| Structured data | Unstructured data       |
+| SQL queries     | Mathematical similarity |
+| Fast filtering  | Fast similarity search  |
+
 ## What are the key components of how vector databases operate?
 Vector databases function through a combination of vector search, distance metrics, and vector indexing. These components work together to enable efficient retrieval of relevant data by comparing similarities between vectors, quantifying these similarities using distance metrics, and organising vector embeddings for streamlined retrieval operations. Let's explore each of these components to understand how vector databases function.
 
