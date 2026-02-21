@@ -166,3 +166,54 @@ compared with
 [0.21, -0.84, 0.55...]
 ```
 Pure numeric comparison.
+
+## 🟡 Important Real-World Architecture (RAG System)
+
+Since you're working with FastAPI + Vector DB systems, real production flow looks like:
+```
+User Question
+   ↓
+Embedding
+   ↓
+Vector DB Search
+   ↓
+Top-K Documents
+   ↓
+Send docs + question to LLM
+   ↓
+LLM generates final answer
+```
+Vector DB does retrieval.  
+LLM does reasoning.  
+
+## 🚀 Why This Is Powerful
+
+Because:
+  -  Documents are stored once
+  -  Query dynamically finds similar meaning
+  -  No keyword dependency
+  -  Works even if wording is different
+
+Example:
+
+Query:
+```
+"How to build API using Python?"
+```
+
+Will match document:
+```
+"FastAPI tutorial for backend development"
+```
+Even if exact words don’t match.
+
+| Stage              | What Happens                    |
+| ------------------ | ------------------------------- |
+| Document Ingestion | Text → Embedding → Store Vector |
+| Indexing           | HNSW graph built                |
+| Query              | Text → Query Vector             |
+| Comparison         | Similarity math                 |
+| Output             | Top-K closest documents         |
+
+
+
