@@ -1,5 +1,7 @@
 # 🟢 FULL FLOW: Document Storage + Query Comparison
 
+> 📄 Document → Vector → Store in DB → Query → Compare → Return Results
+
 **We’ll divide into 2 parts:**
 
 1️⃣ Document Ingestion (Storing Phase)
