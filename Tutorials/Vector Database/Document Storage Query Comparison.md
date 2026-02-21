@@ -1,6 +1,6 @@
-🟢 FULL FLOW: Document Storage + Query Comparison
+# 🟢 FULL FLOW: Document Storage + Query Comparison
 
-We’ll divide into 2 parts:
+**We’ll divide into 2 parts:**
 
 1️⃣ Document Ingestion (Storing Phase)
 2️⃣ Query Search (Retrieval Phase)
