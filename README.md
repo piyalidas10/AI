@@ -1,7 +1,39 @@
 # AI
-AI Terms You Need to Know: Agents, RAG, ASI &amp; More
 
-Prompts : https://prompts.chat/prompts
+## Two Types of AI
+**🔹 1️⃣ Query-Based AI (Direct Prompt AI)**
+
+Example: OpenAI's ChatGPT
+  -  Pre-trained on internet data
+  -  No access to your private documents
+  -  Answers based on training knowledge
+  -  Cannot read your bank’s internal PDFs
+
+👉 This is General AI
+
+**🔹 2️⃣ Knowledge-Based AI (Document Storage AI)**  
+  -  Stores company documents (PDFs, policies, manuals)
+  -  Converts documents into vector embeddings
+  -  Stores them in a Vector Database
+  -  Retrieves relevant content when queried
+
+👉 This is Enterprise AI
+
+## Combination = SMART AI (RAG)
+
+When we combine:
+```
+✔ Pre-trained LLM (like ChatGPT)
+✔ Vector Database (company documents)
+```
+
+We get:
+```
+🔥 AI that answers using your company’s real data.
+```
+This is called Retrieval Augmented Generation (RAG).
+
+## Prompts : https://prompts.chat/prompts
 
 ```
 Data → ML → DL → Transformers → LLMs
@@ -10,6 +42,184 @@ Data → ML → DL → Transformers → LLMs
                      ↓
               Real Applications
 ```
+
+## 🏦 Real-Time Banking Use Case (Enterprise Knowledge Assistant)
+
+**Scenario:**
+
+A bank employee needs to search:
+  -  Loan policy PDF
+  -  Insurance document
+  -  Compliance rules
+  -  RBI circulars
+  -  1000+ documents
+
+Instead of manually searching, They ask:
+```
+"What is the eligibility criteria for home loan for salaried employees?"
+```
+
+**🔍 What Happens Internally:**  
+1. Query converted into vector
+2. Vector DB finds similar documents
+3. Relevant chunks retrieved
+4. Sent to LLM
+5. LLM generates accurate answer using retrieved data
+
+**🎯 Result:**  
+✔ Faster document search  
+✔ Reduced working cost  
+✔ Accurate answers  
+✔ Better customer experience  
+
+**Angular + Spring Boot + Vector DB + LLM Flow**  
+Now let’s explain your architecture clearly 👇  
+```
+┌──────────────────────────────────────────────┐
+│                👨‍💼 Bank Employee              │
+└──────────────────────────────────────────────┘
+                         │
+                         ▼
+┌──────────────────────────────────────────────┐
+│ 🟦 Angular Frontend (Chat UI)               │
+│ - Question Input                            │
+│ - Chat History                              │
+│ - Document Upload                           │
+└──────────────────────────────────────────────┘
+                         │ REST API
+                         ▼
+┌──────────────────────────────────────────────┐
+│ 🟩 Spring Boot Backend                      │
+│----------------------------------------------│
+│ 1️⃣ Authentication (JWT/OAuth2)             │
+│ 2️⃣ Query Validation                         │
+│ 3️⃣ Embedding Generation                     │
+│ 4️⃣ Vector Search                            │
+│ 5️⃣ LLM Prompt Construction                  │
+│ 6️⃣ Response Formatting                      │
+└──────────────────────────────────────────────┘
+            │                         │
+            │                         │
+            ▼                         ▼
+┌───────────────────────┐     ┌───────────────────────┐
+│ 🟣 Vector Database     │     │ 🟠 LLM Server          │
+│ (Semantic Search)      │     │ (Answer Generator)     │
+│                        │     │                        │
+│ - Document Embeddings  │     │ - GPT / Llama / etc   │
+│ - Metadata Filtering   │     │ - Context Aware       │
+└───────────────────────┘     └───────────────────────┘
+            │                         │
+            └───────────┬─────────────┘
+                        ▼
+              ┌────────────────────┐
+              │ Final AI Response  │
+              └────────────────────┘
+                        │
+                        ▼
+                 Back to Angular UI
+```
+
+**1️⃣ Angular Frontend (UI)**  
+  -  User types question
+  -  Sends REST API call to Spring Boot
+
+**2️⃣ Spring Boot Backend (API layer)**  
+Before employees ask questions:
+  -  Upload 1000+ PDFs
+  -  Split into chunks
+  -  Convert chunks into embeddings
+  -  Store in vector database like Qdrant, Pinecone, Weaviate
+
+Each chunk stored like:
+```
+{
+  text: "Home loan eligibility criteria...",
+  embedding: [0.234, 0.875, ...],
+  metadata: {
+      department: "loan",
+      version: "2025",
+      confidential: false
+  }
+}
+```
+
+After employees ask questions:
+  -  Convert User query → embedding
+  -  Search vector database
+  -  Retrieve top similar documents or top 5 chunks
+  -  Construct prompt:
+    ```
+    Answer based on below documents:
+    
+    [chunk1]
+    [chunk2]
+    [chunk3]
+    
+    Question: What is home loan eligibility?
+    ```  
+  -  Send to LLM (OpenAI models or Ollama for local deployment)
+  -  Return structured answer
+
+**3️⃣ Vector Database (Document intelligence)**    
+Examples:
+  -  Qdrant
+  -  Pinecone
+  -  Weaviate
+
+It returns:
+```
+Top 3 matching document chunks
+```
+
+**4️⃣ LLM (Answer generation)**  
+Examples:
+  -  OpenAI models
+  -  Ollama (for local models)
+LLM generates:
+✔ Final human-readable answer  
+✔ Based only on retrieved documents
+
+**5️⃣ Response Flow Back**
+```
+LLM → Spring Boot → Angular → UI rendered to employee
+```
+
+**6️⃣ Why This is Powerful for Enterprises**  
+| Traditional Search | RAG AI             |
+| ------------------ | ------------------ |
+| Keyword matching   | Semantic search    |
+| Manual reading     | Auto summarization |
+| Slow               | Instant            |
+| High cost          | Reduced cost       |
+
+**7️⃣ Angular Enterprise Use Case**  
+🔵 Frontend (Angular)
+  -  Chat UI
+  -  File upload UI
+  -  Search interface
+  -  Document preview
+
+🟢 Backend (Spring Boot)
+  -  REST APIs
+  -  Embedding generation
+  -  Vector search
+  -  LLM communication
+  -  Security (JWT, OAuth)
+  -  Role-based access (Admin, Loan Officer, Manager)
+    -  Example:
+       -  Loan officer can access only:
+           -  Loan documents
+           -  Not insurance documents
+  -  Rate limiting
+  -  Audit logging
+
+**This is exactly how:**  
+  -  Banking AI assistants
+  -  Insurance AI systems
+  -  Legal document AI
+  -  HR policy bots
+
+are built in real-world enterprise systems.
 
 ## 🧠 What is Ollama?
 Ollama is a tool that lets you run Large Language Models (LLMs) locally on your own machine.  
