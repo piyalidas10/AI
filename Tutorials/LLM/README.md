@@ -16,6 +16,225 @@ s
 
 <details>
 
+<summary><strong>LLM Hyperparameters : Prompting vs Fine-Tuning</strong></summary>
+
+### 🔁 Prompting vs Fine-Tuning Hyperparameters (Side-by-Side)
+| Aspect        | Prompting Hyperparameters         | Fine-Tuning Hyperparameters         |
+| ------------- | --------------------------------- | ----------------------------------- |
+| When applied  | Inference time                    | Training time                       |
+| Model weights | ❌ Not changed                     | ✅ Updated                           |
+| Cost          | Low                               | High                                |
+| Speed         | Instant                           | Slow (minutes–hours)                |
+| Reversibility | Easy to change                    | Requires retraining                 |
+| Typical use   | Control output style & randomness | Teach domain/task-specific behavior |
+
+### ✅ Is it correct to say hyperparameters are of two types?  
+✔️ Yes — conceptually  
+
+You can classify hyperparameters into two categories in LLM systems:
+
+1️⃣ Prompting (Inference-time) hyperparameters  
+2️⃣ Fine-tuning (Training-time) hyperparameters  
+
+**📌 Important clarification (interview gold):**  
+Prompting hyperparameters are sometimes called generation parameters, but in practice they are treated as hyperparameters because they directly control model behavior.
+
+So your statement is correct and acceptable, especially in system design and GenAI interviews.
+
+**🧠 1️⃣ Prompting Hyperparameters (Inference-Time)**
+
+These control how the model generates text for each request.
+
+Common Prompting Hyperparameters
+  -  Temperature → randomness
+  -  Top-P (nucleus sampling) → probability mass
+  -  Top-K → number of candidate tokens
+  -  Max tokens → response length
+  -  Frequency / presence penalty → repetition control
+  -  System prompt / preamble → role, rules, tone
+```
+Example
+{
+  "temperature": 0.2,
+  "top_p": 0.9,
+  "system": "You are a financial analyst. Be precise."
+}
+```
+
+Use cases
+  -  Chatbots
+  -  RAG pipelines
+  -  API responses
+  -  Dynamic behavior control
+
+**🧠 2️⃣ Fine-Tuning Hyperparameters (Training-Time)**
+
+These control how the model learns from data.
+
+Common Fine-Tuning Hyperparameters
+  -  Learning rate
+  -  Batch size
+  -  Number of epochs
+  -  Optimizer (Adam, AdamW)
+  -  Weight decay
+  -  Warmup steps
+  -  LoRA rank / alpha (PEFT)
+
+Example
+```
+learning_rate: 2e-5
+batch_size: 16
+epochs: 3
+lora_rank: 8
+```
+
+Use cases
+  -  Domain adaptation (medical, legal, finance)
+  -  Style consistency
+  -  Structured output learning
+  -  Reduced prompt complexity
+
+## 🔥 Prompting vs Fine-Tuning — When to Use What?
+| Scenario                          | Best Choice     |
+| --------------------------------- | --------------- |
+| Change tone or verbosity          | Prompting       |
+| Reduce hallucinations             | Prompting + RAG |
+| Enforce strict output format      | Prompting       |
+| Teach domain knowledge            | Fine-tuning     |
+| Reduce prompt length              | Fine-tuning     |
+| Improve accuracy on specific task | Fine-tuning     |
+
+## Prompting Hyperparameters
+**1️⃣ Temperature – Controls Randomness**  
+
+What it really does: It rescales token probabilities before sampling.
+
+Low Temperature (0 – 0.3)
+  -  Makes high-probability tokens even more dominant
+  -  Output becomes deterministic
+  -  Good for:
+      -  Code generation
+      -  SQL queries
+      -  Production APIs
+      -  RAG answers
+
+Example:
+```
+The sky is → blue (almost always)
+```
+
+High Temperature (0.8 – 1.5)
+  -  Flattens probability distribution
+  -  Less likely tokens get more chance
+  -  More creative
+  -  Less predictable
+
+Example:
+```
+The sky is → blue / endless / mysterious / crying
+```
+
+**2️⃣ top_k – Limits Number of Choices**  
+
+What it does: Only keep the K most probable tokens, discard the rest.
+
+Example probabilities:
+```
+blue      45%
+visible   30%
+clear     15%
+bright     5%
+vast       3%
+other      2%
+```
+If:
+```
+top_k = 3
+```
+Only:
+```
+blue, visible, clear
+```
+are allowed.
+
+If:
+```
+top_k = 1
+```
+→ Always choose the most likely token  
+→ Fully deterministic  
+
+**3️⃣ top_p (Nucleus Sampling) – Probability Mass Filtering**  
+
+Instead of fixed number (like top_k), it keeps tokens until cumulative probability reaches P.
+
+Example:
+
+If:
+```
+top_p = 0.5
+```
+
+Keep tokens until cumulative > 50%
+```
+blue (45%)
+visible (30%)
+```
+45 + 30 = 75% → stop here
+
+If:
+```
+top_p = 0.9
+```
+Need enough tokens to reach 90% total probability.
+
+This is more adaptive than top_k.
+
+**4️⃣ min_p – Minimum Probability Cutoff**  
+
+Removes tokens below a minimum probability threshold.
+
+Example:
+```
+min_p = 0.05
+```
+Remove all tokens with <5% probability.
+
+This prevents:
+  -  Rare nonsense words
+  -  Very unlikely hallucinations
+
+**🏢 Enterprise Practical Settings**  
+
+Since you build backend systems:
+
+🔹 RAG System (Bank, Insurance PDFs)
+```
+temperature = 0.2
+top_p = 0.9
+top_k = 40
+```
+Low creativity, high factual accuracy.
+
+🔹 Chatbot
+```
+temperature = 0.7
+top_p = 0.95
+top_k = 50
+```
+Balanced.
+
+🔹 Code Generation
+```
+temperature = 0.1
+top_k = 1
+```
+Almost deterministic.
+
+</details>
+
+<details>
+
 <summary><strong>What is Quantization in LLM?</strong></summary>
 
 Quantization = Reducing the precision of model weights
