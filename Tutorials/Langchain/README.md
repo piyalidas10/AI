@@ -16,10 +16,10 @@ Flow:
 User → LangChain → Agent → Search PDF DB → LLM → Response → Store memory
 ```
 
-Result:
-    - ⚡ Faster search
-    - 💰 Reduced manual effort
-    - 📄 Works across 1000+ documents
+Result:    
+⚡ Faster search    
+💰 Reduced manual effort    
+📄 Works across 1000+ documents    
 
 ## Basic LLM Setup (Without LangChain)
 
