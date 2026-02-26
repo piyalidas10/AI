@@ -18,7 +18,7 @@ s
 
 <summary><strong>LLM Hyperparameters : Prompting vs Fine-Tuning</strong></summary>
 
-### 🔁 Prompting vs Fine-Tuning Hyperparameters (Side-by-Side)
+## 🔁 Prompting vs Fine-Tuning Hyperparameters (Side-by-Side)
 | Aspect        | Prompting Hyperparameters         | Fine-Tuning Hyperparameters         |
 | ------------- | --------------------------------- | ----------------------------------- |
 | When applied  | Inference time                    | Training time                       |
@@ -41,7 +41,7 @@ Prompting hyperparameters are sometimes called generation parameters, but in pra
 
 So your statement is correct and acceptable, especially in system design and GenAI interviews.
 
-**🧠 1️⃣ Prompting Hyperparameters (Inference-Time)**
+## 🧠 1️⃣ Prompting Hyperparameters (Inference-Time)
 
 These control how the model generates text for each request.
 
@@ -67,9 +67,9 @@ Use cases
   -  API responses
   -  Dynamic behavior control
 
-**🧠 2️⃣ Fine-Tuning Hyperparameters (Training-Time)**
+## 🧠 2️⃣ Fine-Tuning Hyperparameters (Training-Time)
 
-These control how the model learns from data.
+These control how the model learns from data. we can further tune the LM towards a more specific and task oriented data set. For example, I want my LM to answer data related questions related to a health care so I can train it on a health care related data set. It will make sure that the LM is more suited to your task, and it is more better at generating content for that domain or task.
 
 Common Fine-Tuning Hyperparameters
   -  Learning rate
