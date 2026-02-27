@@ -1,6 +1,4 @@
-# FastAPI-RAG-with-Ollama-and-Qdrant
-
-# 🚀 Enterprise RAG System with FastAPI + Ollama + Qdrant
+# Artificial Intelligent
 
 ## 📌 Features
 - Document Upload (PDF, CSV, DOCX)
