@@ -1,4 +1,17 @@
-# AI
+# FastAPI-RAG-with-Ollama-and-Qdrant
+
+# 🚀 Enterprise RAG System with FastAPI + Ollama + Qdrant
+
+## 📌 Features
+- Document Upload (PDF, CSV, DOCX)
+- Vector Embeddings (nomic-embed-text)
+- Qdrant Vector DB
+- Ollama LLM
+- Dockerized Setup
+- Swagger API
+
+## 🏗 LLM Architecture Diagram
+
 
 ## Two Types of AI
 **🔹 1️⃣ Query-Based AI (Direct Prompt AI)**
