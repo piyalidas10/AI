@@ -1,4 +1,5 @@
 # Artificial Intelligent
+<img src="imgs/ai_system_layers.gif width="600px"/>
 
 ## 📌 Features
 - Document Upload (PDF, CSV, DOCX)
