@@ -1,5 +1,5 @@
 # Artificial Intelligent
-<img src="imgs/ai_system_layers.gif" width="600px"/>
+<img src="imgs/ai_system_layers.gif" width="70%"/>
 
 ## 𝗚𝗲𝗻𝗲𝗿𝗮𝘁𝗶𝘃𝗲 𝗔𝗜 vs 𝗔𝗴𝗲𝗻𝘁𝗶𝗰 𝗔𝗜 vs 𝗟𝗟𝗠𝘀
 <img src="imgs/genai_agenticai_llm.gif" width="70%" />
