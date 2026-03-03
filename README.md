@@ -16,7 +16,8 @@ Using AI to create content across text, images, audio, and video.
 - 𝗧𝗲𝘅𝘁-𝘁𝗼-𝗜𝗺𝗮𝗴𝗲 / 𝗩𝗶𝗱𝗲𝗼: Create media from prompts.
 - 𝗣𝗿𝗼𝗺𝗽𝘁 𝗘𝗻𝗴𝗶𝗻𝗲𝗲𝗿𝗶𝗻𝗴: Better prompts = better content.
 
-Generative AI mainly 𝗰𝗿𝗲𝗮𝘁𝗲𝘀 𝗰𝗼𝗻𝘁𝗲𝗻𝘁 𝘄𝗵𝗲𝗻 𝗮𝘀𝗸𝗲𝗱.
+Generative AI mainly 𝗰𝗿𝗲𝗮𝘁𝗲𝘀 𝗰𝗼𝗻𝘁𝗲𝗻𝘁 𝘄𝗵𝗲𝗻 𝗮𝘀𝗸𝗲𝗱.  
+Generative AI is the **creative application layer built on top of those models (text, images, code, video)**.
 
 2. 𝗔𝗴𝗲𝗻𝘁𝗶𝗰 𝗔𝗜
 AI systems that plan, decide, and execute tasks independently.
@@ -32,7 +33,8 @@ AI systems that plan, decide, and execute tasks independently.
 - 𝗛𝘂𝗺𝗮𝗻-𝗶𝗻-𝘁𝗵𝗲-𝗟𝗼𝗼𝗽: Humans supervise key decisions.
 - 𝗖𝗼𝗴𝗻𝗶𝘁𝗶𝘃𝗲 𝗖𝘆𝗰𝗹𝗲: Plan → Act → Observe → Improve.
 
-Agentic AI mainly 𝗽𝗹𝗮𝗻𝘀 𝗮𝗻𝗱 𝗰𝗼𝗺𝗽𝗹𝗲𝘁𝗲𝘀 𝘄𝗼𝗿𝗸 𝗮𝘂𝘁𝗼𝗻𝗼𝗺𝗼𝘂𝘀𝗹𝘆.
+Agentic AI mainly 𝗽𝗹𝗮𝗻𝘀 𝗮𝗻𝗱 𝗰𝗼𝗺𝗽𝗹𝗲𝘁𝗲𝘀 𝘄𝗼𝗿𝗸 𝗮𝘂𝘁𝗼𝗻𝗼𝗺𝗼𝘂𝘀𝗹𝘆.  
+Agentic AI is the **execution architecture that wraps models with memory, tools, planning, and control loops**.
 
 3. 𝗟𝗟𝗠𝘀
 The core models that understand language and generate responses.
@@ -47,7 +49,8 @@ The core models that understand language and generate responses.
 - 𝗠𝗼𝗱𝗲𝗹 𝗢𝗽𝘁𝗶𝗺𝗶𝘇𝗮𝘁𝗶𝗼𝗻: Size reduction, evaluation, and context limits.
 - 𝗣𝗿𝗼𝗺𝗽𝘁 𝗘𝗻𝗴𝗶𝗻𝗲𝗲𝗿𝗶𝗻𝗴: Communicating effectively with models.
 
-LLMs mainly 𝘂𝗻𝗱𝗲𝗿𝘀𝘁𝗮𝗻𝗱 𝗮𝗻𝗱 𝗴𝗲𝗻𝗲𝗿𝗮𝘁𝗲 𝘁𝗲𝘅𝘁 𝘄𝗵𝗲𝗻 𝗽𝗿𝗼𝗺𝗽𝘁𝗲𝗱.
+LLMs mainly 𝘂𝗻𝗱𝗲𝗿𝘀𝘁𝗮𝗻𝗱 𝗮𝗻𝗱 𝗴𝗲𝗻𝗲𝗿𝗮𝘁𝗲 𝘁𝗲𝘅𝘁 𝘄𝗵𝗲𝗻 𝗽𝗿𝗼𝗺𝗽𝘁𝗲𝗱.  
+LLMs **(like those from OpenAI or Anthropic) are the reasoning engine**. Generative AI is the creative application layer built on top of those models (text, images, code, video).
 
 ✅ 𝗜𝗻 𝘀𝗵𝗼𝗿𝘁:
 - 𝗟𝗟𝗠𝘀 → The brain that understands & writes
