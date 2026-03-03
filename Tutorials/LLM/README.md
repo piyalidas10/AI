@@ -2,14 +2,95 @@
 
 <details>
 
+<summary><strong>From N-Grams to RNNs to Transformers: The Evolution of NLP</strong></summary>
+
+## Four Core Language Modeling Techniques
+
+**1️⃣ N-grams (Statistical Language Models)**
+
+What it is:  
+A probabilistic model that predicts the next word based on the previous N-1 words.
+
+Example:
+  -  Bigram (N=2): “I am” → predict next word based only on “am”
+  -  Trigram (N=3): “I am going” → predict next word using “am going”
+
+Limitations:
+  -  Cannot remember long context
+  -  Data sparsity problem
+  -  Large memory required for bigger N
+
+👉 Purely statistical, no deep learning involved.
+
+**2️⃣ Recurrent Neural Networks (RNNs)**
+
+What it is:  
+A neural network designed for sequential data.
+
+Key Idea:  
+It processes words one by one and keeps a hidden state (memory).
+
+Flow:  
+Word → Hidden State → Next Word Prediction
+
+Problem:
+  -  Vanishing gradient problem
+  -  Struggles with long-term dependencies
+(For example: remembering a subject mentioned 20 words earlier)
+
+**3️⃣ Long Short-Term Memory (LSTMs)**
+
+What it is:  
+A special type of RNN designed to solve long-term memory issues.
+
+Improvement over RNN:
+  -  Has gates (Input, Forget, Output gates)
+  -  Can decide what to remember and what to forget
+
+Why important?
+  -  Better for long sentences
+  -  Used in early NLP tasks like translation and speech recognition
+Still sequential → slower training compared to modern models.
+
+**4️⃣ Transformers (Modern Architecture)**
+
+What it is:  
+The foundation of modern LLMs like ChatGPT.
+
+Key Innovation:  
+Self-Attention mechanism
+
+Instead of reading word-by-word like RNNs, Transformers:
+  -  Look at the entire sentence at once
+  -  Calculate relationships between all words in parallel
+
+Advantages:
+  -  Handles long context better
+  -  Trains faster (parallel processing)
+  -  Scales to billions of parameters
+
+This architecture powers:
+  -  Large Language Models (LLMs)
+  -  Modern NLP systems
+  -  Generative AI tools
+
+| Model       | Type               | Memory   | Speed | Long Context |
+| ----------- | ------------------ | -------- | ----- | ------------ |
+| N-grams     | Statistical        | ❌ None   | Fast  | ❌ Poor       |
+| RNN         | Neural             | ✅ Short  | Slow  | ❌ Weak       |
+| LSTM        | Neural             | ✅ Better | Slow  | ⚠️ Moderate  |
+| Transformer | Neural + Attention | ✅ Strong | Fast  | ✅ Excellent  |
+
+</details>
+
+<details>
+
 <summary><strong>How LLMs Actually Generate Text</strong></summary>
 
 # How LLMs Actually Generate Text
 
   -  English : https://www.youtube.com/watch?v=NKnZYvZA7w4
   -  Hindi : https://www.youtube.com/watch?v=K45s2PgywvI
-
-s
 
 
 </details>
