@@ -1,5 +1,62 @@
 # Artificial Intelligent
-<img src="imgs/ai_system_layers.gif" width="600px"/>
+<img src="imgs/ai_system_layers.gif" width="70%"/>
+
+## 𝗚𝗲𝗻𝗲𝗿𝗮𝘁𝗶𝘃𝗲 𝗔𝗜 vs 𝗔𝗴𝗲𝗻𝘁𝗶𝗰 𝗔𝗜 vs 𝗟𝗟𝗠𝘀
+<img src="imgs/genai_agenticai_llm.gif" width="70%" />
+1. 𝗚𝗲𝗻𝗲𝗿𝗮𝘁𝗶𝘃𝗲 𝗔𝗜
+Using AI to create content across text, images, audio, and video.
+
+- 𝗘𝗻𝗰𝗼𝗱𝗶𝗻𝗴-𝗗𝗲𝗰𝗼𝗱𝗶𝗻𝗴 + 𝗟𝗮𝘁𝗲𝗻𝘁 𝗦𝗽𝗮𝗰𝗲: Learn patterns and creativity.
+- 𝗧𝗿𝗮𝗻𝘀𝗳𝗼𝗿𝗺𝗲𝗿 𝗦𝘁𝗿𝘂𝗰𝘁𝘂𝗿𝗲: Same foundation as LLMs.
+- 𝗦𝘆𝗻𝘁𝗵𝗲𝘁𝗶𝗰 𝗗𝗮𝘁𝗮: Generate new training data.
+- 𝗗𝗶𝗳𝗳𝘂𝘀𝗶𝗼𝗻 + 𝗚𝗔𝗡𝘀: Power image and video generation.
+- 𝗭𝗲𝗿𝗼 / 𝗙𝗲𝘄-𝘀𝗵𝗼𝘁 + 𝗥𝗟𝗛𝗙: Improve output quality.
+- 𝗙𝗶𝗻𝗲-𝘁𝘂𝗻𝗶𝗻𝗴 + 𝗦𝘁𝘆𝗹𝗲 𝗧𝗿𝗮𝗻𝘀𝗳𝗲𝗿: Customize for brands and styles.
+- 𝗠𝘂𝗹𝘁𝗶𝗺𝗼𝗱𝗮𝗹 𝗔𝗜: Works with text, image, audio, video.
+- 𝗧𝗲𝘅𝘁-𝘁𝗼-𝗜𝗺𝗮𝗴𝗲 / 𝗩𝗶𝗱𝗲𝗼: Create media from prompts.
+- 𝗣𝗿𝗼𝗺𝗽𝘁 𝗘𝗻𝗴𝗶𝗻𝗲𝗲𝗿𝗶𝗻𝗴: Better prompts = better content.
+
+Generative AI mainly 𝗰𝗿𝗲𝗮𝘁𝗲𝘀 𝗰𝗼𝗻𝘁𝗲𝗻𝘁 𝘄𝗵𝗲𝗻 𝗮𝘀𝗸𝗲𝗱.  
+Generative AI is the **creative application layer built on top of those models (text, images, code, video)**.
+
+2. 𝗔𝗴𝗲𝗻𝘁𝗶𝗰 𝗔𝗜
+AI systems that plan, decide, and execute tasks independently.
+
+- 𝗜𝗻𝗱𝗲𝗽𝗲𝗻𝗱𝗲𝗻𝘁 𝗚𝗼𝗮𝗹𝘀 + 𝗔𝗱𝗮𝗽𝘁𝗶𝘃𝗲 𝗣𝗹𝗮𝗻𝗻𝗶𝗻𝗴: Break big goals into tasks.
+- 𝗛𝗶𝗲𝗿𝗮𝗿𝗰𝗵𝗶𝗰𝗮𝗹 𝗔𝗴𝗲𝗻𝘁𝘀: Multiple decision-making layers.
+- 𝗧𝗼𝗼𝗹 𝗨𝘀𝗲 + 𝗧𝗮𝘀𝗸 𝗘𝘅𝗲𝗰𝘂𝘁𝗶𝗼𝗻: Can browse, code, email, automate.
+- 𝗟𝗼𝗻𝗴-𝘁𝗲𝗿𝗺 𝗠𝗲𝗺𝗼𝗿𝘆: Remembers past work and context.
+- 𝗦𝗲𝗹𝗳-𝗥𝗲𝘃𝗶𝗲𝘄 + 𝗣𝗲𝗿𝗳𝗼𝗿𝗺𝗮𝗻𝗰𝗲 𝗠𝗲𝘁𝗿𝗶𝗰𝘀: Improves automatically.
+- 𝗖𝗼𝗧 𝗥𝗲𝗮𝘀𝗼𝗻𝗶𝗻𝗴: Thinks step-by-step before acting.
+- 𝗠𝘂𝗹𝘁𝗶-𝗔𝗴𝗲𝗻𝘁 𝗖𝗼𝗹𝗹𝗮𝗯: AI agents work as a team.
+- 𝗠𝗼𝗻𝗶𝘁𝗼𝗿𝗶𝗻𝗴 + 𝗢𝗿𝗰𝗵𝗲𝘀𝘁𝗿𝗮𝘁𝗶𝗼𝗻: Tracks progress and manages workflows.
+- 𝗛𝘂𝗺𝗮𝗻-𝗶𝗻-𝘁𝗵𝗲-𝗟𝗼𝗼𝗽: Humans supervise key decisions.
+- 𝗖𝗼𝗴𝗻𝗶𝘁𝗶𝘃𝗲 𝗖𝘆𝗰𝗹𝗲: Plan → Act → Observe → Improve.
+
+Agentic AI mainly 𝗽𝗹𝗮𝗻𝘀 𝗮𝗻𝗱 𝗰𝗼𝗺𝗽𝗹𝗲𝘁𝗲𝘀 𝘄𝗼𝗿𝗸 𝗮𝘂𝘁𝗼𝗻𝗼𝗺𝗼𝘂𝘀𝗹𝘆.  
+Agentic AI is the **execution architecture that wraps models with memory, tools, planning, and control loops**.
+
+3. 𝗟𝗟𝗠𝘀
+The core models that understand language and generate responses.
+
+- 𝗣𝗿𝗲-𝘁𝗿𝗮𝗶𝗻𝗶𝗻𝗴 & 𝗙𝗶𝗻𝗲-𝘁𝘂𝗻𝗶𝗻𝗴: Learn from massive datasets and get refined.
+- 𝗧𝗼𝗸𝗲𝗻𝗶𝘇𝗮𝘁𝗶𝗼𝗻 + 𝗔𝘁𝘁𝗲𝗻𝘁𝗶𝗼𝗻: Break text into tokens and focus on important words.
+- 𝗧𝗿𝗮𝗻𝘀𝗳𝗼𝗿𝗺𝗲𝗿𝘀 + 𝗩𝗲𝗰𝘁𝗼𝗿𝘀: Convert language into numbers and patterns.
+- 𝗣𝗼𝘀𝗶𝘁𝗶𝗼𝗻 𝗘𝗻𝗰𝗼𝗱𝗶𝗻𝗴: Understand word order and context.
+- 𝗭𝗲𝗿𝗼 / 𝗙𝗲𝘄-𝘀𝗵𝗼𝘁: Perform new tasks with little training.
+- 𝗥𝗔𝗚 + 𝗥𝗟𝗛𝗙: Use external knowledge and human feedback.
+- 𝗛𝗮𝗹𝗹𝘂𝗰𝗶𝗻𝗮𝘁𝗶𝗼𝗻 𝗥𝗲𝗱𝘂𝗰𝘁𝗶𝗼𝗻: Improve reliability and accuracy.
+- 𝗠𝗼𝗱𝗲𝗹 𝗢𝗽𝘁𝗶𝗺𝗶𝘇𝗮𝘁𝗶𝗼𝗻: Size reduction, evaluation, and context limits.
+- 𝗣𝗿𝗼𝗺𝗽𝘁 𝗘𝗻𝗴𝗶𝗻𝗲𝗲𝗿𝗶𝗻𝗴: Communicating effectively with models.
+
+LLMs mainly 𝘂𝗻𝗱𝗲𝗿𝘀𝘁𝗮𝗻𝗱 𝗮𝗻𝗱 𝗴𝗲𝗻𝗲𝗿𝗮𝘁𝗲 𝘁𝗲𝘅𝘁 𝘄𝗵𝗲𝗻 𝗽𝗿𝗼𝗺𝗽𝘁𝗲𝗱.  
+LLMs **(like those from OpenAI or Anthropic) are the reasoning engine**. Generative AI is the creative application layer built on top of those models (text, images, code, video).
+
+✅ 𝗜𝗻 𝘀𝗵𝗼𝗿𝘁:
+- 𝗟𝗟𝗠𝘀 → The brain that understands & writes
+- 𝗚𝗲𝗻𝗲𝗿𝗮𝘁𝗶𝘃𝗲 𝗔𝗜 → Creates content
+- 𝗔𝗴𝗲𝗻𝘁𝗶𝗰 𝗔𝗜 → Plans & executes work
+
 
 ## 📌 Features
 - Document Upload (PDF, CSV, DOCX)
@@ -8,9 +65,6 @@
 - Ollama LLM
 - Dockerized Setup
 - Swagger API
-
-## 🏗 LLM Architecture Diagram
-
 
 ## Two Types of AI
 **🔹 1️⃣ Query-Based AI (Direct Prompt AI)**
