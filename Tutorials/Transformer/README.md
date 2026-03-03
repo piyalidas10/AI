@@ -87,7 +87,7 @@ So here Transformer is doing:
   -  Reasoning
   -  Token-by-token generation
 
-**🎯 Why Transformers Are Perfect for RAG**
+**🎯 Why Transformers Are Perfect for RAG**  
 ✅ For Embeddings
   -  Self-attention captures semantic meaning
   -  Similar meaning → similar vectors
