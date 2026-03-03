@@ -6,10 +6,10 @@ Vector embeddings are numerical representations of unstructured data such as:
   -  Audio
   -  Code
 
-Examples:
-  -  nomic-embed-text → converts text → vector
-  -  CLIP → converts image + text → vectors
-  -  wav2vec → converts audio → vectors
+Examples of LLM Models:
+  -  **nomic-embed-text** → converts text → vector
+  -  **CLIP** → converts image + text → vectors
+  -  **wav2vec** → converts audio → vectors
 
 Ollama Embedding : https://ollama.com/search?c=embedding
 
