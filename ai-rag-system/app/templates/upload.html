@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI RAG System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #f4f6f9;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            box-shadow: 0px 2px 8px rgba(0,0,0,0.1);
+        }
+
+        button {
+            padding: 8px 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        input[type="text"], input[type="file"] {
+            padding: 6px;
+            margin: 8px 0;
+            width: 300px;
+        }
+
+        .result {
+            margin-top: 15px;
+            padding: 10px;
+            background-color: #eef;
+            border-radius: 5px;
+        }
+
+        .error {
+            color: red;
+        }
+
+    </style>
+</head>
+<body>
+
+<h1>🚀 AI RAG System</h1>
+
+<!-- ================= Upload Section ================= -->
+
+<div class="card">
+    <h2>Upload PDF / DOCX / CSV</h2>
+
+    <form id="uploadForm">
+        <input type="file" name="file" required>
+        <br>
+        <button type="submit">Upload</button>
+    </form>
+
+    <div id="uploadResult" class="result"></div>
+</div>
+
+<!-- ================= Ask Question Section ================= -->
+
+<div class="card">
+    <h2>Ask Question</h2>
+
+    <form id="chatForm">
+        <input type="text" id="questionInput" placeholder="Ask something..." required>
+        <br>
+        <button type="submit">Ask</button>
+    </form>
+
+    <div id="chatResult" class="result"></div>
+</div>
+
+<script>
+
+    // ================= Upload Logic =================
+    document.getElementById("uploadForm").addEventListener("submit", async function(e) {
+        e.preventDefault();
+
+        const formData = new FormData(this);
+
+        const response = await fetch("/documents/upload", {
+            method: "POST",
+            body: formData
+        });
+
+        const resultDiv = document.getElementById("uploadResult");
+
+        if (response.ok) {
+            const data = await response.json();
+            resultDiv.innerHTML = `
+                <strong>✅ ${data.message}</strong><br>
+                File: ${data.file_name}<br>
+                Chunks Created: ${data.chunks}
+            `;
+        } else {
+            const error = await response.json();
+            resultDiv.innerHTML = `<span class="error">❌ ${error.detail}</span>`;
+        }
+    });
+
+
+    // ================= Chat Logic =================
+    document.getElementById("chatForm").addEventListener("submit", async function(e) {
+        e.preventDefault();
+
+        const question = document.getElementById("questionInput").value;
+
+        const response = await fetch("/chat/ask", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                question: question
+            })
+        });
+
+        const resultDiv = document.getElementById("chatResult");
+
+        if (response.ok) {
+            const data = await response.json();
+            resultDiv.innerHTML = `
+                <strong>🤖 Answer:</strong><br>
+                ${data.answer}
+            `;
+        } else {
+            const error = await response.json();
+            resultDiv.innerHTML = `<span class="error">❌ ${error.detail}</span>`;
+        }
+    });
+
+</script>
+
+</body>
+</html>
