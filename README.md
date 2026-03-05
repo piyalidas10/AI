@@ -57,6 +57,10 @@ LLMs **(like those from OpenAI or Anthropic) are the reasoning engine**. Generat
 - 𝗚𝗲𝗻𝗲𝗿𝗮𝘁𝗶𝘃𝗲 𝗔𝗜 → Creates content
 - 𝗔𝗴𝗲𝗻𝘁𝗶𝗰 𝗔𝗜 → Plans & executes work
 
+## Optimization & improving AI Model's performance using the following methods
+1. Fine-tuning
+2. Prompt Engineering
+3. Retrieval augmented generation (RAG)
 
 ## 📌 Features
 - Document Upload (PDF, CSV, DOCX)
