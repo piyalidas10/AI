@@ -60,6 +60,8 @@ Stores raw files before processing.
 In production, this would usually be: S3, Azure Blob, GCS, Network storage
 
 ## Run Application
+> At first, Install Docker & Ollama in you local machine for further steps.
+
 1. Run Docker Desktop first
 2. Inside application folder (vector-ollama-api), open gitbash or cmd to run the command following command. requirements.txt file should be on the same path.
 ```
