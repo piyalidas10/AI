@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>RAG Trace Viewer</title>
+</head>
+
+<body>
+
+<h1>🔎 RAG Query Traces</h1>
+
+<table border="1">
+
+<tr>
+<th>Question</th>
+<th>Answer</th>
+<th>Faithfulness</th>
+<th>Relevancy</th>
+<th>Grounded</th>
+</tr>
+
+{% for t in traces %}
+
+<tr>
+
+<td>{{ t.question }}</td>
+
+<td>{{ t.answer }}</td>
+
+<td>{{ t.faithfulness }}</td>
+
+<td>{{ t.answer_relevancy }}</td>
+
+<td>{{ t.grounded }}</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+</body>
+</html>
