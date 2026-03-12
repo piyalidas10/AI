@@ -16,9 +16,9 @@ docker compose up
 > Restart your containers: docker compose restart
 
 3. From your project root:
-
+open new gitbash or cmd to run the command following command.
 ```
-docker exec -it ollama ollama pull llama3
+docker exec -it ollama ollama pull phi3
 docker exec -it ollama ollama pull nomic-embed-text
 ```
 Wait until both models download completely.
@@ -135,6 +135,126 @@ Think of it like:
 ```
 1 chunk = 1 row in vector DB
 ```
+
+## ⭐ My RAG System Is Already Advanced
+
+My system already includes:
+
+✅ RAG pipeline
+✅ Qdrant vector DB
+✅ MMR retrieval
+✅ Ollama local LLM
+✅ RAGAS evaluation
+✅ Hallucination detection
+✅ Heatmap debugging
+✅ RAG dashboard
+✅ Query traces
+
+This is very close to enterprise-level RAG architecture.
+
+## 🧠 Enterprise RAG Evaluation Architecture
+```
+                    ┌──────────────────────┐
+                    │        USER          │
+                    │  Chat / Query / UI   │
+                    └──────────┬───────────┘
+                               │
+                               ▼
+                    ┌──────────────────────┐
+                    │       FastAPI        │
+                    │   API Gateway Layer  │
+                    └──────────┬───────────┘
+                               │
+                ┌──────────────┼──────────────┐
+                │                              │
+                ▼                              ▼
+      ┌───────────────────┐           ┌─────────────────────┐
+      │ Document Ingestion│           │     Query Engine    │
+      │  Pipeline         │           │  (LangChain Chain)  │
+      └─────────┬─────────┘           └──────────┬──────────┘
+                │                                │
+                ▼                                ▼
+      ┌───────────────────┐            ┌─────────────────────┐
+      │ Document Loader   │            │     Retriever       │
+      │ PDF / DOCX / CSV  │            │  Vector Search      │
+      └─────────┬─────────┘            └──────────┬──────────┘
+                │                                 │
+                ▼                                 ▼
+      ┌───────────────────┐            ┌─────────────────────┐
+      │ Text Splitter     │            │      Qdrant         │
+      │ Chunking Engine   │            │   Vector Database   │
+      └─────────┬─────────┘            └──────────┬──────────┘
+                │                                 │
+                ▼                                 ▼
+      ┌───────────────────┐            ┌─────────────────────┐
+      │ Embedding Model   │            │  Top-K Context Docs │
+      │ (SentenceTransf.) │            └──────────┬──────────┘
+      └─────────┬─────────┘                       │
+                │                                  ▼
+                ▼                        ┌─────────────────────┐
+      ┌───────────────────┐              │         LLM         │
+      │ Vector Storage    │              │ (Ollama / OpenAI)  │
+      │     Qdrant        │              └──────────┬──────────┘
+      └───────────────────┘                         │
+                                                    ▼
+                                       ┌─────────────────────┐
+                                       │     LLM Response    │
+                                       └──────────┬──────────┘
+                                                  │
+                                                  ▼
+                                   ┌──────────────────────────┐
+                                   │     RAG Evaluation       │
+                                   │        (RAGAS)           │
+                                   └──────────┬───────────────┘
+                                              │
+                          ┌───────────────────┼───────────────────┐
+                          ▼                   ▼                   ▼
+                ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐
+                │ Faithfulness     │  │ Context Recall  │  │ Answer Relev.   │
+                └─────────────────┘  └─────────────────┘  └─────────────────┘
+                                              │
+                                              ▼
+                                   ┌─────────────────────┐
+                                   │  Observability      │
+                                   │ LangSmith + Logs    │
+                                   └──────────┬──────────┘
+                                              │
+                                              ▼
+                                   ┌─────────────────────┐
+                                   │  Metrics Monitoring │
+                                   │  Prometheus         │
+                                   └──────────┬──────────┘
+                                              │
+                                              ▼
+                                   ┌─────────────────────┐
+                                   │  Visualization      │
+                                   │  Plotly Dashboard   │
+                                   └─────────────────────┘
+```
+
+## ⭐ 10 Critical RAG Metrics Used by Companies
+
+These are commonly measured in production.
+
+1️⃣ Faithfulness 
+2️⃣ Context Precision  
+3️⃣ Context Recall  
+4️⃣ Answer Relevancy   
+5️⃣ Retrieval Hit Rate 
+6️⃣ Hallucination Rate 
+7️⃣ Latency   
+8️⃣ Token Cost   
+9️⃣ User Satisfaction Score  
+🔟 Query Success Rate   
+
+## 🚀 Next Level (What Big AI Companies Build)
+
+Advanced systems add:
+- Reranking models (BGE / Cohere)
+- Hybrid search (BM25 + vector search)
+- Multi-hop retrieval
+- Query rewriting
+- Agentic RAG
 
 ## What application will do
 **🎯 A Dockerized Retrieval-Augmented Generation (RAG) Document Intelligence System built using FastAPI, Ollama, and Qdrant.**

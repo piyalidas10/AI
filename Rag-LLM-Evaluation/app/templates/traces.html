@@ -1,43 +1,83 @@
+```html
 <!DOCTYPE html>
 <html>
 
 <head>
-<title>RAG Trace Viewer</title>
+
+    <title>RAG Query Traces</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f6f9;
+            padding: 40px;
+        }
+
+        .container {
+            width: 1000px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .trace {
+            background: #f8f8f8;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 6px;
+        }
+
+        .context {
+            background: #eef6ff;
+            padding: 15px;
+            margin-top: 10px;
+            border-radius: 6px;
+        }
+    </style>
+
 </head>
 
 <body>
 
-<h1>🔎 RAG Query Traces</h1>
+    <div class="container">
 
-<table border="1">
+        <h1>RAG Query Traces</h1>
 
-<tr>
-<th>Question</th>
-<th>Answer</th>
-<th>Faithfulness</th>
-<th>Relevancy</th>
-<th>Grounded</th>
-</tr>
+        {% for trace in traces %}
 
-{% for t in traces %}
+        <div class="trace">
 
-<tr>
+            <h3>Question</h3>
+            <p>{{trace.question}}</p>
 
-<td>{{ t.question }}</td>
+            <h3>Answer</h3>
+            <p>{{trace.answer}}</p>
 
-<td>{{ t.answer }}</td>
+            <h3>Retrieved Context</h3>
 
-<td>{{ t.faithfulness }}</td>
+            <div class="context">
 
-<td>{{ t.answer_relevancy }}</td>
+                <ul>
 
-<td>{{ t.grounded }}</td>
+                    {% for ctx in trace.contexts %}
 
-</tr>
+                    <li>{{ctx}}</li>
 
-{% endfor %}
+                    {% endfor %}
 
-</table>
+                </ul>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
 
 </body>
+
 </html>
+```

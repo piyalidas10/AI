@@ -1,5 +1,9 @@
 
 
+## Ask Question : What is the waiting period for general illness?
+<img src="imgs/localhost_8000_answer1.png" width="100%" />
+
+
 ### ✅ With these files you can test:
 
 - Document ingestion
