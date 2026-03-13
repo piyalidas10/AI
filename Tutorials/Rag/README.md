@@ -1,5 +1,7 @@
 # ✅ RAG (Retrieval-Augmented Generation)
 
+RAG (Retrieval-Augmented Generation) is primarily a form of Generative AI that uses external data to enhance accuracy. It acts as a specialized search-and-generation tool, retrieving relevant information to inform LLMs. While standard RAG is a static retrieval method, it can evolve into Agentic AI (Agentic RAG).
+
 <img src="https://github.com/piyalidas10/AI/blob/3f48d0a94bd2fb9b9b4227611974dbdf2ac676e0/Rag/img/RAG.png" width="600px" />
 
 ```
@@ -16,6 +18,11 @@ Data Sources  →  Vector DB  →  LLM
 1️⃣ Indexing Phase (Offline / One-time)
 2️⃣ Query Phase (Runtime / Every question)
 ```
+
+### Here is a breakdown of how RAG fits into these categories:
+- **Generative AI (Primary Type)**: RAG enhances generative models by grounding them in factual, external data, reducing hallucinations. It is fundamentally a technique to improve generation, making it a subset of generative AI.
+- **Agentic AI (Advanced Form)**: Agentic RAG combines RAG with autonomous agents that can reason, plan, use multiple tools, and break down complex queries into multiple steps. Unlike standard RAG, Agentic RAG acts as a proactive researcher rather than just a lookup tool.
+- **Predictive AI**: RAG is not typically classified as predictive AI, which is used for forecasting numerical trends rather than generating content or retrieving information.
 
 <details>
 
