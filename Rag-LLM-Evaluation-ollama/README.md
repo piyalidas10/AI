@@ -1,13 +1,4 @@
-# Rag-LLM-Evaluation (FastAPI + Ollama + Qdrant + RAG + Ragas + LangSmith + Upload UI using Docker)
-
-| Layer         | Technology |
-| ------------- | ---------- |
-| API           | FastAPI    |
-| Vector DB     | Qdrant     |
-| LLM Runtime   | Ollama     |
-| Orchestration | LangChain  |
-
-<img src="imgs/Enterprise RAG platform architecture.png" width="70%">
+# FastAPI + Ollama + Qdrant + RAG + Upload UI (Dockerized)
 
 ## Run Application
 1. Install Docker & Run Docker Desktop first
@@ -27,7 +18,7 @@ docker compose up
 3. From your project root:
 open new gitbash or cmd to run the command following command.
 ```
-docker exec -it ollama ollama pull phi3
+docker exec -it ollama ollama pull llama3.2:3b
 docker exec -it ollama ollama pull nomic-embed-text
 ```
 Wait until both models download completely.
@@ -89,36 +80,16 @@ Health check:
 ```
 http://localhost:8000/health
 ```
-6. 📊 Live RAG Monitoring Dashboard
-```
-http://localhost:8000/dashboard
-```
-<img src="imgs/localhost_8000_rag_evaluation_dashboard.png" width="70%">
 
-7. 📜 RAG Query Traces
-```
-http://localhost:8000/traces
-```
-<img src="imgs/localhost_8000_rag_query_traces.png" width="70%">
-
-| Section             | Purpose                       |
-| ------------------- | ----------------------------- |
-| Question            | user input                    |
-| Answer              | generated output              |
-| Metrics             | 10 RAG evaluation scores      |
-| Heatmap             | which chunk influenced answer |
-| Latency             | response time                 |
-| Token usage         | LLM cost                      |
-| Hallucination score | safety check                  |
-
-8. Ollama
+6. Ollama
 
 Test:
 ```
 curl http://localhost:11434/api/tags
 ```
 
-9. Use Qdrant Web UI for viewing Vector Database
+
+7. Use Qdrant Web UI for viewing Vector Database
 If your docker-compose.yml exposes port 6333, open:
 ```
 http://localhost:6333/dashboard
@@ -286,28 +257,33 @@ Advanced systems add:
 - Agentic RAG
 
 ## What application will do
-**🎯 Local RAG AI System with Evaluation & Monitoring**
+**🎯 A Dockerized Retrieval-Augmented Generation (RAG) Document Intelligence System built using FastAPI, Ollama, and Qdrant.**
 
-> My application is essentially a Local RAG AI System with Evaluation & Monitoring. It combines document search, LLM generation, and performance evaluation into one platform.
+> "I built a Dockerized RAG-based document intelligence platform using FastAPI, Ollama for LLM and embeddings, and Qdrant as a vector database, with a simple upload UI for interacting with enterprise documents."
 
 ```
 📤 Upload PDF / DOCX / CSV from UI → Store in Qdrant → Use for RAG
 ```
-My system allows users to:
 
-1️⃣ Upload documents (PDF, text, etc.)
-2️⃣ Store them in a vector database
-3️⃣ Ask questions about those documents
-4️⃣ Generate answers using a local LLM
-5️⃣ Evaluate answer quality automatically
-6️⃣ Monitor performance in dashboards
+We’ll add:
+   -  HTML Upload UI
+   -  /upload API endpoint
+   -  Document parsing
+   -  Chunking
+   -  Embedding with Ollama
+   -  Store in Qdrant
+   -  Keep existing /ask endpoint
 
-This architecture is known as Retrieval-Augmented Generation (RAG) in the Artificial Intelligence domain.
+✅ LLM Evaluation using RAGAS
+✅ Context extraction for evaluation
+✅ Better chunking (500/100)
+✅ Retrieval debugging logs
+✅ Stable collection creation
+✅ Evaluation scores returned to UI
 
 Using:
    - FastAPI
    - LangChain
-   - Langsmith
    - Qdrant
    - Ollama
    - RAGAS
@@ -317,17 +293,6 @@ Using:
 | LangSmith  | tracing               |
 | Grafana    | metrics visualization |
 | Prometheus | metrics storage       |
-
-**Your system automatically measures answer quality using metrics like:**
-
-| Metric              | Meaning                      |
-| ------------------- | ---------------------------- |
-| Faithfulness        | answer grounded in documents |
-| Answer Relevancy    | answer matches question      |
-| Context Precision   | retrieved docs are relevant  |
-| Context Recall      | retrieved docs cover answer  |
-| Hallucination Score | model invented info          |
-
 
 ### LLM Evaluation
 To add LLM Evaluation, you need an evaluation layer after the answer is generated.
@@ -395,6 +360,69 @@ Your system will now compute:
 - Latency
 - Token usage
 
+## Ollama + RAGAS for RAG evaluation
+Some RAGAS metrics require a strong LLM.
+
+✅ Tip: RAG evaluation inside every request is slow. In production, systems usually log queries and run RAGAS evaluation in batch jobs instead.
+
+Small models like:
+```
+phi3
+```
+sometimes fail evaluation prompts.
+
+**Recommended models for evaluation in Ollama:**
+
+- llama3
+   - Llama 3 & 3.1
+      -  Llama 3 8B: Typically ~4.7 GB (q4_0 quantization).
+      -  Llama 3.1 8B: ~4.7 GB.
+      -  Llama 3 70B: Ranges from ~40GB (q4_K_M) to over 70GB for higher precision.
+- mistral
+   - Mistral (v0.3 & Small)
+      -  Mistral 7B (v0.3): Approximately 4GB to 5GB.
+      -  Mistral Small (22B/24B): ~13GB to 14GB.
+      -  Codestral (22B): ~14GB (specialized for code).
+      -  Ministral 3B/8B: Compact models designed for edge devices. 
+- mixtral
+   - Mixtral (MoE - Mixture of Experts) 
+      -  Mixtral 8x7B: ~26GB (default quantized version).
+      -  Mixtral 8x22B: ~80GB.
+
+
+> Llama 3 (8B): Best for general chat, coding, and logical reasoning on consumer hardware. It frequently outperforms older 7B models in benchmarks.
+
+> Mistral (7B): Highly compact and fast, great for edge computing, basic conversational AI, and constrained environments.
+
+> Mixtral (8x7B/8x22B): A Mixture-of-Experts (MoE) model that provides superior performance to the smaller 7B/8B models, but requires significant
+
+Recommendation:
+- Best all-rounder: Llama 3 (8B).
+- Best for limited hardware: Mistral (7B) or Llama 3.2 (3B/1B).
+- Best for high performance (local): Mixtral (8x7B).
+
+Example:
+```
+llm = OllamaLLM(
+    model="llama3",
+    base_url=OLLAMA_BASE_URL
+)
+```
+
+**RAGAS metrics like:**
+```
+answer_relevancy
+faithfulness
+```
+require an LLM evaluator.
+
+**Advanced RAG evaluation tools**
+
+🔥 Retrieval Heatmap 
+🔥 Chunk influence viewer  
+🔥 Hallucination detector UI  
+🔥 Query trace explorer 
+🔥 RAGAS score trends   
 
 ### Example Output
 
@@ -533,7 +561,7 @@ context_precision: 0.88
 
 ### 📁 Project Structure
 ```
-Rag-LLM-Evaluation/
+vector-ollama-api/
 │
 ├── app/                      ← Python package
 │   ├── __init__.py           ✅ Makes "app" a module
@@ -542,9 +570,7 @@ Rag-LLM-Evaluation/
 │   ├── requirements.txt      ← Python dependencies
 │   │
 │   ├── templates/
-|   |   |── dashboard.html    ← Live RAG Monitoring Dashboard
-|   |   |── traces.html       ← RAG Query Traces
-│   │   └── upload.html       ← RAG Document Assistant
+│   │   └── upload.html       ← UI template
 │   │
 │   └── uploaded_docs/        ← Stored documents
 │
@@ -567,6 +593,68 @@ app/uploaded_docs/
 ```
 Stores raw files before processing.    
 In production, this would usually be: S3, Azure Blob, GCS, Network storage
+
+## Yesterday after shut down laptop, Do i have to run all commands today again ?
+
+✅ Case 1 — You Only Stopped Containers
+-----------------------------------------------------------
+If yesterday you did:
+```
+docker compose down
+```
+or you just closed Docker Desktop
+
+👉 Today you only need:
+```
+docker compose up -d
+```
+That’s it ✅
+
+You DO NOT need:
+   -  ❌ docker compose build
+   -  ❌ ollama pull phi3
+   -  ❌ ollama pull nomic-embed-text
+
+Because:
+   -  Images are already built
+   -  Models are already downloaded
+   -  Qdrant data is stored in volume
+
+❌ Case 2 — If You Ran docker compose down -v
+-----------------------------------------------------------
+If yesterday you ran:
+```
+docker compose down -v
+```
+The -v deletes volumes.
+
+That means:
+   -  ❌ Qdrant data deleted
+   -  ❌ Ollama models deleted
+
+Then today you must:
+```
+docker compose up -d
+docker exec -it ollama ollama pull phi3
+docker exec -it ollama ollama pull nomic-embed-text
+```
+
+❌ Case 3 — If You Modified Dockerfile
+-----------------------------------------------------------
+If you changed:
+   -  Dockerfile
+   -  requirements.txt
+   -  base image
+
+Then you must:
+```
+docker compose build
+docker compose up -d
+```
+<img src="imgs/docker_container_Recreated.png" width="70%">
+
+But still no need to re-pull models unless volume was deleted.
+
 
 ## Qdrant collections - 📊 What These Numbers Mean
 
@@ -649,6 +737,22 @@ python -c "import main"
 ```
 If it fails → file path issue.
 
+### We will use:
+
+✅ Ollama embedding model (small size) → nomic-embed-text (~137MB)
+✅ Optional small LLM → phi3:mini (lightweight)
+✅ Qdrant as vector DB
+✅ Dockerized setup
+
+This is lightweight and perfect for local development 💻
+
+✅ FastAPI
+✅ LangChain
+✅ Qdrant
+✅ Upload PDF / DOCX / CSV
+✅ Store in Vector DB
+✅ Dockerized
+
 ### 🔥 Architecture
 You have built a RAG-based Enterprise Document QA System using:
    -  FastAPI
@@ -660,366 +764,329 @@ You have built a RAG-based Enterprise Document QA System using:
 
 🏗️ Sequence Diagram — Upload Flow
 ----------------------------------------------------------
-Purpose: Upload document → convert to embeddings → store in vector database
 ```
 User
- │
- │ Upload PDF
- ▼
-Upload Page (upload.html)
- │
- │ POST /upload
- ▼
-FastAPI Server
- │
- │ Read document
- ▼
-Document Loader
- │
- │ Split text into chunks
- ▼
-Text Splitter
- │
- │ Convert text → embeddings
- ▼
-Embedding Model
-(nomic-embed-text)
- │
- │ Store vectors
- ▼
-Qdrant Vector Database
- │
- │ Success response
- ▼
+  │
+  │ Upload File
+  ▼
+FastAPI (/upload)
+  │
+  │ Save file
+  │ Extract text
+  │ Chunk text
+  ▼
+Ollama (Embedding model)
+  │ Generate vectors
+  ▼
+Qdrant
+  │ Store vectors + metadata
+  ▼
 FastAPI
- │
- ▼
-User UI updated
-```
-
-What Happens Internally
-```
-Document
-   ↓
-Chunks
-   ↓
-Embeddings
-   ↓
-Vector DB storage
-```
-
-Example stored vector:
-```
-Chunk: "Loan eligibility requires income above 50k"
-Vector: [0.231, 0.992, 0.118, ...]
+  │ Return success message
+  ▼
+User sees "Uploaded Successfully"
 ```
 
 🏗️ Sequence Diagram — Question Flow (RAG)
 ----------------------------------------------------------
-Purpose: User asks question → retrieve context → generate answer
 ```
 User
- │
- │ Ask Question
- ▼
-upload.html
- │
- │ POST /chat
- ▼
+  │
+  │ Ask Question
+  ▼
+FastAPI (/ask-ui)
+  │
+  │ Embed question
+  ▼
+Ollama (Embedding model)
+  │
+  ▼
+Qdrant
+  │ Similarity search (Top K chunks)
+  ▼
 FastAPI
- │
- │ Convert question → embedding
- ▼
-Embedding Model
- │
- │ Similarity search
- ▼
-Qdrant Vector DB
- │
- │ Return top K chunks
- ▼
-Retriever
- │
- │ Build prompt
- ▼
-LLM
-(phi3 / llama3)
- │
- │ Generate answer
- ▼
+  │ Build prompt with retrieved context
+  ▼
+Ollama (LLM - phi3)
+  │ Generate grounded answer
+  ▼
 FastAPI
- │
- │ Save trace
- ▼
-Response to User
+  │ Return answer to UI
+  ▼
+User sees answer
 ```
 
-🏗️ Sequence Diagram — RAG Evaluation Flow
-----------------------------------------------------------
-My system automatically evaluates answer quality.
+**Add evaluation**
 ```
 User Question
-      │
-      ▼
-RAG Pipeline
-      │
-      ├── Retrieved Context
-      ├── Generated Answer
-      │
-      ▼
-Evaluation Engine
-      │
-      ├── Faithfulness
-      ├── Answer Relevancy
-      ├── Context Precision
-      ├── Context Recall
-      ├── Answer Similarity
-      ├── Hallucination Score
-      │
-      ▼
-Metrics Generated
-      │
-      ▼
-Dashboard + Traces
+     │
+     ▼
+FastAPI
+     │
+     ▼
+Retriever (Qdrant)
+     │
+     ▼
+Context Documents
+     │
+     ▼
+LLM (phi3)
+     │
+     ▼
+Generated Answer
+     │
+     ▼
+RAG Evaluation (RAGAS)
+ ├ Faithfulness
+ ├ Answer Relevance
+ ├ Context Precision
+     │
+     ▼
+Return Answer + Scores
 ```
 
-📊 Metrics Calculation Flow
-----------------------------------------------------------
-```
-Question
-   │
-   ▼
-Ground Truth (if available)
-   │
-   ▼
-Compare with LLM Answer
-   │
-   ├── similarity score
-   ├── hallucination detection
-   └── context alignment
-```
 
-Example metrics:
-```
-Faithfulness: 0.91
-Answer Relevancy: 0.88
-Context Precision: 0.86
-Latency: 1.2s
-Tokens: 120
-```
 
 🧱 Component Architecture
 ----------------------------------------------------------
 ```
-                ┌───────────────────────────┐
-                │        Frontend UI        │
-                │                           │
-                │ upload.html               │
-                │ dashboard.html            │
-                │ traces.html               │
-                └─────────────┬─────────────┘
+┌─────────────────────────────────────────────────────────────┐
+│                         USER                                │
+└─────────────────────────────────────────────────────────────┘
                               │
                               ▼
-                ┌───────────────────────────┐
-                │        FastAPI Layer      │
-                │                           │
-                │ /upload                   │
-                │ /chat                     │
-                │ /rag-metrics              │
-                │ /traces                   │
-                └─────────────┬─────────────┘
+┌─────────────────────────────────────────────────────────────┐
+│                    Presentation Layer                       │
+│  - upload.html (Jinja2)                                     │
+│  - Upload Form                                               │
+│  - Ask Question Form                                         │
+└─────────────────────────────────────────────────────────────┘
                               │
                               ▼
-              ┌────────────────────────────────┐
-              │        RAG Service Layer       │
-              │                                │
-              │ Document Loader                │
-              │ Text Splitter                  │
-              │ Retriever                      │
-              │ Prompt Builder                 │
-              └─────────────┬──────────────────┘
-                            │
-        ┌───────────────────┴────────────────────┐
-        ▼                                        ▼
-┌──────────────────┐                    ┌──────────────────┐
-│  Embedding Model │                    │   LLM Generator  │
-│                  │                    │                  │
-│ nomic-embed-text │                    │ phi3 / llama3    │
-└──────────┬───────┘                    └──────────┬───────┘
-           │                                       │
-           ▼                                       ▼
-      ┌───────────────┐                    ┌───────────────┐
-      │ Vector Store  │                    │ Generated     │
-      │               │                    │ Answer        │
-      │ Qdrant        │                    └───────┬───────┘
-      └───────┬───────┘                            │
-              │                                    ▼
-              │                         ┌──────────────────┐
-              │                         │ Evaluation Engine │
-              │                         │                  │
-              │                         │ Faithfulness     │
-              │                         │ Relevancy        │
-              │                         │ Hallucination    │
-              │                         │ Latency & Tokens │
-              │                         └──────────┬───────┘
-              │                                    │
-              ▼                                    ▼
-      ┌───────────────┐                  ┌──────────────────┐
-      │ Retrieval     │                  │ Monitoring Layer │
-      │ Context       │                  │                  │
-      │ Top-K Chunks  │                  │ Dashboard        │
-      └───────────────┘                  │ Query Traces     │
-                                         └──────────────────┘
+┌─────────────────────────────────────────────────────────────┐
+│                     FastAPI Backend                         │
+│                                                             │
+│  Routes:                                                    │
+│  - GET /                                                    │
+│  - POST /upload                                             │
+│  - POST /ask-ui                                             │
+│                                                             │
+│  Startup:                                                   │
+│  - Connect Qdrant                                           │
+│  - Build RAG chain                                          │
+└─────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────┐
+│                     Document Pipeline                       │
+│                                                             │
+│  1. Extract Text (PDF/DOCX/CSV)                             │
+│  2. Chunk (RecursiveCharacterTextSplitter)                  │
+│  3. Add Metadata                                            │
+│  4. Generate Embeddings (Ollama)                            │
+│  5. Store in Qdrant                                         │
+└─────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────┐
+│                     Qdrant (Vector DB)                      │
+│                                                             │
+│  Collection: rag_collection                                 │
+│  - 768-dim vectors                                          │
+│  - Cosine similarity                                        │
+│  - Metadata storage                                         │
+└─────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────┐
+│                        Ollama                               │
+│                                                             │
+│  - nomic-embed-text (Embeddings)                            │
+│  - phi3 (LLM)                                               │
+└─────────────────────────────────────────────────────────────┘
 ```
-**1️⃣ Frontend Layer**
+**1️⃣ Frontend Layer (Presentation Layer)**
+   -  Simple HTML UI (upload.html)
+   -  Served via FastAPI (GET /)
+   -  Two forms:
+      -  Upload documents → /upload
+      -  Ask question → /ask-ui
 
-UI templates:
+📌 Purpose:
+   -  Upload enterprise documents
+   -  Ask natural language questions
+
+**2️⃣ API Layer – FastAPI**
+
+This is your main backend.
+
+Main endpoints:   
+| Endpoint  | Purpose                    |
+| --------- | -------------------------- |
+| `/`       | Loads UI                   |
+| `/upload` | Upload + process documents |
+| `/ask-ui` | Ask question from UI       |
+| `/health` | Health check               |
+
+📌 Responsibilities:
+   -  File handling
+   -  Text extraction
+   -  Calling embeddings
+   -  Calling retrieval chain
+   -  Returning HTML response
+
+**3️⃣ Document Processing Layer**
+
+When user uploads a file:
 ```
-upload.html
-dashboard.html
-traces.html
+PDF/DOCX/CSV
+    ↓
+Text Extraction
+    ↓
+Chunking (RecursiveCharacterTextSplitter)
+    ↓
+Metadata Enrichment
 ```
+Metadata includes:
+   -  file_name
+   -  page
+   -  category
+   -  uploaded_at
+   -  doc_id
 
-Functions:
-- upload documents
-- ask questions
-- view evaluation metrics
-- inspect traces
+📌 Purpose: Prepare documents for vector indexing.
 
-**2️⃣ API Layer**
+**4️⃣ Embedding Layer (Ollama)**
 
-Handled by FastAPI.
+You use:
+   -  Model: nomic-embed-text
+   -  Via: OllamaEmbeddings
 
-Main endpoints:
+Flow:
 ```
-POST /upload
-POST /chat
-GET  /rag-metrics
-GET  /traces
+Text Chunk
+    ↓
+Embedding Vector (768 dimensions)
 ```
-Responsibilities:
-- handle HTTP requests
-- call backend services
-- return JSON / HTML responses
+📌 Converts text into vector representations.
 
-**3️⃣ RAG Service Layer**
+✅ nomic-embed-text : nomic-embed-text is an embedding model used to convert text into vector embeddings — which you can then store inside a vector database like Qdrant.  
+It is commonly used with Ollama for local embedding generation.
 
-Core orchestration logic.
+nomic-embed-text ❌ is NOT a chat model   
+nomic-embed-text ✅ is ONLY for embeddings   
 
-Pipeline:
+**5️⃣ Vector Database Layer – Qdrant**
+
+Collection:
 ```
-Question
-   │
-   ▼
-Embedding
-   │
-   ▼
-Vector Search
-   │
-   ▼
-Context Retrieval
-   │
-   ▼
-Prompt Construction
-   │
-   ▼
-LLM Generation
-```
-This layer connects everything.
-
-**4️⃣ Embedding Component**
-
-Embedding model:
-```
-nomic-embed-text
-```
-Runs through Ollama.
-
-Purpose:
-```
-text → vector representation
-```
-Example:
-```
-"What is loan eligibility?"
-
-↓
-
-[0.129, 0.883, 0.221, ...]
-```
-
-**5️⃣ Vector Database**
-
-Handled by Qdrant.
-
-Purpose:
-- semantic search
-- nearest neighbor retrieval
-
-Example retrieval:
-```
-Query vector
-     │
-     ▼
-Top 5 similar document chunks
+rag_collection
 ```
 
-**6️⃣ LLM Generator**
+Configuration:
+   -  Vector size: 768
+   -  Distance: Cosine similarity
 
-Runs via Ollama.
+📌 Responsibilities:
+   -  Store embeddings
+   -  Perform similarity search
+   -  Return top-k relevant chunks
 
-Possible models:
+**6️⃣ RAG Retrieval Layer (LangChain)**
+
+You build:
 ```
-phi3
-llama3.2
-gemma
+retriever = vector_store.as_retriever(k=4)
+document_chain = create_stuff_documents_chain(...)
+retrieval_chain = create_retrieval_chain(...)
 ```
-Purpose:
+Flow when asking question:
 ```
-Context + Question → Answer
+User Question
+    ↓
+Convert to embedding
+    ↓
+Search Qdrant (top 4 chunks)
+    ↓
+Inject chunks into prompt
+    ↓
+Send to LLM
+    ↓
+Generate grounded answer
+```
+This is classic Retrieval-Augmented Generation (RAG).
+
+**7️⃣ LLM Layer – Ollama (phi3)**
+
+Model: phi3
+
+Used for:
+   -  Generating final answer
+   -  Using retrieved document context
+
+Prompt Template:
+```
+Use the context to answer strictly from provided documents.
+
+Context:
+{context}
+
+Question:
+{input}
+
+Answer:
+```
+📌 Prevents hallucination.
+
+**🐳 Deployment Architecture (Docker)**
+
+Your services:
+```
+docker-compose.yml
 ```
 
-**7️⃣ Evaluation Engine**
+Likely includes: fastapi, qdrant, ollama
 
-Calculates RAG quality metrics.
-
-Example metrics:
-| Metric              | Meaning                    |
-| ------------------- | -------------------------- |
-| Faithfulness        | answer grounded in context |
-| Answer Relevancy    | answer matches question    |
-| Context Precision   | retrieved chunks relevant  |
-| Context Recall      | retrieved chunks complete  |
-| Hallucination Score | fabricated information     |
-| Latency             | response time              |
-| Tokens              | LLM cost                   |
-
-**8️⃣ Monitoring Layer**
-
-Two UI modules:
-
-📊 Dashboard
-
-Shows:
+Communication:
 ```
-RAG metrics
-latency
-token usage
-charts
+FastAPI → http://qdrant:6333
+FastAPI → http://ollama:11434
+```
+This is internal Docker networking.
+
+## 🔄 Full Data Flow
+
+**📥 Upload Flow**
+```
+User uploads file
+        ↓
+FastAPI saves file
+        ↓
+Extract text
+        ↓
+Split into chunks
+        ↓
+Generate embeddings (Ollama)
+        ↓
+Store in Qdrant
 ```
 
-🔎 Trace Viewer
-
-Displays:
+**❓ Question Flow**
 ```
-question
-retrieved chunks
-answer
-metrics
-timestamp
+User asks question
+        ↓
+FastAPI
+        ↓
+Embed question
+        ↓
+Search Qdrant (top 4 chunks)
+        ↓
+Inject context into prompt
+        ↓
+Call LLM (phi3)
+        ↓
+Return answer to UI
 ```
-Useful for debugging.
-
 
 ## 🐳 Deployment Architecture (Docker)
 ```
@@ -1045,20 +1112,14 @@ Useful for debugging.
 
 **🏛️ Architecture Summary (Professional Description)**
 
-My system is:
+Your system is:
 
-> A Local AI system that can read documents, answer questions, and evaluate how good the answers are.
+> A containerized Retrieval-Augmented Generation (RAG) architecture where FastAPI orchestrates document ingestion and question answering, Qdrant handles semantic vector storage and retrieval, and Ollama provides local embedding and LLM inference.
 
 You could say:
    -  Presentation Layer: Jinja2 UI
    -  Application Layer: FastAPI
    -  Retrieval Layer: LangChain RAG pipeline
    -  Data Layer: Qdrant vector database
-   -  AI Layer: Ollama 
-      - Embedding Model : nomic-embed-text
-      - LLM Model : phi3(used) / llama3.2 / gemma
+   -  AI Layer: Ollama (Embeddings + LLM)
    -  Infrastructure Layer: Docker Compose
-      Services typically include:
-      - fastapi
-      - qdrant
-      - ollama
