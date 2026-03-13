@@ -1,5 +1,7 @@
 # ✅ RAG (Retrieval-Augmented Generation)
 
+RAG (Retrieval-Augmented Generation) is primarily a form of Generative AI that uses external data to enhance accuracy. It acts as a specialized search-and-generation tool, retrieving relevant information to inform LLMs. While standard RAG is a static retrieval method, it can evolve into Agentic AI (Agentic RAG).
+
 <img src="https://github.com/piyalidas10/AI/blob/3f48d0a94bd2fb9b9b4227611974dbdf2ac676e0/Rag/img/RAG.png" width="600px" />
 
 ```
@@ -17,6 +19,11 @@ Data Sources  →  Vector DB  →  LLM
 2️⃣ Query Phase (Runtime / Every question)
 ```
 
+### Here is a breakdown of how RAG fits into these categories:
+- **Generative AI (Primary Type)**: RAG enhances generative models by grounding them in factual, external data, reducing hallucinations. It is fundamentally a technique to improve generation, making it a subset of generative AI.
+- **Agentic AI (Advanced Form)**: Agentic RAG combines RAG with autonomous agents that can reason, plan, use multiple tools, and break down complex queries into multiple steps. Unlike standard RAG, Agentic RAG acts as a proactive researcher rather than just a lookup tool.
+- **Predictive AI**: RAG is not typically classified as predictive AI, which is used for forecasting numerical trends rather than generating content or retrieving information.
+
 <details>
 
 <summary><strong>What is RAG ?</strong></summary>
@@ -27,6 +34,9 @@ Data Sources  →  Vector DB  →  LLM
 Retrieval-Augmented Generation (RAG) is a technique where an LLM retrieves relevant external data at query time and uses it, along with precise instructions, to generate accurate and context-aware responses without retraining the model.
 
 <img src="https://github.com/piyalidas10/AI/blob/fcc09341ef2c5a7309d03d57af14ed8bf402fc70/Rag/img/RAG1.png" width="600px" />
+
+## What is RAG vs LLM?
+An LLM (Large Language Model) is the core AI that understands and generates text, while RAG (Retrieval-Augmented Generation) is an architecture that enhances LLMs by connecting them to external data sources (like documents or databases) to provide more current, factual, and domain-specific answers, preventing "hallucinations" and allowing source citations. Think of a base LLM as having general knowledge, while a RAG system gives that LLM a real-time "library card" to look up specific, up-to-date facts before responding. 
 
 #### 1️⃣ Why ChatGPT / DeepSeek fail for database-specific questions
 
