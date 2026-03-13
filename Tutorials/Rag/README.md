@@ -35,6 +35,9 @@ Retrieval-Augmented Generation (RAG) is a technique where an LLM retrieves relev
 
 <img src="https://github.com/piyalidas10/AI/blob/fcc09341ef2c5a7309d03d57af14ed8bf402fc70/Rag/img/RAG1.png" width="600px" />
 
+## What is RAG vs LLM?
+An LLM (Large Language Model) is the core AI that understands and generates text, while RAG (Retrieval-Augmented Generation) is an architecture that enhances LLMs by connecting them to external data sources (like documents or databases) to provide more current, factual, and domain-specific answers, preventing "hallucinations" and allowing source citations. Think of a base LLM as having general knowledge, while a RAG system gives that LLM a real-time "library card" to look up specific, up-to-date facts before responding. 
+
 #### 1️⃣ Why ChatGPT / DeepSeek fail for database-specific questions
 
   -  Models like ChatGPT or DeepSeek are trained on public, generic data
