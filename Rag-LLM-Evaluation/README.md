@@ -1,5 +1,20 @@
 # Rag-LLM-Evaluation (FastAPI + Ollama + Qdrant + RAG + Ragas + LangSmith + Upload UI using Docker)
 
+RAG evaluation measures how well a Retrieval-Augmented Generation system performs.  
+
+**Without evaluation:**
+-  AI may give wrong answers
+-  documents may not be retrieved correctly
+-  the system may hallucinate
+
+**Common RAG Metrics**  
+| Metric            | Meaning                                        |
+| ----------------- | ---------------------------------------------- |
+| Faithfulness      | Is the answer grounded in retrieved documents  |
+| Answer Relevancy  | Does the answer match the question             |
+| Context Precision | Are retrieved documents useful                 |
+| Context Recall    | Did the retriever fetch all relevant documents |
+
 | Layer         | Technology |
 | ------------- | ---------- |
 | API           | FastAPI    |

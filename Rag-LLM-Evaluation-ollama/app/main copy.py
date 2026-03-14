@@ -80,7 +80,7 @@ def get_embeddings():
 def get_llm():
 
     return OllamaLLM(
-        model="phi3",
+        model="llama3.2:3b",
         base_url=OLLAMA_BASE_URL,
         temperature=0
     )
