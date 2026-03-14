@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Live RAG Monitoring Dashboard</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f6f9;
+            padding: 40px;
+        }
+
+        .container {
+            width: 95%;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .card {
+            background: #eef6ff;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .card h3 {
+            margin: 0;
+            font-size: 16px;
+        }
+
+        .card p {
+            font-size: 22px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .section {
+            margin-top: 40px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>📊 Live RAG Monitoring Dashboard</h1>
+
+        <div class="metric-grid">
+
+            <div class="card">
+                <h3>Faithfulness</h3>
+                <p id="faithfulness">0</p>
+            </div>
+
+            <div class="card">
+                <h3>Answer Relevancy</h3>
+                <p id="answer_relevancy">0</p>
+            </div>
+
+            <div class="card">
+                <h3>Context Precision</h3>
+                <p id="context_precision">0</p>
+            </div>
+
+            <div class="card">
+                <h3>Context Recall</h3>
+                <p id="context_recall">0</p>
+            </div>
+
+            <div class="card">
+                <h3>Answer Similarity</h3>
+                <p id="answer_similarity">0</p>
+            </div>
+
+            <div class="card">
+                <h3>Context Coverage</h3>
+                <p id="context_coverage">0</p>
+            </div>
+
+            <div class="card">
+                <h3>Retrieval Score</h3>
+                <p id="retrieval_score">0</p>
+            </div>
+
+            <div class="card">
+                <h3>Hallucination Score</h3>
+                <p id="hallucination_score">0</p>
+            </div>
+
+            <div class="card">
+                <h3>Latency (s)</h3>
+                <p id="latency">0</p>
+            </div>
+
+            <div class="card">
+                <h3>Tokens</h3>
+                <p id="tokens">0</p>
+            </div>
+
+        </div>
+
+
+        <div class="section">
+
+            <h2>📊 RAG Metrics Chart</h2>
+
+            <canvas id="ragChart"></canvas>
+
+        </div>
+
+
+        <div class="section">
+
+            <h2>⚡ Performance Chart</h2>
+
+            <canvas id="perfChart"></canvas>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+        let ragChart
+        let perfChart
+
+
+        async function fetchMetrics() {
+
+            const res = await fetch("/rag-metrics")
+            const metrics = await res.json()
+
+            document.getElementById("faithfulness").innerText = metrics.faithfulness
+            document.getElementById("answer_relevancy").innerText = metrics.answer_relevancy
+            document.getElementById("context_precision").innerText = metrics.context_precision
+            document.getElementById("context_recall").innerText = metrics.context_recall
+            document.getElementById("answer_similarity").innerText = metrics.answer_similarity
+            document.getElementById("context_coverage").innerText = metrics.context_coverage
+            document.getElementById("retrieval_score").innerText = metrics.retrieval_score
+            document.getElementById("hallucination_score").innerText = metrics.hallucination_score
+            document.getElementById("latency").innerText = metrics.latency
+            document.getElementById("tokens").innerText = metrics.tokens
+
+
+            updateCharts(metrics)
+
+        }
+
+
+        function initCharts() {
+
+            const ctx1 = document.getElementById("ragChart")
+
+            ragChart = new Chart(ctx1, {
+                type: "bar",
+                data: {
+                    labels: [
+                        "Faithfulness",
+                        "Answer Relevancy",
+                        "Context Precision",
+                        "Context Recall",
+                        "Answer Similarity",
+                        "Context Coverage",
+                        "Retrieval Score",
+                        "Hallucination"
+                    ],
+                    datasets: [{
+                        label: "RAG Metrics",
+                        data: [0, 0, 0, 0, 0, 0, 0, 0]
+                    }]
+                }
+            })
+
+
+            const ctx2 = document.getElementById("perfChart")
+
+            perfChart = new Chart(ctx2, {
+                type: "bar",
+                data: {
+                    labels: ["Latency", "Tokens"],
+                    datasets: [{
+                        label: "Performance",
+                        data: [0, 0]
+                    }]
+                }
+            })
+
+        }
+
+
+        function updateCharts(metrics) {
+
+            ragChart.data.datasets[0].data = [
+
+                metrics.faithfulness,
+                metrics.answer_relevancy,
+                metrics.context_precision,
+                metrics.context_recall,
+                metrics.answer_similarity,
+                metrics.context_coverage,
+                metrics.retrieval_score,
+                metrics.hallucination_score
+
+            ]
+
+            ragChart.update()
+
+
+            perfChart.data.datasets[0].data = [
+
+                metrics.latency,
+                metrics.tokens
+
+            ]
+
+            perfChart.update()
+
+        }
+
+
+        initCharts()
+
+        fetchMetrics()
+
+        setInterval(fetchMetrics, 3000)
+
+    </script>
+
+</body>
+
+</html>
