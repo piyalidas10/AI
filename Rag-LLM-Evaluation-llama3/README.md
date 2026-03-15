@@ -24,6 +24,44 @@ RAG evaluation measures how well a Retrieval-Augmented Generation system perform
 
 <img src="imgs/Enterprise RAG platform architecture.png" width="70%">
 
+## 📊 Comparing Your Tested Models
+
+Based on all your dashboards so far:
+
+| Model        | Faithfulness | Hallucination | Latency | Overall        |
+| ------------ | ------------ | ------------- | ------- | -------------- |
+| Phi-3        | ⭐0.72        | ⭐0.21         | ⭐10s    | ⭐ Best         |
+| Llama-3.2 3B | 0.71         | 0.21          | ❌30s    | Good but slow  |
+| Gemma-2B     | ❌0.54        | ❌0.39         | ⭐9s     | Weak reasoning |
+
+## ⭐ My Recommendation for Your Final Benchmark
+
+Run 4 models in your leaderboard:
+
+- phi3
+- llama3.2:3b
+- gemma:2b
+- mistral (if RAM allows)
+
+Then your dashboard becomes a true RAG model benchmark system.
+
+## 📊 Your Gemma-2B RAG Results
+
+| Metric            | Value      | Meaning                           |
+| ----------------- | ---------- | --------------------------------- |
+| Faithfulness      | **0.544**  | How grounded answer is in context |
+| Answer Relevancy  | **0.547**  | Answer matches the question       |
+| Context Precision | **1.0**    | Retriever returned correct chunks |
+| Context Recall    | **0.664**  | Enough relevant docs retrieved    |
+| Answer Similarity | **0.555**  | Similarity to expected answer     |
+| Context Coverage  | **0.555**  | Context used in answer            |
+| Retrieval Score   | **0.603**  | Retrieval quality                 |
+| Hallucination     | **0.397**  | Lower is better                   |
+| Latency           | **8.96 s** | Response speed                    |
+| Tokens            | **15**     | Response length                   |
+
+
+
 ## Run Application
 1. Install Docker & Run Docker Desktop first
 2. Inside application folder (Rag-LLM-Evaluation), open gitbash or cmd to run the command following command. requirements.txt file should be on the same path.
@@ -42,7 +80,7 @@ docker compose up
 3. From your project root:
 open new gitbash or cmd to run the command following command.
 ```
-docker exec -it ollama ollama pull llama3.2:3b
+docker exec -it ollama ollama pull gemma2:2b
 docker exec -it ollama ollama pull nomic-embed-text
 ```
 Wait until both models download completely.
