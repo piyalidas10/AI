@@ -1,6 +1,7 @@
 # Docker
 
-Youtube Tutorial : https://www.youtube.com/watch?v=GToyQTGDOS4&list=PLKnIA16_RmvZ41tjbKB2ZnwchfniNsMuQ&index=11
+- Youtube Tutorial : https://www.youtube.com/watch?v=GToyQTGDOS4&list=PLKnIA16_RmvZ41tjbKB2ZnwchfniNsMuQ&index=11
+- Docker : https://www.docker.com/
 
 
 Docker is a containerization platform that allows you to package an application along with its dependencies into a lightweight, portable unit called a container.
