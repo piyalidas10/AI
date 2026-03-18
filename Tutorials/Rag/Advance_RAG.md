@@ -3,6 +3,8 @@
 
 RAG doesn't work in 2026 if you are still using old techniques. Yes, many companies still fail at RAG - not because they are doing RAG wrong, but they are just stuck using outdated techniques. This is how it usually goes - most of the companies start with building a chatbot/chat app when they talk about adopting AI. This is where RAG becomes important, to connect your custom data through a database so your chat app can retrieve relevant documents. These days, RAG is not just limited to building chat app though. The RAG applications are boundless and its a good thing. So, RAG is till the base for whatever you build with LLMs and AI Agents. The only thing that has changed now is the RAG techniques. You can't use the same old RAG approach, you need to have some solid techniques and that is where advanced RAG comes in. With RAG, the was to augment our custom data through a database so the system can easily go and fetch relevant documents/chunks from the documents provided. The results are simple and most likely okay and this approach helped when the documents are well organized and small in number. When the documents are unorganized and the focus is more on retrieving not just accurate docs but also context, advanced RAG techniques like query decomposition, metadata enrichment, hybrid indexing, reranking, context fusion, etc come into the picture. These techniques help the RAG system to fetch & generate highly accurate and contextually relevant responses/answers. That's why advanced RAG is important. RAG isn't dead, no it can't be. Just use smart techniques.
 
+<img src="img/ClassicRAG_vs_AdvancedRAG.jpg" width="70%"/>
+
 🔹 1. Why “Classic RAG” is failing in 2026
 -----------------------------------------------------------------
 - Works fine for:
