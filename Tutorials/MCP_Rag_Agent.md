@@ -1,5 +1,7 @@
 # MCP, RAG, and Agent Skills
 
+<img src="imgs/MCP_Rag_Agen.gif" width="60%" />
+
 ## Every AI Agent struggles with 3 core problems:
 
 - Connecting to external tools requires writing custom API code every time
