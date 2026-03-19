@@ -1,5 +1,7 @@
 # AI Agents
 
+<img src="imgs/AI_Agents.gif" width="60%" />
+
 In 2025, AI Agents evolved faster than most people realize.
 
 Here are 6 trends that defined this year of agents...
