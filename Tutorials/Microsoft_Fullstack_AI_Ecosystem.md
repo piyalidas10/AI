@@ -1,5 +1,7 @@
 # Microsoft Fullstack AI Ecosystem
 
+<img src="imgs/Microsoft_Fullstack_AI_Ecosystem.gif" width="70%" />
+
 Microsoft is slowly owning the entire enterprise AI Agent market
 
 And most people have only seen 10% of it, here's the rest...
