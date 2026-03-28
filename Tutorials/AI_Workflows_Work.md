@@ -1,5 +1,7 @@
 # AI Workflows
 
+<img src="imgs/AI Workflows.gif" width="600px" />
+
 Most people misunderstand these 9 AI Workflows.
 
 I've explained each with simple examples.
