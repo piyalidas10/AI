@@ -1,6 +1,6 @@
 # Vectorless RAG
 
-**Read the bellow Tutorial**
+**Read the Tutorial**
 [Tutorials/Vectorless_RAG/Vectorless RAG.pdf](https://github.com/piyalidas10/AI/blob/bd593d17d100d9cdf0de640118ca5c3d209b6634/Tutorials/Vectorless_RAG/Vectorless%20RAG.pdf)
 
 ## Tutorials
