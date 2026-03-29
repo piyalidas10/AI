@@ -7,8 +7,9 @@ Mastering the Model Context Protocol (MCP) involves a four-level path: understan
 2. 
 
 ## Youtube Tutorials
-- https://www.youtube.com/watch?v=E2DEHOEbzks
-- https://www.youtube.com/watch?v=dZyQNy3-HjU
+1. What are MCP servers | Explained in Hindi => https://www.youtube.com/watch?v=dZyQNy3-HjU
+2. Model Context Protocol (MCP) Explained for Beginners: AI Flight Booking Demo! => https://www.youtube.com/watch?v=E2DEHOEbzks
+3. A2A vs MCP: AI Agent Communication Explained => https://www.youtube.com/watch?v=BMDFPOyezH4
 
 - What is MCP? Understand that MCP standardizes how AI models (clients) connect to external data and tools (servers).
 - Core Architecture: Learn the roles of Host (e.g., Claude Desktop), Client, and Server, and how they communicate via JSON-RPC.
