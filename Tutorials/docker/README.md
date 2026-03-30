@@ -3,6 +3,7 @@
 <img src="docker.png" width="80%"/>
 
 - Youtube Tutorial :
+    -  Master Docker Containerisation & Deployments (https://www.youtube.com/playlist?list=PLinedj3B30sDc2woh6XncR9_a310zaAyJ)
     - Docker for Machine Learning (https://www.youtube.com/watch?v=GToyQTGDOS4&list=PLKnIA16_RmvZ41tjbKB2ZnwchfniNsMuQ&index=11)
     - Docker is Dead!  (https://www.youtube.com/watch?v=BETonxhkE9A)
 - Docker : https://www.docker.com/
