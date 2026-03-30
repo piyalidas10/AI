@@ -2,7 +2,9 @@
 
 <img src="docker.png" width="80%"/>
 
-- Youtube Tutorial : https://www.youtube.com/watch?v=GToyQTGDOS4&list=PLKnIA16_RmvZ41tjbKB2ZnwchfniNsMuQ&index=11
+- Youtube Tutorial :
+    - Docker for Machine Learning (https://www.youtube.com/watch?v=GToyQTGDOS4&list=PLKnIA16_RmvZ41tjbKB2ZnwchfniNsMuQ&index=11)
+    - Docker is Dead!  (https://www.youtube.com/watch?v=BETonxhkE9A)
 - Docker : https://www.docker.com/
 
 
