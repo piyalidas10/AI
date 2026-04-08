@@ -1,5 +1,34 @@
 # LLM
 
+Large language models (LLMs) are a type of AI system that works with language. An LLM aims to model language, that is, to create a simplified—but useful—digital representation. The "large" part of the term describes the trend toward training language models with more parameters. 
+
+Typical examples of LLMs include OpenAI's GPT-4, Google's PaLM, and Meta's LLaMA. There is some ambiguity about whether to refer to specific products (such as OpenAI's ChatGPT or Google's Bard) as LLMs themselves or to say that they are powered by underlying LLMs.
+
+As a term, LLM is often used by AI practitioners to refer to systems that work with language. GPT, or Generative Pre-trained Transformer, is one of these large language models.
+
+<img src="img/LLM_Evaluation.png" width="100%" />
+
+  - Pre-trained : The model is initially trained on large amounts of text data.
+  - Fine-tuned : The model is fine-tuned for specific generative tasks.
+  - Transformer : A type of machine learning architecture used to process and analyze data.
+  - Encoders and decoders : Encoders and decoders are components of the transformer architecture used to process and generate data sequences, such as text.
+
+An encoder takes a sequence of input data, like a sentence, and converts it into a series of encoded representations. Each representation captures information about the original input data but at a different level of abstraction. The final encoded representation is typically a vector that summarizes the input sequence.
+
+However, a decoder takes an encoded representation and uses it to generate a new sequence of data, like a translation of the original sentence into a different language. The decoder does this by predicting the next token in the sequence based on the encoded representation and the tokens generated so far.
+
+Here's an example of how encoders and decoders might work together to translate a sentence from English to French:
+
+Input sentence: "The cat sat on the mat."
+
+Encoded representation: [0.2, 0.5, -0.1, 0.4, ...]
+
+Target language: French
+
+Decoder output: "Le chat s'est assis sur le tapis."
+
+In this example, the encoder takes the English sentence as input and generates an encoded representation, which captures the meaning of the sentence in a lower-dimensional space. The decoder then uses this encoded representation to generate a new sequence of tokens in the target language, French. The final output is a translated sentence that captures the same meaning as the original sentence but in a different language.
+
 <details>
 
 <summary><strong>From N-Grams to RNNs to Transformers: The Evolution of NLP</strong></summary>
