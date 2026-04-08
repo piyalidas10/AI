@@ -29,6 +29,12 @@ Decoder output: "Le chat s'est assis sur le tapis."
 
 In this example, the encoder takes the English sentence as input and generates an encoded representation, which captures the meaning of the sentence in a lower-dimensional space. The decoder then uses this encoded representation to generate a new sequence of tokens in the target language, French. The final output is a translated sentence that captures the same meaning as the original sentence but in a different language.
 
+## Foundation models
+
+Foundation models are pretrained on massive amounts of data and can be fine-tuned for specific tasks. Foundation models can generate human-like language, perform question-answering tasks, and even generate code. They represent a significant breakthrough in the field of artificial intelligence and have the potential to revolutionize a wide range of industries, including healthcare, finance, and education.
+
+<img src="img/Gen%20AI%20Foundation%20Models%20v2.png" width="100%" />
+
 <details>
 
 <summary><strong>From N-Grams to RNNs to Transformers: The Evolution of NLP</strong></summary>
