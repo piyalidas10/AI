@@ -21,4 +21,7 @@ At the high level:
 - Step 4: The user selects the desired component, and the script sends the selected DOM data to the server. 
 - Step 5: The server maps the DOM to native Figma layers: frames, auto-layout groups, and editable text layers. The result is fully editable Figma layers shown to the user.
 
-
+## Realtime Issues 
+- The MCP layer solves the data access problem, but the real challenge is still the semantic gap — knowing that a node is a 'button' vs. knowing it should map to your team’s <Button variant='primary' />. Structured context is necessary, not sufficient.
+- tried generating code from a complex report template using Figma MCP. Got around 70% accuracy — the rest I had to do manually. Also noticed it consumes way more tokens on complex designs, and rate limiting hits you faster than expected. Still powerful, but not fully there yet for complex work.
+- My workflow is Figma Make → Claude for refactoring. It’s the best way to ensure the code follows our standards while staying pixel-perfect
