@@ -21,6 +21,9 @@ Data Sources  →  Vector DB  →  LLM
 
 **🔷LLM does NOT read your documents directly. It retrieves relevant chunks from a vector DB and augments the prompt with them before generating an answer.**
 
+## Architecture Diagram of all 20 types of RAGs
+<img src="img/rag_architechture.png" width="100%" />
+
 ### 🧱 RAG has TWO clear phases
 ```
 1️⃣ Indexing Phase (Offline / One-time)
