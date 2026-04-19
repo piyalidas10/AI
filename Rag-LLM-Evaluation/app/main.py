@@ -60,6 +60,18 @@ retrieval_chain = None
 
 query_traces = []
 
+# Store the latest metrics in memory for simplicity. In production, consider using a database or monitoring tool.
+# Metrics include:
+# - Faithfulness: How well the answer is supported by the retrieved context.
+# - Answer Relevancy: How relevant the answer is to the question.
+# - Context Precision: The proportion of retrieved context that is relevant to the answer.
+# - Context Recall: The proportion of relevant context that was retrieved.
+# - Answer Similarity: The average similarity between the answer and the retrieved context chunks.
+# - Context Coverage: The proportion of the retrieved context that is covered by the answer.
+# - Retrieval Score: The maximum similarity score between the answer and any retrieved chunk.
+# - Hallucination Score: An estimate of how much the answer contains information not supported by the retrieved context.
+# - Latency: The time taken to generate the answer.
+# - Tokens: The total number of tokens in the question and answer.
 latest_metrics = {
     "faithfulness": 0,
     "answer_relevancy": 0,
@@ -196,6 +208,14 @@ def get_rag_chain():
                 "lambda_mult": 0.6
             }
         )
+
+        # MMR (Maximal Marginal Relevance) is a retrieval strategy that aims to balance relevance and diversity in the retrieved documents.
+        # k: The number of documents to return.
+        # fetch_k: The number of documents to fetch from the vector store before applying MMR.
+        # lambda_mult: A parameter that controls the trade-off between relevance and diversity. A value
+
+        # Small models like Phi-3 Mini, Gemma 2B, and Llama 3.2 3B need very strict prompts.
+        # Use a grounded RAG prompt.
 
         prompt = ChatPromptTemplate.from_template(
             """

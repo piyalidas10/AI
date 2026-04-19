@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>RAG Query Traces</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f6f9;
+            padding: 40px;
+        }
+
+        .container {
+            width: 90%;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .trace {
+            background: #f8f8f8;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+        }
+
+        .section {
+            margin-top: 15px;
+        }
+
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .metric-card {
+            background: #eef6ff;
+            padding: 10px;
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        .metric-card h4 {
+            margin: 0;
+            font-size: 14px;
+        }
+
+        .metric-card p {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .heatmap-bar {
+            background: #e0e0e0;
+            border-radius: 6px;
+            margin-bottom: 8px;
+        }
+
+        .heatmap-fill {
+            background: #4CAF50;
+            height: 20px;
+            border-radius: 6px;
+        }
+
+        .chunk {
+            font-size: 13px;
+            margin-bottom: 4px;
+        }
+
+        .timestamp {
+            color: gray;
+            font-size: 12px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>📜 RAG Query Traces</h1>
+
+        {% if traces|length == 0 %}
+
+        <p>No queries executed yet.</p>
+
+        {% endif %}
+
+        {% for trace in traces|reverse %}
+
+        <div class="trace">
+
+            <div class="timestamp">
+                {{trace.timestamp}}
+            </div>
+
+            <div class="section">
+
+                <h3>Question</h3>
+                <p>{{trace.question}}</p>
+
+            </div>
+
+            <div class="section">
+
+                <h3>Answer</h3>
+                <p>{{trace.answer}}</p>
+
+            </div>
+
+            <div class="section">
+
+                <h3>📊 Evaluation Metrics</h3>
+
+                <div class="metrics">
+
+                    <div class="metric-card">
+                        <h4>Faithfulness</h4>
+                        <p>{{trace.metrics.faithfulness}}</p>
+                    </div>
+
+                    <div class="metric-card">
+                        <h4>Answer Relevancy</h4>
+                        <p>{{trace.metrics.answer_relevancy}}</p>
+                    </div>
+
+                    <div class="metric-card">
+                        <h4>Context Precision</h4>
+                        <p>{{trace.metrics.context_precision}}</p>
+                    </div>
+
+                    <div class="metric-card">
+                        <h4>Context Recall</h4>
+                        <p>{{trace.metrics.context_recall}}</p>
+                    </div>
+
+                    <div class="metric-card">
+                        <h4>Answer Similarity</h4>
+                        <p>{{trace.metrics.answer_similarity}}</p>
+                    </div>
+
+                    <div class="metric-card">
+                        <h4>Context Coverage</h4>
+                        <p>{{trace.metrics.context_coverage}}</p>
+                    </div>
+
+                    <div class="metric-card">
+                        <h4>Retrieval Score</h4>
+                        <p>{{trace.metrics.retrieval_score}}</p>
+                    </div>
+
+                    <div class="metric-card">
+                        <h4>Hallucination</h4>
+                        <p>{{trace.metrics.hallucination_score}}</p>
+                    </div>
+
+                    <div class="metric-card">
+                        <h4>Latency</h4>
+                        <p>{{trace.metrics.latency}}</p>
+                    </div>
+
+                    <div class="metric-card">
+                        <h4>Tokens</h4>
+                        <p>{{trace.metrics.tokens}}</p>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="section">
+
+                <h3>🔥 Retrieval Heatmap</h3>
+
+                {% for item in trace.heatmap %}
+
+                <div class="chunk">
+                    {{item.chunk}}
+                </div>
+
+                <div class="heatmap-bar">
+
+                    <div class="heatmap-fill" style="width: {{item.score * 100}}%"></div>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</body>
+
+</html>

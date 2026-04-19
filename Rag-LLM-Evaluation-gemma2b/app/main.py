@@ -60,6 +60,19 @@ retrieval_chain = None
 
 query_traces = []
 
+# Store the latest metrics in memory for simplicity. In production, consider using a database or monitoring tool.
+# Metrics include:
+# - Faithfulness: How well the answer is supported by the retrieved context.
+# - Answer Relevancy: How relevant the answer is to the question.
+# - Context Precision: The proportion of retrieved context that is relevant to the answer.
+# - Context Recall: The proportion of relevant context that was retrieved.
+# - Answer Similarity: The average similarity between the answer and the retrieved context chunks.
+# - Context Coverage: The proportion of the retrieved context that is covered by the answer.
+# - Retrieval Score: The maximum similarity score between the answer and any retrieved chunk.
+# - Hallucination Score: An estimate of how much the answer contains information not supported by the retrieved context.
+# - Latency: The time taken to generate the answer.
+# - Tokens: The total number of tokens in the question and answer.
+
 latest_metrics = {
     "faithfulness": 0,
     "answer_relevancy": 0,
@@ -110,6 +123,47 @@ def get_llm():
         temperature=0
     )
 
+
+# =====================================================
+# BGE-M3 RERANKER
+# =====================================================
+
+def rerank_documents(question, docs, top_k=3):
+
+    reranker = OllamaLLM(
+        model="bge-m3",
+        base_url=OLLAMA_BASE_URL,
+        temperature=0
+    )
+
+    scored_docs = []
+
+    for doc in docs:
+
+        prompt = f"""
+        Give a relevance score between 0 and 1.
+
+        Question:
+        {question}
+
+        Document:
+        {doc.page_content}
+
+        Score:
+        """
+
+        score = reranker.invoke(prompt)
+
+        try:
+            score = float(score.strip())
+        except:
+            score = 0
+
+        scored_docs.append((doc, score))
+
+    scored_docs.sort(key=lambda x: x[1], reverse=True)
+
+    return [doc for doc, score in scored_docs[:top_k]]
 
 # =====================================================
 # VECTOR STORE
@@ -176,52 +230,6 @@ async def startup_event():
     ensure_collection()
 
 
-# =====================================================
-# RAG CHAIN
-# =====================================================
-
-def get_rag_chain():
-
-    global retrieval_chain
-
-    if retrieval_chain is None:
-
-        vs = get_vector_store()
-
-        retriever = vs.as_retriever(
-            search_type="mmr",
-            search_kwargs={
-                "k": 4,
-                "fetch_k": 30,
-                "lambda_mult": 0.6
-            }
-        )
-
-        prompt = ChatPromptTemplate.from_template(
-            """
-            Answer ONLY using the provided context.
-
-            Context:
-            {context}
-
-            Question:
-            {input}
-
-            Answer:
-            """
-        )
-
-        document_chain = create_stuff_documents_chain(
-            get_llm(),
-            prompt
-        )
-
-        retrieval_chain = create_retrieval_chain(
-            retriever,
-            document_chain
-        )
-
-    return retrieval_chain
 
 
 # =====================================================
@@ -443,14 +451,36 @@ async def ask_ui(request: Request, question: str = Form(...)):
 
     start = time.time()
 
-    chain = get_rag_chain()
     vs = get_vector_store()
 
-    docs = vs.similarity_search(question, k=4)
+    # Step 1: vector search (get more docs)
+    initial_docs = vs.similarity_search(question, k=8)
 
-    response = chain.invoke({"input": question})
+    # Step 2: BGE-M3 rerank
+    docs = rerank_documents(question, initial_docs, top_k=4)
 
-    answer = response["answer"]
+    # Step 3: pass reranked docs to LLM
+    context = "\n\n".join([d.page_content for d in docs])
+
+    prompt = f"""
+    You are a helpful assistant answering questions using the provided context.
+
+    Rules:
+    1. Answer ONLY using the context.
+    2. If the answer is not in the context say "I don't know".
+    3. Do not hallucinate.
+
+    Context:
+    {context}
+
+    Question:
+    {question}
+
+    Answer:
+    """
+
+    llm = get_llm()
+    answer = llm.invoke(prompt)
 
     latency = time.time() - start
 

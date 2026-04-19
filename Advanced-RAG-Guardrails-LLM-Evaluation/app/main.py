@@ -7,9 +7,40 @@ from typing import List
 import numpy as np
 import pandas as pd
 
+
+# =====================================================
+# 📁 ADD PERSISTENT LOGGING
+# =====================================================
+import json
+
+LOG_FILE = "logs/traces.json"
+os.makedirs("logs", exist_ok=True)
+
+def save_trace(trace):
+    try:
+        with open(LOG_FILE, "a") as f:
+            f.write(json.dumps(trace) + "\n")
+    except Exception:
+        pass
+
 from fastapi import FastAPI, UploadFile, File, Form, Request, HTTPException
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
+
+# =====================================================
+# 🛡️ ADD RATE LIMITING
+# =====================================================
+
+REQUEST_COUNT = {}
+RATE_LIMIT = 100  # requests per IP
+
+def rate_limit(request: Request):
+    ip = request.client.host
+
+    REQUEST_COUNT[ip] = REQUEST_COUNT.get(ip, 0) + 1
+
+    if REQUEST_COUNT[ip] > RATE_LIMIT:
+        raise HTTPException(status_code=429, detail="Too many requests")
 
 from pypdf import PdfReader
 from docx import Document as DocxDocument
@@ -72,7 +103,6 @@ query_traces = []
 # - Hallucination Score: An estimate of how much the answer contains information not supported by the retrieved context.
 # - Latency: The time taken to generate the answer.
 # - Tokens: The total number of tokens in the question and answer.
-
 latest_metrics = {
     "faithfulness": 0,
     "answer_relevancy": 0,
@@ -83,7 +113,12 @@ latest_metrics = {
     "retrieval_score": 0,
     "hallucination_score": 0,
     "latency": 0,
-    "tokens": 0
+    "tokens": 0,
+
+     # ✅ NEW GUARDRAILS FIELDS
+    "trust_score": 0,
+    "blocked_reason": None,
+    "injection_detected": False
 }
 
 
@@ -118,7 +153,7 @@ def get_embeddings():
 def get_llm():
 
     return OllamaLLM(
-        model="llama3.2:3b",
+        model="phi3",
         base_url=OLLAMA_BASE_URL,
         temperature=0
     )
@@ -209,6 +244,7 @@ def get_rag_chain():
                 "lambda_mult": 0.6
             }
         )
+
         # MMR (Maximal Marginal Relevance) is a retrieval strategy that aims to balance relevance and diversity in the retrieved documents.
         # k: The number of documents to return.
         # fetch_k: The number of documents to fetch from the vector store before applying MMR.
@@ -217,18 +253,25 @@ def get_rag_chain():
         # Small models like Phi-3 Mini, Gemma 2B, and Llama 3.2 3B need very strict prompts.
         # Use a grounded RAG prompt.
 
+        # ENFORCE STRICT GROUNDED PROMPT
         prompt = ChatPromptTemplate.from_template(
-            """
-            Answer ONLY using the provided context.
+        """
+        You are a STRICT enterprise AI assistant.
 
-            Context:
-            {context}
+        RULES:
+        - Answer ONLY from the provided context
+        - If answer is not in context → say "I don't know"
+        - Do NOT hallucinate
+        - Do NOT use prior knowledge
 
-            Question:
-            {input}
+        Context:
+        {context}
 
-            Answer:
-            """
+        Question:
+        {input}
+
+        Answer:
+        """
         )
 
         document_chain = create_stuff_documents_chain(
@@ -423,6 +466,76 @@ def evaluate_rag(question, answer, docs, latency):
         "tokens": tokens
     }
 
+# =====================================================
+# ADD TRUST SCORE GATE (🔥 MOST IMPORTANT)
+
+# 👉 If:
+# 1. hallucination high
+# 2. faithfulness low
+# ➡️ blocked_reason != None
+# =====================================================
+
+def enforce_trust(metrics, answer):
+
+    if metrics["hallucination_score"] > 0.5:
+        return answer, "high_hallucination"
+
+    if metrics["faithfulness"] < 0.5:
+        return answer, "low_faithfulness"
+
+    if metrics["answer_relevancy"] < 0.5:
+        return answer, "low_relevancy"
+
+    return answer, None
+
+
+# =====================================================
+# Add Trust Score Calculation
+# =====================================================
+
+def compute_trust_score(metrics):
+
+    score = 0
+
+    # positive signals
+    score += metrics["faithfulness"] * 0.4
+    score += metrics["answer_relevancy"] * 0.2
+    score += metrics["context_precision"] * 0.2
+
+    # negative signals
+    score -= metrics["hallucination_score"] * 0.5
+
+    return round(max(0, min(score, 1)), 3)
+
+
+# =====================================================
+# ADD AUTO-RETRY (SELF-HEALING RAG)
+# 👉 If answer rejected → retry with better retrieval
+
+# 👉 Changes behavior:
+# 1. Uses more documents (k=8 instead of 4)
+# 2. Expands context
+# 3. Gives LLM another chance
+# =====================================================
+
+def retry_with_more_context(question, vs):
+
+    docs = vs.similarity_search(question, k=8)
+
+    context = "\n".join([d.page_content for d in docs])
+
+    prompt = f"""
+    Answer ONLY from context.
+    If not found say I don't know.
+
+    Context:
+    {context}
+
+    Question:
+    {question}
+    """
+
+    return get_llm().invoke(prompt)
 
 # =====================================================
 # FILE UPLOAD
@@ -460,26 +573,161 @@ async def upload_file(file: UploadFile = File(...), category: str = Form("genera
 async def ask_ui(request: Request, question: str = Form(...)):
 
     global latest_metrics, query_traces
+    rate_limit(request)
 
     start = time.time()
 
     chain = get_rag_chain()
     vs = get_vector_store()
 
+    from app.guardrails.input_guard import validate_input
+    from app.guardrails.context_guard import validate_context
+    from app.guardrails.output_guard import validate_output
+
+    # =====================================================
+    # 🛡️ STEP 1: INPUT GUARD
+    # =====================================================
+
+    try:
+        guard = validate_input(question)
+    except Exception as e:
+        latest_metrics.update({
+            "blocked_reason": str(e),
+            "injection_detected": True,
+            "trust_score": 0
+        })
+
+        return templates.TemplateResponse(
+            "upload.html",
+            {
+                "request": request,
+                "answer": "❌ Request blocked by guardrails",
+                "metrics": latest_metrics
+            }
+        )
+
+    question = guard["question"]
+    injection_detected = guard["injection_detected"]
+
+    # =====================================================
+    # 🔍 STEP 2: RETRIEVAL
+    # =====================================================
+
     docs = vs.similarity_search(question, k=4)
 
-    response = chain.invoke({"input": question})
+    # =====================================================
+    # 🧪 STEP 3: CONTEXT GUARD
+    # =====================================================
 
+    docs = validate_context(docs)
+
+    # =====================================================
+    # 🤖 STEP 4: LLM
+    # =====================================================
+
+    response = chain.invoke({"input": question})
     answer = response["answer"]
+
+    # =====================================================
+    # 🛡️ STEP 5: OUTPUT GUARD
+    # =====================================================
+
+    answer = validate_output(answer)
+
+    # =====================================================
+    # ⏱️ LATENCY
+    # =====================================================
 
     latency = time.time() - start
 
+    # =====================================================
+    # 📊 STEP 6: METRICS
+    # =====================================================
+
     latest_metrics = evaluate_rag(question, answer, docs, latency)
+
+    # =====================================================
+    # 🧠 STEP 7: TRUST SCORE
+    # =====================================================
+
+    trust_score = compute_trust_score(latest_metrics)
+
+    # =====================================================
+    # 🛡️ STEP 8: TRUST ENFORCEMENT
+    # =====================================================
+
+    final_answer, blocked_reason = enforce_trust(latest_metrics, answer)
+
+    # =====================================================
+    # 🔄 STEP 9: RETRY (SELF-HEALING)
+    # 1. Detects failure ❌  final_answer, blocked_reason = enforce_trust(...)
+    # 2. Automatically retries 🔄  retry_answer = retry_with_more_context(...)
+    # =====================================================
+
+    if blocked_reason:
+
+        retry_answer = str(retry_with_more_context(question, vs)) # 👉 str Prevents type issues from LLM response
+
+        retry_docs = vs.similarity_search(question, k=8)
+
+        retry_latency = time.time() - start
+
+        retry_metrics = evaluate_rag(question, retry_answer, retry_docs, retry_latency)
+
+        retry_trust = compute_trust_score(retry_metrics)
+
+        # =====================================================
+        # ✅ Use retry only if better
+        # Accepts only if better ✅
+        
+        # 👉 This is CRITICAL:
+        # Prevents worse answers replacing good ones
+        # Makes system self-correcting
+        # =====================================================
+        if retry_trust > trust_score:
+            final_answer = retry_answer
+            trust_score = retry_trust
+            blocked_reason = None
+            docs = retry_docs
+            latest_metrics = retry_metrics
+
+        # ❌ fallback if still bad
+        else:
+            final_answer = "⚠️ I couldn't find a reliable answer from the documents."
+
+    answer = final_answer
+
+    # =====================================================
+    # 🛡️ FINAL METRICS UPDATE (GUARDRAILS)
+    # =====================================================
+
+    latest_metrics.update({
+        "trust_score": trust_score,
+        "blocked_reason": blocked_reason,
+        "injection_detected": injection_detected
+    })
+
+    # =====================================================
+    # 🔥 SAFE ALERT CALL (NON-BLOCKING)
+    # ===================================================== 
+    try:
+        from alerts.alert_engine import trigger_email_alert
+        trigger_email_alert(latest_metrics, question)
+    except Exception:
+        pass
+
+    # =====================================================
+    # 🔥 HEATMAP
+    # =====================================================
 
     embeddings = get_embeddings()
     q_emb = embeddings.embed_query(question)
 
     heatmap = compute_heatmap(q_emb, docs)
+
+    # =====================================================
+    # 📊 TRACE LOGGING
+    # =====================================================
 
     trace = {
         "question": question,
@@ -487,20 +735,31 @@ async def ask_ui(request: Request, question: str = Form(...)):
         "metrics": latest_metrics,
         "latency": latency,
         "heatmap": heatmap,
+        "blocked_reason": blocked_reason,
+        "trust_score": trust_score,
+        "injection_detected": injection_detected,
         "timestamp": time.time()
     }
 
     query_traces.append(trace)
+    save_trace(trace)
+
+    # =====================================================
+    # 📄 SOURCES
+    # =====================================================
 
     sources = []
 
     for doc in docs:
-
         sources.append({
             "file": doc.metadata.get("file_name"),
             "page": doc.metadata.get("page"),
             "category": doc.metadata.get("category")
         })
+
+    # =====================================================
+    # 🎯 RESPONSE
+    # =====================================================
 
     return templates.TemplateResponse(
         "upload.html",

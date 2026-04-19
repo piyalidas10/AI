@@ -1,4 +1,21 @@
-# Rag-LLM-Evaluation (FastAPI + Ollama + Qdrant + RAG + Ragas + LangSmith + Upload UI using Docker)
+# 🚀 Enterprise RAG Platform (Guardrails + Self-Healing + Monitoring)
+
+Built a production-grade Advance RAG system using FastAPI, Qdrant, Ollama, and LangChain, enhanced with guardrails, trust scoring, observability, and real-time alerts.
+
+A production-grade Retrieval-Augmented Generation (RAG) system built with modern AI engineering practices:
+
+🛡️ Advanced Guardrails (Prompt Injection Defense)
+📊 Real-time Evaluation Metrics
+🧠 Trust Score Engine
+🔄 Self-Healing RAG (Auto Retry)
+🚨 Real-time Alerts (Email / Slack)
+📈 Live Monitoring Dashboard
+
+🧠 Architecture
+```
+User → FastAPI → Guardrails → Retrieval (Qdrant) → LLM (Ollama)
+     → Evaluation → Trust Score → Retry / Accept → Alerts + Dashboard
+```
 
 RAG evaluation measures how well a Retrieval-Augmented Generation system performs.  
 
@@ -7,30 +24,67 @@ RAG evaluation measures how well a Retrieval-Augmented Generation system perform
 -  documents may not be retrieved correctly
 -  the system may hallucinate
 
-**Common RAG Metrics**  
-| Metric            | Meaning                                        |
-| ----------------- | ---------------------------------------------- |
-| Faithfulness      | Is the answer grounded in retrieved documents  |
-| Answer Relevancy  | Does the answer match the question             |
-| Context Precision | Are retrieved documents useful                 |
-| Context Recall    | Did the retriever fetch all relevant documents |
+👉 “How do you ensure RAG quality?”
+```
+We evaluate responses using faithfulness, relevancy, and hallucination metrics, then compute a trust score.
 
-| Layer           | Technology       |
-| --------------  | ---------------- |
-| API             | FastAPI          |
-| Vector DB       | Qdrant           |
-| LLM Runtime     | Ollama           |
-| Orchestration   | LangChain        |
-| Embedding model | nomic-embed-text |
-| Reranker        | BGE-M3           |
-| LLM generator   | Gemma 2 2B       |
+If the trust score is low or hallucination is high, we trigger guardrails to block or retry the response with more context.
+
+We also monitor everything via dashboards and real-time alerts.
+```
+
+## 📊 ✅ Advanced RAG Metrics (2026 Standard) 
+
+**⚙️ Tech Stack**
+| Layer         | Technology             |
+| ------------- | ---------------------- |
+| API           | FastAPI                |
+| Vector DB     | Qdrant                 |
+| LLM           | Ollama (phi3)          |
+| Orchestration | LangChain              |
+| Monitoring    | Prometheus + LangSmith |
+| Guardrails    | Custom + Presidio      |
+| Alerts        | Email / Slack          |
+
+**🧠 Core Metrics (You Already Use)**
+| Metric                | Meaning                                       | Why It Matters             |
+| --------------------- | --------------------------------------------- | -------------------------- |
+| **Faithfulness**      | Is the answer grounded in retrieved documents | Detects hallucination risk |
+| **Answer Relevancy**  | Does the answer match the question            | Ensures usefulness         |
+| **Context Precision** | Are retrieved docs useful                     | Avoids noisy retrieval     |
+| **Context Recall**    | Did retriever fetch all relevant docs         | Prevents missing info      |
+
+**🔥 Advanced Metrics (You Implemented)**
+| Metric                  | Meaning                                | Why It Matters             |
+| ----------------------- | -------------------------------------- | -------------------------- |
+| **Answer Similarity**   | Avg similarity between answer & chunks | Measures grounding depth   |
+| **Context Coverage**    | How much context is used in answer     | Detects under-utilization  |
+| **Retrieval Score**     | Best similarity match                  | Measures retrieval quality |
+| **Hallucination Score** | % of answer not supported by context   | Critical safety signal     |
+
+**🛡️ Guardrails Metrics**
+| Metric                 | Meaning                      | Why It Matters        |
+| ---------------------- | ---------------------------- | --------------------- |
+| **Trust Score**        | Overall AI reliability score | Final decision signal |
+| **Blocked Reason**     | Why answer was rejected      | Explainability        |
+| **Injection Detected** | Prompt attack detected       | Security layer        |
+
+| Layer            | Component                           |
+| ---------------- | ----------------------------------- |
+| 🛡️ Guardrails    | Input + Context + Output validation |
+| 🔄 Self-Healing  | Retry with expanded context         |
+| 📊 Evaluation    | RAG metrics engine                  |
+| 🚨 Alerts        | Email / Slack                       |
+| 📈 Observability | Dashboard + traces                  |
+| 🔐 Security      | Injection detection                 |
+
 
 
 <img src="imgs/Enterprise RAG platform architecture.png" width="70%">
 
 ## Run Application
 1. Install Docker & Run Docker Desktop first
-2. Inside application folder (Rag-LLM-Evaluation), open gitbash or cmd to run the command following command. requirements.txt file should be on the same path.
+2. Inside application folder (RAdvanced-RAG-Guardrails-LLM-Evaluation), open gitbash or cmd to run the command following command. requirements.txt file should be on the same path.
 ```
 docker compose down -v
 docker compose build --no-cache
@@ -188,209 +242,147 @@ Think of it like:
 
 My system already includes:
 
-✅ RAG pipeline
-✅ Qdrant vector DB
-✅ MMR retrieval
-✅ Ollama local LLM
-✅ RAGAS evaluation
-✅ Hallucination detection
-✅ Heatmap debugging
-✅ RAG dashboard
-✅ Query traces
-✅ Hybrid Search (BM25 + Vector + BGE reranker)
+**🧠 Core RAG**   
+✅ RAG pipeline   
+✅ Qdrant vector DB  
+✅ MMR Retrieval (Qdrant)  
+🤖 Ollama local LLM (Ollama – phi3) 
+✅ RAGAS evaluation  
+🛡️ Rate Limit  
+📁 Logging  
+
+**🛡️ Guardrails** 
+🔒 Input guard (prompt injection detection)  
+✅ Context filtering 
+✅ Output validation 
+✅ Trust score + enforcement  
+
+**🔄 Self-Healing**  
+✅ Retry with more context 
+✅ Trust-based answer selection  
+
+**📊 Observability** 
+✅ Dashboard (Evaluation metrics + charts)   
+✅ Heatmap + Query traces  
+✅ Hallucination detection 
+
+**🚨 Alerts (What you just added)** 
+✅ Email alerts   
+✅ Slack alerts (optional)    
+✅ Trigger engine based on metrics  
+
+🧠 Trust Score Engine
+Trust Score = 
+  + Faithfulness
+  + Relevancy
+  + Precision
+  - Hallucination
+
+Used to:
+- Accept response ✅
+- Retry 🔄
+- Block ❌
 
 This is very close to enterprise-level RAG architecture.
 
-## 3 powerful tweaks used in production RAG systems
-Here are 3 powerful tweaks used in production RAG systems that can improve scores like Faithfulness, Answer Relevancy, and Hallucination by 30–40%.
-
-**1️⃣ Improve Your RAG Prompt (Most Important)**
-
-Small models like Phi-3 Mini, Gemma 2B, and Llama 3.2 3B need very strict prompts.
-
-Use a grounded RAG prompt.
-
-Example:
-
-You are a helpful assistant answering questions using the provided context.
-
-Rules:
-1. Answer ONLY using the context.
-2. If the answer is not in the context, say "I don't know".
-3. Do not make up information.
-
+**Added .env Support (CRITICAL 🔥)**
 ```
-Context:
-{context}
-
-Question:
-{question}
-
-Answer:
+env_file:
+  - .env
 ```
+👉 This enables:
+- 📧 Email alerts (EMAIL_USER, EMAIL_PASS)
+- 🔔 Slack alerts
+- 🔐 Secure secrets management
 
-Why this works:
+**📧 Your .env Must Contain**
 
-Small models tend to hallucinate unless the instructions are clear.
+# Email Alerts
+- EMAIL_USER=your_email@gmail.com
+- EMAIL_PASS=your_app_password
+- ALERT_EMAIL=receiver@gmail.com
 
-**Expected improvement:**  
+# Optional Slack
+- SLACK_WEBHOOK_URL=https://hooks.slack.com/services/XXX
 
-| Metric        | Improvement |
-| ------------- | ----------- |
-| Faithfulness  | +20–30%     |
-| Hallucination | -20%        |
+# Core Services
+- OLLAMA_BASE_URL=http://ollama:11434
+- QDRANT_URL=http://qdrant:6333
 
-**2️⃣ Increase Retrieval Chunks (Top-K)**
+## 🧠 FULL RAG ARCHITECTURE
+                        ┌──────────────────────────┐
+                        │        USER (UI)         │
+                        │  Angular / Browser UI    │
+                        └────────────┬─────────────┘
+                                     │
+                                     ▼
+                    ┌────────────────────────────────┐
+                    │        FASTAPI (API)           │
+                    │  /ask-ui  /upload  /metrics    │
+                    └────────────────┬───────────────┘
+                                     │
+        ┌────────────────────────────┼────────────────────────────┐
+        │                            │                            │
+        ▼                            ▼                            ▼
 
-Your retriever (likely Qdrant) currently retrieves maybe:
-```
-k = 3
-```
-Increase it:
-```
-k = 5
-```
-Example in LangChain:
-```
-retriever = vectorstore.as_retriever(search_kwargs={"k":5})
-```
-Why it helps:
+┌───────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐
+│ 🛡️ INPUT GUARD    │   │ 🔍 RETRIEVAL ENGINE  │   │ 📊 OBSERVABILITY     │
+│ - Injection check │   │ - Qdrant Vector DB   │   │ - Metrics API        │
+│ - Length check    │   │ - MMR search         │   │ - Dashboard          │
+└─────────┬─────────┘   └──────────┬───────────┘   └──────────┬───────────┘
+          │                        │                          │
+          ▼                        ▼                          ▼
 
-More context = model has better evidence.
+┌───────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐
+│ 🧪 CONTEXT GUARD  │   │ 🤖 LLM (Ollama)      │   │ 📁 TRACE STORAGE     │
+│ - Filter docs     │   │ - phi3 model         │   │ - In-memory + file   │
+└─────────┬─────────┘   └──────────┬───────────┘   └──────────────────────┘
+          │                        │
+          ▼                        ▼
 
-Expected improvement:   
+        ┌────────────────────────────────────────────┐
+        │ 🛡️ OUTPUT GUARD                            │
+        │ - Toxicity / PII filtering                 │
+        └────────────────────────────────────────────┘
+                              │
+                              ▼
 
-| Metric            | Improvement |
-| ----------------- | ----------- |
-| Faithfulness      | +15–25%     |
-| Answer Similarity | +20%        |
+        ┌────────────────────────────────────────────┐
+        │ 📊 RAG EVALUATION ENGINE                   │
+        │ - Faithfulness                            │
+        │ - Relevancy                               │
+        │ - Hallucination                           │
+        └────────────────────────────────────────────┘
+                              │
+                              ▼
 
-**4️⃣ Optimal Chunk Size (Hidden Trick)**
+        ┌────────────────────────────────────────────┐
+        │ 🧠 TRUST SCORE ENGINE                      │
+        │ - Score computation                        │
+        │ - Guardrails decision                      │
+        └────────────────────────────────────────────┘
+                              │
+                    ┌─────────┴─────────┐
+                    ▼                   ▼
 
-Many RAG systems fail because of bad chunking.
+     ┌──────────────────────────┐   ┌────────────────────────────┐
+     │ ✅ ACCEPT RESPONSE        │   │ 🔄 SELF-HEALING RAG         │
+     │ Return answer            │   │ Retry with more context     │
+     └──────────────────────────┘   └──────────────┬─────────────┘
+                                                   ▼
 
-Recommended:
-```
-chunk_size = 400
-chunk_overlap = 80
-```
-Instead of:
-```
-chunk_size = 1000
-```
-Why?
-
-Large chunks confuse small models.
-
-**Expected improvement:**
-
-| Metric            | Improvement |
-| ----------------- | ----------- |
-| Context Precision | +10%        |
-| Answer Relevancy  | +15%        |
-
-**5️⃣ Ideal RAG Pipeline (After Improvements)**
-```
-Your architecture should look like this:
-
-User Question
-      ↓
-Embedding Model
-      ↓
-Vector Search (Qdrant)
-      ↓
-Top 10 chunks
-      ↓
-Reranker
-      ↓
-Top 3 chunks
-      ↓
-Prompt Template
-      ↓
-LLM (Phi-3 / Llama / Gemma)
-      ↓
-Answer
+                                ┌────────────────────────────┐
+                                │ 🚨 ALERT ENGINE            │
+                                │ - Email alerts             │
+                                │ - Slack alerts             │
+                                └────────────────────────────┘
 ```
 
-## 🧠 Enterprise RAG Evaluation Architecture
-```
-                    ┌──────────────────────┐
-                    │        USER          │
-                    │  Chat / Query / UI   │
-                    └──────────┬───────────┘
-                               │
-                               ▼
-                    ┌──────────────────────┐
-                    │       FastAPI        │
-                    │   API Gateway Layer  │
-                    └──────────┬───────────┘
-                               │
-                ┌──────────────┼──────────────┐
-                │                              │
-                ▼                              ▼
-      ┌───────────────────┐           ┌─────────────────────┐
-      │ Document Ingestion│           │     Query Engine    │
-      │  Pipeline         │           │  (LangChain Chain)  │
-      └─────────┬─────────┘           └──────────┬──────────┘
-                │                                │
-                ▼                                ▼
-      ┌───────────────────┐            ┌─────────────────────┐
-      │ Document Loader   │            │     Retriever       │
-      │ PDF / DOCX / CSV  │            │  Vector Search      │
-      └─────────┬─────────┘            └──────────┬──────────┘
-                │                                 │
-                ▼                                 ▼
-      ┌───────────────────┐            ┌─────────────────────┐
-      │ Text Splitter     │            │      Qdrant         │
-      │ Chunking Engine   │            │   Vector Database   │
-      └─────────┬─────────┘            └──────────┬──────────┘
-                │                                 │
-                ▼                                 ▼
-      ┌───────────────────┐            ┌─────────────────────┐
-      │ Embedding Model   │            │  Top-K Context Docs │
-      │ (SentenceTransf.) │            └──────────┬──────────┘
-      └─────────┬─────────┘                       │
-                │                                  ▼
-                ▼                        ┌─────────────────────┐
-      ┌───────────────────┐              │         LLM         │
-      │ Vector Storage    │              │ (Ollama / OpenAI)  │
-      │     Qdrant        │              └──────────┬──────────┘
-      └───────────────────┘                         │
-                                                    ▼
-                                       ┌─────────────────────┐
-                                       │     LLM Response    │
-                                       └──────────┬──────────┘
-                                                  │
-                                                  ▼
-                                   ┌──────────────────────────┐
-                                   │     RAG Evaluation       │
-                                   │        (RAGAS)           │
-                                   └──────────┬───────────────┘
-                                              │
-                          ┌───────────────────┼───────────────────┐
-                          ▼                   ▼                   ▼
-                ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐
-                │ Faithfulness     │  │ Context Recall  │  │ Answer Relev.   │
-                └─────────────────┘  └─────────────────┘  └─────────────────┘
-                                              │
-                                              ▼
-                                   ┌─────────────────────┐
-                                   │  Observability      │
-                                   │ LangSmith + Logs    │
-                                   └──────────┬──────────┘
-                                              │
-                                              ▼
-                                   ┌─────────────────────┐
-                                   │  Metrics Monitoring │
-                                   │  Prometheus         │
-                                   └──────────┬──────────┘
-                                              │
-                                              ▼
-                                   ┌─────────────────────┐
-                                   │  Visualization      │
-                                   │  Plotly Dashboard   │
-                                   └─────────────────────┘
-```
+- Multi-layer guardrails (input → context → output)
+- Trust-score driven decision system
+- Self-healing retry loop
+- Observability-first design
+- Real-time alerting for failures
 
 ## ⭐ 10 Critical RAG Metrics Used by Companies
 
