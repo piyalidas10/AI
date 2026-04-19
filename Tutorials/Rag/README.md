@@ -1,5 +1,13 @@
 # ✅ RAG (Retrieval-Augmented Generation)
 
+**👉 RAG = Retriever (search relevant data) + Generator (LLM creates answer)**     
+So instead of guessing, the model uses real data at runtime.
+
+**RAG exists because:**
+- LLMs hallucinate
+- Knowledge is outdated
+- Enterprises need grounded, factual answers
+
 RAG (Retrieval-Augmented Generation) is primarily a form of Generative AI that uses external data to enhance accuracy. It acts as a specialized search-and-generation tool, retrieving relevant information to inform LLMs. While standard RAG is a static retrieval method, it can evolve into Agentic AI (Agentic RAG).
 
 <img src="https://github.com/piyalidas10/AI/blob/3f48d0a94bd2fb9b9b4227611974dbdf2ac676e0/Rag/img/RAG.png" width="600px" />
@@ -12,6 +20,19 @@ Data Sources  →  Vector DB  →  LLM
 **“RAG retrieves relevant knowledge from a vector database and injects it into the LLM prompt so the model generates grounded, context-aware answers instead of hallucinating.”**
 
 **🔷LLM does NOT read your documents directly. It retrieves relevant chunks from a vector DB and augments the prompt with them before generating an answer.**
+
+## 👉 Most real-world systems use:
+
+**Hybrid Retrieval**
++ Reranking
++ Context Compression
++ Guardrails
++ Evaluation
+
+That’s the default production stack.
+
+## Architecture Diagram of all 20 types of RAGs
+<img src="img/rag_architechture.png" width="100%" />
 
 ### 🧱 RAG has TWO clear phases
 ```
