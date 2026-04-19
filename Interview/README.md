@@ -1,5 +1,37 @@
 # 🚀 AI Engineer / GenAI / RAG interview discussions
 
+## 🎯 Real Skills Checklist (Senior GenAI Engineer)
+
+Companies expect knowledge of:
++ ✔ RAG pipelines
++ ✔ Vector databases
++ ✔ Prompt engineering
++ ✔ Multi-agent orchestration
++ ✔ LLM observability
++ ✔ RAG evaluation
++ ✔ Hallucination mitigation
++ ✔ Production architecture
++ ✔ LLM APIs
++ ✔ Semantic search
+
+## Multi-Agent Systems
+
+**Agents collaborating together using frameworks like:**
+- AutoGen
+- CrewAI
+- LangGraph
+
+**Example agents:**
+```
+Planner Agent
+⬇
+Research Agent
+⬇
+Code Agent
+⬇
+Reviewer Agent
+```
+
 ## 1️⃣ Agent Orchestration
 Agent orchestration is the coordination of multiple AI agents and tools to complete a complex task.
 
