@@ -21,6 +21,16 @@ Data Sources  →  Vector DB  →  LLM
 
 **🔷LLM does NOT read your documents directly. It retrieves relevant chunks from a vector DB and augments the prompt with them before generating an answer.**
 
+## 👉 Most real-world systems use:
+
+**Hybrid Retrieval**
++ Reranking
++ Context Compression
++ Guardrails
++ Evaluation
+
+That’s the default production stack.
+
 ## Architecture Diagram of all 20 types of RAGs
 <img src="img/rag_architechture.png" width="100%" />
 
