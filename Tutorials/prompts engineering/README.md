@@ -1,6 +1,7 @@
 # 📜 Prompt Engineering
 
 > **Prompt engineering is the practice of controlling LLM output by combining user questions, system instructions, and retrieved external data.**
+> Prompt engineering is the **technique of designing prompts to get better outputs from LLMs**.
 
 <img src="https://github.com/piyalidas10/AI/blob/dfdab04347ea66789b5ad43405451a0b46ab217e/prompts%20engineering/img/prompt_engineering.png" width="600px" />
 
@@ -38,5 +39,30 @@ It’s about controlling how the model answers, by giving clear instructions, no
   -  LLM + Database
   -  Real, up-to-date answers
   -  Enterprise-grade AI systems
+
+### Techniques Example
+
+**1️⃣ Role prompting**
+```
+You are an expert AI architect.
+Explain RAG architecture.
+```
+
+**2️⃣ Few-shot prompting**
+```
+Example 1
+Example 2
+Now answer:
+```
+
+**3️⃣ Chain-of-thought prompting**
+```
+Explain step-by-step reasoning
+```
+
+**4️⃣ Structured prompting**
+```
+Return response in JSON format
+```
 
 
