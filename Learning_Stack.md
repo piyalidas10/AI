@@ -1,4 +1,9 @@
 # AI Learing Stack
+
+## Tutorials
+1. 20 AI Concepts Explained in 40 Minutes : https://www.youtube.com/watch?v=OYvlznJ4IZQ
+
+## Contents
 1. LLM with hyperparameter. hyperparameter is two types :
    - Prompting
      - Prompt hyperparameters include temperature, top_p, top_k, preamble/system prompts
