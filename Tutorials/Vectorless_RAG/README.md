@@ -37,3 +37,7 @@ Query → Find similar chunks
 Vectorless RAG:
 Query → Traverse tree → Reason → Select path
 ```
+
+## Traditional RAG vs Vectorless RAG
+<img src="imgs/traditional_vs_vectorless_RAG.gif" width="100%" />
+
