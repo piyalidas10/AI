@@ -13,6 +13,72 @@ Docker solves this by standardizing the runtime environment. By bundling the app
 + Scalability: Ideal for microservices and orchestrators like Kubernetes and Docker Swarm.
 + Efficiency: Starts in seconds, uses fewer system resources.
 
+## 🧠 What the Docker daemon actually is
+
+The Docker daemon is the core service that:
+- Builds images
+- Runs containers
+- Manages networks & volumes
+- Handles container lifecycle
+👉 When you run any Docker command, you’re really talking to the daemon.
+
+**1. 🚀 Running a container**
+```
+docker run nginx
+```
+👉 CLI → Docker daemon → creates & starts container
+
+**2. 🏗️ Building an image**
+```
+docker build -t my-app .
+```
+👉 Daemon reads Dockerfile and builds the image
+
+**3. 📦 Managing containers**
+```
+docker ps
+docker stop container_id
+docker rm container_id
+```
+👉 All handled by the daemon
+
+**4. 🌐 Networking & volumes**
+```
+docker network create my-net
+docker volume create my-vol
+```
+👉 Daemon manages infrastructure behind the scenes  
+
+If the Docker daemon is NOT running, nothing works:
+```
+docker ps
+```
+You’ll get: "Cannot connect to the Docker daemon"
+
+## 🔄 Docker Architecture (simple)
+```
+Docker CLI  --->  Docker Daemon (dockerd)  --->  containerd  ---> containers
+```
+- CLI = what you type
+- Daemon = brain
+- containerd = low-level runtime
+
+- Docker CLI = remote control
+- Docker daemon = TV
+- Containers = channels
+👉 Without the TV (daemon), the remote does nothing.
+
+## 🧠 Docker High-level architecture
+```
+Docker CLI  --->  REST API  --->  dockerd  --->  containerd  --->  runc  --->  Linux Kernel
+```
+Components:
+- Docker CLI → your commands (docker run)
+- dockerd (daemon) → orchestration brain
+- containerd → container lifecycle manager
+- runc → actually creates containers
+- Linux kernel → isolation (namespaces + cgroups)
+
 ## Dockerfile
 <img src="https://media.geeksforgeeks.org/wp-content/uploads/20260409110311942089/419253548.webp" width="80%" />
 The Dockerfile uses DSL (Domain Specific Language) and contains instructions for generating a Docker image.
