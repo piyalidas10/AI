@@ -40,6 +40,156 @@ It’s about controlling how the model answers, by giving clear instructions, no
   -  Real, up-to-date answers
   -  Enterprise-grade AI systems
 
+## Zero-shot prompting
+“Zero-shot prompting (no context/content)” is a specific way of using an LLM where you give only the task instruction—nothing else.
+
+**🔹What it means**
+- Zero-shot = the model gets zero examples
+- No content/context = you don’t provide:
+  - background info
+  - reference text
+  - sample inputs/outputs
+  - constraints or hints
+You just ask the question or give the instruction directly.
+
+**Example of Zero-shot prompt (no content):**  
+```
+Translate this to French: "Good morning"
+```
+
+**🔹 Compare with others**
+1. Zero-shot (what you asked)
+```
+Classify sentiment: "I love this product"
+```
+2. Few-shot (has examples)
+```
+Text: "I hate this" → Negative  
+Text: "Amazing experience" → Positive  
+Text: "I love this product" →
+```
+3. With context
+```
+You are a sentiment analysis expert. Classify sentiment strictly as Positive, Negative, or Neutral.
+Text: "I love this product"
+```
+
+## Few-shot prompting
+Few-shot prompting is when you give the model a few examples (shots) of how to do a task—so it learns the pattern and follows it.  
+> Few-shot prompting = “Show the model a few correct examples, and it will mimic the pattern.”
+
+**Instead of just asking:**
+```
+Classify sentiment: "I love this product"
+```
+You teach by example:
+```
+Text: "I hate this" → Negative  
+Text: "Amazing experience" → Positive  
+Text: "Worst service ever" → Negative  
+
+Text: "I love this product" →
+```
+👉 The model infers the pattern from the examples and continues it.
+
+**🔹 Why it works**  
+LLMs are very good at pattern completion. Few-shot prompting:
+- gives structure
+- reduces ambiguity
+- improves consistency
+- acts like mini training at runtime
+
+**🔹 Real-world examples**  
+1. 🧠 Classification
+```
+Email: "Your order is confirmed" → Transactional  
+Email: "50% discount just for you!" → Promotional  
+
+Email: "Your OTP is 123456" →
+```
+2. 💻 Code generation
+```
+Input: Add two numbers in Python  
+Output: def add(a, b): return a + b  
+
+Input: Multiply two numbers in Python  
+Output:
+```
+3. 🧾 Data formatting (VERY common in production)
+```
+Input: John, 25, India  
+Output: {"name": "John", "age": 25, "country": "India"}  
+
+Input: Alice, 30, USA  
+Output:
+```
+👉 This is heavily used in:
+- APIs
+- RAG pipelines
+- structured LLM outputs
+
+**🔹 When to use few-shot**
+- Output must follow strict format
+- Task is ambiguous
+- You need consistent responses
+- Model gives wrong answers in zero-shot
+
+**🔹 Zero-shot vs Few-shot (quick clarity)**
+| Type      | What you give          | Reliability |
+| --------- | ---------------------- | ----------- |
+| Zero-shot | Only instruction       | Medium      |
+| Few-shot  | Instruction + examples | High        |
+
+## Chain-of-Thought (CoT) prompting
+It’s a prompting technique where you encourage the model to show step-by-step reasoning instead of jumping straight to the final answer.
+
+👉 Instead of:
+```
+What is 23 × 47?
+```
+You guide it like:
+```
+What is 23 × 47? Think step by step.
+```
+
+**🔹 Example**  
+❌ Without CoT (direct answer)
+```
+Q: If a train travels 60 km in 1 hour, how far in 3.5 hours?
+A: 210 km
+```
+✅ With CoT
+```
+Q: If a train travels 60 km in 1 hour, how far in 3.5 hours?
+A: 
+Step 1: Speed = 60 km/hour  
+Step 2: Time = 3.5 hours  
+Step 3: Distance = 60 × 3.5 = 210 km  
+Final Answer: 210 km
+```
+👉 The reasoning is explicit.
+
+**🔹 Why it matters**  
+
+CoT helps with:
+- 🧮 Math problems
+- 🧠 Logical reasoning
+- 📊 Multi-step tasks
+- 🧾 Complex decision-making
+
+Without it, models may:
+- guess
+- skip steps
+- make hidden errors
+
+## 🔹 Real-world usage (important for you 👇)
+
+In production systems:
+- RAG + CoT → better reasoning over retrieved docs
+- Agents → plan → think → act → observe loop
+- Code review AI → step-by-step analysis
+- Multi-agent systems → reasoning traces
+
 ### Techniques Example
 
 **1️⃣ Role prompting**
