@@ -35,11 +35,11 @@ Adds redundancy across input and output because one layer is never enough in pro
 Ensures responses are usable (JSON, SQL, API-ready) and won't break downstream systems.
 
 ## 📌 What's shifted from 2025 to 2026:
-+ * Guardrails are now multi-layered systems, not single filters 
-+ * Real-time evaluators and agent monitoring frameworks are standard 
-+ * Policy-aware agents with compliance baked into logic, not bolted on 
-+ * SLMs handling safety tasks faster, cheaper, purpose-built 
-+ * "Defense-in-depth" is the architecture pattern enterprises are adopting
++ Guardrails are now multi-layered systems, not single filters 
++ Real-time evaluators and agent monitoring frameworks are standard 
++ Policy-aware agents with compliance baked into logic, not bolted on 
++ SLMs handling safety tasks faster, cheaper, purpose-built 
++ "Defense-in-depth" is the architecture pattern enterprises are adopting
 
 
 
