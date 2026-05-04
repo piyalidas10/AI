@@ -182,6 +182,15 @@ Without it, models may:
 - skip steps
 - make hidden errors
 
+## System message vs Grounding context vs Few shot learning
+| Feature        | System Message                              | Grounding Context (RAG)                  | Few-Shot Learning                     |
+|----------------|----------------------------------------------|------------------------------------------|--------------------------------------|
+| Primary Goal   | Define role, tone, and constraints           | Provide external facts/knowledge          | Teach output format/examples         |
+| What it is     | Static instructions (e.g., "You are a poet") | Retrieved data (documents, database)      | 1–5 example input/output pairs       |
+| Dynamic?       | Generally static per session                 | Dynamic per query                         | Can be dynamic, usually static       |
+| Best for       | Behavior consistency                         | Accuracy on proprietary info              | Complex formatting or logic          |
+
+
 ## 🔹 Real-world usage (important for you 👇)
 
 In production systems:
