@@ -1,4 +1,13 @@
 # AI Learing Stack
+
+## Tutorials
+1. GenAI For Developers Roadmap 2025 : https://www.youtube.com/watch?v=v1pj9XrJ_Lw
+2. Choosing an AI Career in 2026? Understand Every AI Role Before You Start | CampusX : https://www.youtube.com/watch?v=99KPe5hIfnE
+3. How to Become an AI Engineer in 2026 - Full Roadmap : https://www.youtube.com/watch?v=r00avsdlEkI
+4. AI Engineer Complete RoadMap for 2026 | from basics to AI/ML Advanced : https://www.youtube.com/watch?v=t9MJ1gxcJ4w
+5. 20 AI Concepts Explained in 40 Minutes : https://www.youtube.com/watch?v=OYvlznJ4IZQ
+
+## Contents
 1. LLM with hyperparameter. hyperparameter is two types :
    - Prompting
      - Prompt hyperparameters include temperature, top_p, top_k, preamble/system prompts

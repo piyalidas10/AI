@@ -41,6 +41,77 @@ Foundation models can be fine-tuned for a range of downstream tasks with a small
 - Faster deployment time : Built once, the same foundation model can be fine-tuned for downstream applications using a small amount of training data, decreasing time-to-value and increasing productivity.
 - Better accuracy : Foundation models are the next revolution in deep learning – they are shown to be far better in various benchmarks than the previous generation of AI models.
 
+## LLM APIs
+Using API endpoints of large language models inside applications.
+
+**Popular LLM Providers**
+- OpenAI
+- Anthropic
+- Example Models
+
+**OpenAI:**
+- GPT-4
+- GPT-4o
+
+**Anthropic:**
+- Claude
+
+**Example API Call (Python)**
+```
+from openai import OpenAI
+
+client = OpenAI()
+
+response = client.chat.completions.create(
+    model="gpt-4o-mini",
+    messages=[{"role":"user","content":"Explain RAG"}]
+)
+
+print(response.choices[0].message.content)
+```
+
+**Real Use Cases**
+- AI chatbots
+- Document summarization
+- AI coding assistants
+- AI customer support
+
+## LangChain
+LangChain is a framework for building applications powered by LLMs.
+
+It connects:
+```
+LLM + Tools + Memory + Data
+```
+
+**Core Components**
+```
+1️⃣ Prompts
+2️⃣ Chains
+3️⃣ Agents
+4️⃣ Tools
+5️⃣ Memory
+6️⃣ Vector stores
+```
+
+**Example RAG Pipeline**
+```
+User Question
+⬇
+Embedding Model
+⬇
+Vector Database
+⬇
+Retriever
+⬇
+LLM Answer
+```
+
+**Example Code**
+```
+from langchain.chains import RetrievalQA
+```
+
 <details>
 
 <summary><strong>From N-Grams to RNNs to Transformers: The Evolution of NLP</strong></summary>
