@@ -1,5 +1,16 @@
 # RAG Based Code Review Agent
 
+You are building:
+```
+AI code review agent
+```
+This is one of the MOST parser-sensitive RAG applications.
+
+Because review quality depends heavily on:
+- semantic retrieval
+- correct context
+- function completeness
+
 RAG evaluation measures how well a Retrieval-Augmented Generation system performs.  
 
 This agent will:
@@ -96,10 +107,6 @@ Fast API
 http://localhost:8000/docs
 ```
 <img src="imgs/test_api.png" width="70%">
-Upload:
-- PDF
-- DOCX
-- CSV
 
 It will store embeddings into Qdrant using Ollama.
 
@@ -108,15 +115,7 @@ Check Container Logs. Run in CMD
 docker compose logs -f
 ```
 
-5. Test flow:
-   -  Upload a PDF / DOCX / CSV
-   -  Submit a question
-   -  Confirm answer is retrieved from document
-
-<img src="imgs/localhost_8000_choose_file.png" width="70%">
-<img src="imgs/localhost_8000_upload.png" width="70%">
-
-Health check:
+5. Health check:
 ```
 http://localhost:8000/health
 ```
@@ -142,14 +141,14 @@ http://localhost:8000/traces
 | Token usage         | LLM cost                      |
 | Hallucination score | safety check                  |
 
-8. Ollama
+8. Ollama API
 
 Test:
 ```
 curl http://localhost:11434/api/tags
 ```
 
-9. Use Qdrant Web UI for viewing Vector Database
+9. Use Qdrant Web UI for viewing Vector Database (Qdrant Dashboard)
 If your docker-compose.yml exposes port 6333, open:
 ```
 http://localhost:6333/dashboard
@@ -208,92 +207,33 @@ If you build a RAG-based GitHub Code Review Agent, the requirements.txt should i
 6️⃣ Agent orchestration (optional)
 7️⃣ API layer (optional)
 
-**📦 requirements.txt (RAG GitHub Code Review Agent)**
-```
-# Core LangChain framework
-langchain==0.2.14
-langchain-community==0.2.12
-langchain-core==0.2.38
-
-# Ollama LLM + Embeddings
-langchain-ollama==0.1.3
-ollama==0.3.3
-
-# Vector Database
-qdrant-client==1.11.0
-
-# Tokenizer / text utilities
-tiktoken==0.7.0
-
-# Document processing
-pypdf==4.3.1
-
-# GitHub repository access
-gitpython==3.1.43
-PyGithub==2.4.0
-
-# Agent orchestration (optional)
-langgraph==0.2.16
-
-# Web API
-fastapi==0.114.0
-uvicorn==0.30.6
-
-# Data processing
-numpy==1.26.4
-pandas==2.2.2
-
-# Environment variables
-python-dotenv==1.0.1
-
-# Logging
-loguru==0.7.2
-```
-
-| Package               | Purpose                       |
-| --------------------- | ----------------------------- |
-| `gitpython`           | Clone GitHub repo             |
-| `PyGithub`            | GitHub API (PR comments etc.) |
-| `langchain`           | RAG pipeline                  |
-| `langchain-community` | loaders & integrations        |
-| `langchain-openai`    | OpenAI models                 |
-| `langchain-ollama`    | local LLM                     |
-| `qdrant-client`       | vector database               |
-| `tiktoken`            | token counting                |
-| `langgraph`           | multi-agent workflows         |
-| `fastapi`             | API service                   |
-| `uvicorn`             | run FastAPI                   |
-
-
 ## 🏗️ Final Architecture
 ```
 GitHub Repo
-     │
-     ▼
-GitPython Clone
-     │
-     ▼
-Code Loader
-     │
-     ▼
-Code Chunking
-     │
-     ▼
-Ollama Embeddings (nomic-embed-text)
-     │
-     ▼
-Qdrant Vector DB
-     │
-     ▼
+    │
+    ▼
+Language-Aware Parser
+(Python AST + Tree-sitter)
+    │
+    ▼
+Semantic Code Chunking
+    │
+    ▼
+Embeddings
+(nomic-embed-text)
+    │
+    ▼
+Qdrant
+    │
+    ▼
 Retriever
-     │
-     ▼
-LLM Reviewer (Phi3 LLM using Ollama)
-     │
-     ▼
-Code Review Report / Code Review Agent
+    │
+    ▼
+Phi3 Reviewer
+    │
+    ▼
+FastAPI
 ```
-
 
 ## 🐳 Deployment Architecture (Docker)
 ```
@@ -317,7 +257,309 @@ Code Review Report / Code Review Agent
 └────────────────────────────────────────┘
 ```
 
-**🏛️ Architecture Summary (Professional Description)**
+## LLM Model
+Your current model:
+```
+phi3
+```
+is small.
+
+For code review, better local models are:
+
+| Model          | Better For             |
+| -------------- | ---------------------- |
+| deepseek-coder | code review            |
+| codellama      | code understanding     |
+| qwen2.5-coder  | strongest local coding |
+| starcoder2     | repo reasoning         |
+
+You can still keep Phi3 for lightweight workflows.
+
+## Embedding Models
+
+For high-performance RAG in 2026, mxbai-embed-large and BGE-M3 are top contenders for accuracy, with Snowflake Arctic-Embed excelling in production efficiency. Nomic-embed-text is a top choice for long-context tasks (8192 tokens) over the standard 512-token limit.
+
+**Here is a breakdown of the models:**
+- **mxbai-embed-large:** Generally considered a state-of-the-art model for overall semantic search quality, offering high-dimensional, rich representations.
+- **BGE-M3 (BAAI):** Distinguished by its multi-functionality, supporting multilingual, multi-granularity (dense/sparse), and multi-functionality retrieval. It is a very high-performance choice but can be slower.
+- **Snowflake-arctic-embed:** Optimized for production RAG, providing high accuracy (NDCG@10 of 55.98) with a strong performance-to-size ratio.
+- **Nomic-embed-text:** A top performer for long-context tasks (8192 tokens), outperforming smaller models and offering open-source training data and reproducibility.BGE-Large-v1.5: A strong, established model, often seen as a reliable benchmark.
+
+**Which one to choose?**
+- **For maximum accuracy:** Use mxbai-embed-large or bge-m3.
+- **For long documents (RAG):** Use nomic-embed-text for its 8192 context window.
+- **For fast/efficient production:** Use snowflake-arctic-embed.
+- **For multilingual support:** Use bge-m3.
+
+## Code Chunking
+```
+from langchain.text_splitter import RecursiveCharacterTextSplitter
+```
+and:
+```
+splitter = RecursiveCharacterTextSplitter(
+    chunk_size=1200,
+    chunk_overlap=200
+)
+```
+RecursiveCharacterTextSplitter is fundamentally a character-based splitter.
+
+It tries to split text recursively using separators like:
+```
+\n\n
+\n
+space
+character
+```
+but ultimately the chunk size is measured in characters/tokens, not code structure.
+```
+So your current pipeline is:
+
+Code File
+   ↓
+1200-character chunks
+   ↓
+Embeddings
+```
+
+**For code-review agents, you should eventually move to:**
+- AST chunking
+- function-level chunking
+- class-level chunking
+
+This improves review quality massively.
+
+## Why Character chunking is a Problem for Code RAG ?
+**Suppose you have:**
+```
+class AuthService:
+
+    def validate_token(self):
+        ...
+
+    def login(self):
+        ...
+```
+
+**Character chunking may split like:**
+
+Chunk 1
+```
+class AuthService:
+
+    def validate_token(self):
+```
+
+Chunk 2
+```
+...
+    def login(self):
+```
+
+Now the LLM loses context.
+
+**This causes:**
+- hallucinations
+- incomplete review
+- missed bugs
+- poor retrieval quality
+
+## Best chunking = Structure-Aware Chunking
+For code-review agents, chunk by:
+
+| Better Chunking | Why                     |
+| --------------- | ----------------------- |
+| function        | keeps logic together    |
+| class           | preserves relationships |
+| AST nodes       | best semantic retrieval |
+| module          | preserves architecture  |
+
+**Example of AST-Based Chunking**
+
+Instead of:
+```
+1200 characters
+```
+You do:
+```
+One function = one chunk
+```
+Example:
+```
+def authenticate():
+```
+becomes one chunk.
+
+## Why Big AI Companies Use AST Chunking
+
+Because code is NOT normal text.
+
+Code has:
+- syntax trees
+- scopes
+- dependencies
+- function boundaries
+
+AST chunking preserves semantics.
+
+you now store:
+```
+One function = one semantic chunk
+One class = one semantic chunk
+```
+
+This massively improves:
+- retrieval accuracy
+- bug detection
+- security review
+- hallucination reduction
+
+Now each chunk contains:
+```
+{
+    "source": "auth/service.py",
+    "type": "function",
+    "name": "login_user",
+    "line": 42
+}
+```
+This is VERY powerful later for:
+- PR comments
+- source attribution
+- GitHub annotations
+
+Python AST only works for:
+```
+.py
+```
+
+## Why need Parser ? can't we directly break the code
+Yes — you can directly break the code without a parser.
+That is actually how many basic RAG systems start.
+```
+Example:
+
+splitter = RecursiveCharacterTextSplitter(
+    chunk_size=1200,
+    chunk_overlap=200
+)
+```
+This works.
+
+But the reason parsers (AST / Tree-sitter) are important is because code is structured, not plain text.
+
+**Direct Chunking vs Parser-Based Chunking**
+| Approach            | Works? | Quality |
+| ------------------- | ------ | ------- |
+| Character chunking  | ✅      | Basic   |
+| Line chunking       | ✅      | Better  |
+| Regex chunking      | ✅      | Medium  |
+| AST/Parser chunking | ✅      | Best    |
+
+**What Happens Without a Parser**
+
+Suppose you split this Angular service:
+```
+@Injectable()
+export class AuthService {
+
+  login() {
+      ...
+  }
+
+  refreshToken() {
+      ...
+  }
+}
+```
+Using character chunking:
+```
+Chunk 1:
+@Injectable()
+export class AuthService {
+   login() {
+
+Chunk 2:
+...
+refreshToken() {
+```
+
+Now:
+- ❌ function broken
+- ❌ incomplete logic
+- ❌ retriever confusion
+- ❌ weaker embeddings
+
+**Why This Hurts RAG**
+
+Embeddings depend on semantic meaning.
+
+Broken code chunks create embeddings like:
+```
+"refreshToken() {"
+```
+without context.
+
+The vector DB cannot understand:
+- class ownership
+- dependencies
+- scope
+- relationships
+
+**Parser-Based Chunking**
+
+Parser understands syntax tree:
+```
+Class
+ ├── login()
+ └── refreshToken()
+```
+
+Now chunking becomes:
+```
+Chunk 1 = login()
+Chunk 2 = refreshToken()
+```
+Much cleaner.
+
+**Real Difference in Retrieval**
+
+Without parser
+
+Query:
+```
+review login authentication
+```
+Retriever may return:
+```
+half login + half refreshToken
+```
+
+With parser
+
+Retriever returns:
+```
+full login() method
+```
+Huge improvement.
+
+**For SMALL repos:**
+```
+simple chunking is enough
+```
+
+**For LARGE enterprise repos:**
+```
+AST parsing becomes critical
+```
+
+Especially for:
+- Angular monorepos
+- Nx workspaces
+- microfrontends
+- backend services
+
+## 🏛️ Architecture Summary (Professional Description)
 
 My system is:
 

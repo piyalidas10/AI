@@ -1,38 +1,82 @@
-# Core LangChain framework
+# =========================================================
+# ✅ Core LangChain
+# =========================================================
 langchain==0.2.14
-langchain-community==0.2.12
 langchain-core==0.2.38
+langchain-community==0.2.12
+langchain-text-splitters==0.2.2
 
-# Ollama LLM + Embeddings
+# =========================================================
+# ✅ Ollama
+# =========================================================
 langchain-ollama==0.1.3
 ollama==0.3.3
 
-# Vector Database
+# =========================================================
+# ✅ Vector Database
+# =========================================================
 qdrant-client==1.11.0
 
-# Tokenizer / text utilities
+# =========================================================
+# ✅ Tokenization / Embeddings
+# =========================================================
 tiktoken==0.7.0
 
-# Document processing
+# =========================================================
+# ✅ Document Processing
+# =========================================================
 pypdf==4.3.1
 
-# GitHub repository access
+# =========================================================
+# ✅ GitHub Integration
+# =========================================================
 gitpython==3.1.43
 PyGithub==2.4.0
 
-# Agent orchestration (optional)
+# =========================================================
+# ✅ Agent Framework
+# =========================================================
 langgraph==0.2.16
 
-# Web API
+# =========================================================
+# ✅ FastAPI
+# =========================================================
 fastapi==0.114.0
-uvicorn==0.30.6
+uvicorn[standard]==0.30.6
 
-# Data processing
+# =========================================================
+# ✅ HTTP / Async
+# =========================================================
+httpx==0.27.2
+aiohttp==3.10.5
+
+# =========================================================
+# ✅ Data Processing
+# =========================================================
 numpy==1.26.4
 pandas==2.2.2
 
-# Environment variables
+# =========================================================
+# ✅ Environment Variables
+# =========================================================
 python-dotenv==1.0.1
 
-# Logging
+# =========================================================
+# ✅ Logging
+# =========================================================
 loguru==0.7.2
+
+# =========================================================
+# ✅ AST Parsing (Python)
+# Improves Python AST source extraction reliability. Better metadata extraction.
+# =========================================================
+asttokens==2.4.1
+
+# =========================================================
+# ✅ Tree-sitter (TS/JS semantic chunking)
+# Tree-sitter is a powerful incremental parsing library that can provide more accurate and robust code parsing compared to traditional AST methods, especially for languages like TypeScript and JavaScript.
+# Used for: TypeScript parsing, JavaScript parsing, Angular semantic chunking, React semantic chunking. 
+# This is the BIG upgrade for your code-review agent.
+# =========================================================
+tree-sitter==0.23.0
+tree-sitter-languages==1.10.2

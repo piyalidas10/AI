@@ -1,5 +1,6 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
+from loguru import logger
 
 from app.loaders.github_loader import GithubLoader
 from app.rag.embedder import Embedder
@@ -8,7 +9,15 @@ from app.rag.retriever import Retriever
 from app.agents.reviewer_agent import CodeReviewerAgent
 
 
-app = FastAPI()
+app = FastAPI(
+    title="AI GitHub Code Review Agent",
+    version="1.0.0"
+)
+
+
+# =========================
+# Request Models
+# =========================
 
 class RepoRequest(BaseModel):
     repo_url: str
@@ -18,46 +27,129 @@ class ReviewRequest(BaseModel):
     question: str
 
 
-vector_store_instance = None
+# =========================
+# Health Check
+# =========================
 
+@app.get("/")
+def health_check():
+    return {
+        "status": "running",
+        "service": "AI Code Review Agent"
+    }
+
+
+# =========================
+# Index GitHub Repository
+# =========================
 
 @app.post("/index_repo")
 def index_repo(request: RepoRequest):
 
-    loader = GithubLoader(request.repo_url)
+    try:
 
-    loader.clone_repo()
+        logger.info(f"Cloning repo: {request.repo_url}")
 
-    documents = loader.load_code_files()
+        # Load GitHub repository
+        loader = GithubLoader(request.repo_url)
 
-    chunks = loader.split_documents(documents)
+        loader.clone_repo()
 
-    embedder = Embedder()
+        # Load source code files
+        documents = loader.load_code_files()
 
-    embeddings = embedder.get_embeddings()
+        if not documents:
+            raise HTTPException(
+                status_code=400,
+                detail="No supported code files found"
+            )
 
-    vector_store = VectorStore(embeddings)
+        logger.info(f"Loaded {len(documents)} files")
 
-    vector_store_instance = vector_store.create_vector_store(chunks)
+        # Split documents into chunks
+        chunks = loader.split_documents(documents)
 
-    return {"message": "Repository indexed successfully"}
+        logger.info(f"Created {len(chunks)} chunks")
 
+        # Create embeddings
+        embedder = Embedder()
+
+        embeddings = embedder.get_embeddings()
+
+        # Store in Qdrant
+        vector_store = VectorStore(embeddings)
+
+        vector_store.create_vector_store(chunks)
+
+        logger.info("Vector store created successfully")
+
+        return {
+            "message": "Repository indexed successfully",
+            "files_loaded": len(documents),
+            "chunks_created": len(chunks)
+        }
+
+    except Exception as e:
+
+        logger.exception("Indexing failed")
+
+        raise HTTPException(
+            status_code=500,
+            detail=str(e)
+        )
+
+
+# =========================
+# Review Code
+# =========================
 
 @app.post("/review")
 def review_code(request: ReviewRequest):
 
-    embedder = Embedder()
+    try:
 
-    embeddings = embedder.get_embeddings()
+        logger.info(f"Review question: {request.question}")
 
-    vector_store = VectorStore(embeddings).load_vector_store()
+        # Embeddings
+        embedder = Embedder()
 
-    retriever = Retriever(vector_store)
+        embeddings = embedder.get_embeddings()
 
-    docs = retriever.retrieve(request.question)
+        # Load vector store
+        vector_store = VectorStore(embeddings).load_vector_store()
 
-    agent = CodeReviewerAgent()
+        # Retrieve relevant chunks
+        retriever = Retriever(vector_store)
 
-    review = agent.review_code(request.question, docs)
+        docs = retriever.retrieve(request.question)
 
-    return {"review": review}
+        if not docs:
+            raise HTTPException(
+                status_code=404,
+                detail="No relevant code found"
+            )
+
+        logger.info(f"Retrieved {len(docs)} relevant chunks")
+
+        # AI Reviewer Agent
+        agent = CodeReviewerAgent()
+
+        review = agent.review_code(
+            request.question,
+            docs
+        )
+
+        return {
+            "question": request.question,
+            "review": review,
+            "chunks_used": len(docs)
+        }
+
+    except Exception as e:
+
+        logger.exception("Review failed")
+
+        raise HTTPException(
+            status_code=500,
+            detail=str(e)
+        )
