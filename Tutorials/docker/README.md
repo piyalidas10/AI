@@ -1,498 +1,221 @@
 # Docker
+Docker is an OS‑level virtualization (or containerization) platform, which allows applications to share the host OS kernel instead of running a separate guest OS like in traditional virtualization. This design makes Docker containers lightweight, fast, and portable, while keeping them isolated from one another.
 
-<img src="docker.png" width="80%"/>
+[Docker Docs](https://docs.docker.com/reference/cli/docker/)
 
-- Youtube Tutorial :
-    -  Master Docker Containerisation & Deployments (https://www.youtube.com/playlist?list=PLinedj3B30sDc2woh6XncR9_a310zaAyJ)
-    - Docker for Machine Learning (https://www.youtube.com/watch?v=GToyQTGDOS4&list=PLKnIA16_RmvZ41tjbKB2ZnwchfniNsMuQ&index=11)
-    - Docker is Dead!  (https://www.youtube.com/watch?v=BETonxhkE9A)
-- Docker : https://www.docker.com/
+## How Docker Containers Differ from Virtual Machines
+Before Docker, deploying applications across different environments was a nightmare. Differences in dependencies, library versions, and OS configurations led to the infamous “works on my machine” problem.
+<img width="80%" alt="image" src="https://media.geeksforgeeks.org/wp-content/uploads/20260409180847988992/420047160.webp" />
 
+## Docker solutions
+Docker solves this by standardizing the runtime environment. By bundling the application code with its specific dependencies into a single unit, it ensures the software runs identically whether it’s on a developer's laptop, a test server, or a cloud cluster.
++ Portability: Runs anywhere in local machine, cloud, on‑prem servers.
++ Consistency: Same behavior in development, testing, and production.
++ Lightweight: No full OS per app; containers share the host kernel.
++ Scalability: Ideal for microservices and orchestrators like Kubernetes and Docker Swarm.
++ Efficiency: Starts in seconds, uses fewer system resources.
 
-Docker is a containerization platform that allows you to package an application along with its dependencies into a lightweight, portable unit called a container.
+## 🧠 What the Docker daemon actually is
 
-👉 Containers run consistently across environments:
-    -   Developer machine
-    -   Testing server
-    -   Production cloud
+The Docker daemon is the core service that:
+- Builds images
+- Runs containers
+- Manages networks & volumes
+- Handles container lifecycle
+👉 When you run any Docker command, you’re really talking to the daemon.
 
-> 👉 Solves deployment problems
-
-## 🔥 What Docker gives you
-**✅ 1. Same environment everywhere**
+**1. 🚀 Running a container**
 ```
-Local = staging = production
+docker run nginx
 ```
-No “it works on my machine” issue
+👉 CLI → Docker daemon → creates & starts container
 
-**✅ 2. Zero manual server setup**    
-No need to install softwares & Configure anything manually
-
-**✅ 3. Easy deployment**
+**2. 🏗️ Building an image**
 ```
-docker run my-app
+docker build -t my-app .
 ```
+👉 Daemon reads Dockerfile and builds the image
 
-**✅ 4. Version control for infrastructure**    
-Dockerfile
-
-## When Docker is REALLY useful
-
-👉 Use Docker if:
-- You plan to deploy on AWS / VPS
-- You want CI/CD
-- You want production-ready setup
-- You may add backend later
-
-## 🏗 Core Architectural Concept
-
-**🖥 Virtual Machine**
-
-Runs full OS inside hypervisor.
-
-Hardware
-  ↓
-Hypervisor
-  ↓
-Guest OS
-  ↓
-App
-
-
-Heavy, slow boot, high memory usage.
-
-🐳 Docker Container
-
-Shares host OS kernel.
-
-Hardware
-  ↓
-Host OS
-  ↓
-Docker Engine
-  ↓
-Containers
-     ├── App1
-     ├── App2
-     └── App3
-
-
-Lightweight, fast startup.
-
-## 🖼 What is a Docker Image?
-
-A Docker Image is a read-only blueprint/template used to create containers.
-
-Think of it like:
-  - 📦 Class in OOP
-  - 📀 ISO file
-  - 📄 Blueprint of a building
-
-It contains:
-  - OS base (e.g., python:3.11-slim)
-  - Dependencies
-  - Application code
-  - Environment variables
-  - Startup command
-
+**3. 📦 Managing containers**
 ```
-docker build -t fastapi-app .
+docker ps
+docker stop container_id
+docker rm container_id
 ```
-This creates an image.  
-You can list images:
-```
-docker images
-```
+👉 All handled by the daemon
 
-## 📦 What is a Docker Container?
-
-A Docker Container is a running instance of an image.
-
-Think of it like:
-  - 🏃 Object created from class
-  - 🏠 Actual building from blueprint
-  - 💻 Running program
-
-Created using:
+**4. 🌐 Networking & volumes**
 ```
-docker run fastapi-app
+docker network create my-net
+docker volume create my-vol
 ```
-List containers:
+👉 Daemon manages infrastructure behind the scenes  
+
+If the Docker daemon is NOT running, nothing works:
 ```
 docker ps
 ```
+You’ll get: "Cannot connect to the Docker daemon"
 
-## 🎯 One Image → Multiple Containers
-
-Very important interview point.
+## 🔄 Docker Architecture (simple)
 ```
-                Docker Image
-                    │
-        ┌───────────┼───────────┐
-        ▼           ▼           ▼
-   Container 1  Container 2  Container 3
+Docker CLI  --->  Docker Daemon (dockerd)  --->  containerd  ---> containers
 ```
+- CLI = what you type
+- Daemon = brain
+- containerd = low-level runtime
 
-## Docker Commands
+- Docker CLI = remote control
+- Docker daemon = TV
+- Containers = channels
+👉 Without the TV (daemon), the remote does nothing.
 
-**1️⃣ docker commit** 
-
-🔹 What is docker commit? 
-
-> docker commit creates a new image from a running container. It captures the container’s current state and saves it as an image.
-> docker commit is used to create a new Docker image from a modified container, but it is generally discouraged in production environments in favor of Dockerfile-based builds.
-
-📌 Why It Exists
-  - Normally, we build images using:
-  - Dockerfile → docker build
-
-But sometimes:
-  - You manually install packages inside container
-  - You debug something
-  - You modify files interactively
-  - Then you want to save that state.
-
-🔹 Command
+## 🧠 Docker High-level architecture
 ```
-docker commit <container_id> new-image-name
+Docker CLI  --->  REST API  --->  dockerd  --->  containerd  --->  runc  --->  Linux Kernel
 ```
+Components:
+- Docker CLI → your commands (docker run)
+- dockerd (daemon) → orchestration brain
+- containerd → container lifecycle manager
+- runc → actually creates containers
+- Linux kernel → isolation (namespaces + cgroups)
 
-Example:
+## Dockerfile
+<img src="https://media.geeksforgeeks.org/wp-content/uploads/20260409110311942089/419253548.webp" width="80%" />
+The Dockerfile uses DSL (Domain Specific Language) and contains instructions for generating a Docker image.
 ```
-docker commit 8d91ab23 my-modified-image
+Docker Image → Blueprint (static, read only).
+Docker Container → Running instance of that image (dynamic, executable)
 ```
+- Docker image : A Docker Image is a file made up of multiple layers that contains the instructions to build and run a Docker container. It acts as an executable package that includes everything needed to run an application code, runtime, libraries, environment variables, and configurations.
+- Docker container : A Docker Container is a lightweight, runnable instance of a Docker Image. It packages the application code together with all its dependencies and runs it in an isolated environment. Containers allow applications to run quickly and consistently across different environments — whether on a developer’s laptop, test servers, or production.
 
-**2️⃣ docker save and docker load**
+<img src="https://media.geeksforgeeks.org/wp-content/uploads/20260409110312041527/419253549.webp" width="80%" />
+- Docker Hub : Docker Hub is a repository service and it is a cloud based service where people push their Docker Container Images and also pull the Docker Container Images from the Docker Hub anytime or anywhere via the internet.
 
-These are used to export and import images as files.
+## Why need to delete Docker Container before removing Docker Image?
+You must delete a Docker container before its image because the container relies on that image as its base filesystem; as long as a container (even a stopped one) exists, it maintains a reference to the image layers, preventing their removal to avoid breaking the container's environment.
 
-🔹 docker save  
-Exports an image to a .tar file.
+## FAQs
+1. How do I delete all stopped containers in Docker?
+To delete all stopped containers in Docker, use the following command:
 ```
-docker save -o myimage.tar fastapi-app
+docker compose down
 ```
-
-This creates:
+This command will stop and remove all containers defined in your docker-compose.yml file and does not affect any other stopped containers. If you want to remove every stopped container, use:
 ```
-myimage.tar
+docker container prune
 ```
+2. What happens when I run docker system prune?
+When you run **docker system prune**, Docker will remove all stopped containers and all networks not used by at least one container. Additionally, if you use the -a flag, Docker will also remove all unused images. This command is useful for freeing up disk space and cleaning up your Docker environment.
 
-Use case:
-  - Move image to another server without internet
-  - Backup image
-  - Air-gapped environments
-
-🔹 docker load    
-Imports image from tar file.
+3. Can I remove a running Docker container?
+Yes, you can remove a running Docker container using the **-f** flag with the **docker rm** command. This will force the removal of the container without stopping it first. Here’s an example:
 ```
-docker load -i myimage.tar
-```
-Now image is available locally.
-
-> docker save and docker load allow transferring Docker images between systems without using a registry like Docker Hub.
-
-
-# Docker Container Create
-**Application Folder Structure**
-```
-Fast_API Folder
-    │
-    ├── Dockerfile
-    ├── requirements.txt
-    ├── main.py
-    └── .dockerignore
+docker rm -f <container_id>
 ```
 
-**Docker Container creation diagram**
+4. How do I free up disk space used by Docker?
+To free up disk space used by Docker, you can use the following commands:
+- docker system prune -a to remove all unused images.
+- docker system prune -a -v to remove all unused images and volumes.
+- docker volume prune -a to remove all unused volumes.
+- docker network prune -a to remove all unused networks.
+
+5. What is the difference between docker rm and docker rmi?
+**docker rm** is used to remove a container, while **docker rmi** is used to remove an image. **docker rm** will delete a container and its associated resources, but it will not delete the image that the container was based on. **docker rmi**, on the other hand, will delete an image, but it will not delete any containers that are based on that image.
+
+6. How do I completely remove Docker images?
+To completely remove a Docker image, use the following command:
 ```
-Dockerfile
-     ↓
-docker build
-     ↓
-Docker Image
-     ↓
-docker run
-     ↓
-Docker Container
+docker rmi <image-id>
 ```
+Replace <image-id> with the ID or name of the image. If the image is in use by a container, you must first remove the container before removing the image.
 
-**Create Dockerfile inside Fast_API folder**
+7. How do I remove unused Docker images?
+Unused images (dangling and untagged) can be removed using the following command:
 ```
-# ===============================
-# Base Image
-# ===============================
-FROM python:3.11-slim
-
-# ===============================
-# Environment Variables
-# ===============================
-ENV PYTHONDONTWRITEBYTECODE=1
-ENV PYTHONUNBUFFERED=1
-
-# ===============================
-# Set Working Directory
-# ===============================
-WORKDIR /app
-
-# ===============================
-# Copy Requirements
-# ===============================
-COPY requirements.txt .
-
-# ===============================
-# Install Dependencies
-# ===============================
-RUN pip install --no-cache-dir -r requirements.txt
-
-# ===============================
-# Copy Project Files
-# ===============================
-COPY . .
-
-# ===============================
-# Expose Port
-# ===============================
-EXPOSE 8000
-
-# ===============================
-# Start FastAPI App
-# ===============================
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+docker image prune
+```
+To remove all unused images, use the --all flag:
+```
+docker image prune --all
 ```
 
-**Add .dockerignore**
+8. How do I clear all Docker images and cache?
+To remove all Docker images, containers, volumes, and networks, use this command:
 ```
-myenv
-__pycache__
-.git
-.gitignore
-imgs
-*.pyc
+docker system prune --all --volumes
 ```
-Do NOT include:
-    -   myenv/
-    -   __pycache__/
-    -   .git/
-    -   imgs/ (if not needed)
+Note: This command will delete everything related to Docker, including all stopped containers and volumes.
 
+9. How do I remove files from a Docker image?
+You cannot directly modify a Docker image. Instead, create a new image without the unwanted files. Here’s how:
 
-# Docker Container RUN
-Download the application from github repo
+Start and login inside the container from the image:
 ```
-https://github.com/piyalidas10/AI/tree/main/Fast_API
+docker run -it <image-id> /bin/bash
 ```
+Now, remove files within the container as needed.
 
-**Inside Fast_API folder, run the bellow command**
+Next, commit the changes to a new image:
 ```
-docker build -t fastapi-enterprise .
+docker commit <container-id> <new-image-name>
 ```
-⚠ The . is important (current folder context).
+Note: Using docker commit is generally discouraged for production workflows. The recommended approach is to update the Dockerfile to exclude unwanted files and rebuild the image. docker commit should be used only for quick experiments or debugging.
 
-**▶ Run Container**  
+10. How do I remove old Docker containers?
+To remove containers that have been inactive for a specified time, use the following:
 ```
-docker run -p 8000:8000 fastapi-enterprise
+docker ps -a --filter "status=exited" --filter "status=created"
+docker rm $(docker ps -a -q --filter "status=exited" --filter "status=created")
 ```
+This removes containers with **exited** or **created** status. Adjust the filter based on your needs.
 
-**🌐 Test**
+11. Where are Docker images stored?
+Docker keeps its images and container data in different places depending on the operating system and backend in use.
 
-Open in browser:
+ - Linux:
+    On Linux systems, Docker stores all image layers, containers, and related metadata under a single directory by default:
+    ```
+      /var/lib/docker
+    ```
+    The internal layout of this directory varies based on the storage driver configured on the host, such as overlay2 or containerd.
+
+- macOS:
+  When using Docker Desktop on macOS, Linux containers and images are stored inside a virtual disk file rather than directly on the host filesystem. This file is   typically found at:
+  ```
+    ~/Library/Containers/com.docker.docker/Data/vms/0/Docker.raw
+    You can inspect or change where this disk image is stored from the Docker Desktop interface by navigating to: Settings -> Resources -> Advanced -> Disk image location
+  ```
+
+- Windows:
+
+On Windows, Docker’s storage path depends on the container mode and backend:
+
+Linux containers with WSL 2: Data is stored within the user profile at:
 ```
-http://localhost:8000
+%USERPROFILE%\AppData\Local\Docker\wsl\data
 ```
-
-Swagger:
+Windows containers (windowsfilter driver): Image and container data reside under:
 ```
-http://localhost:8000/docs
+C:\ProgramData\docker\image
+C:\ProgramData\docker\windowsfilter
 ```
+Hyper-V backend (legacy): The storage directory is configurable during installation using the --hyper-v-default-data-root installer option.
 
-Test with Postman:
+You can verify the storage driver and path using:
 ```
-POST http://localhost:8000/posts
-```
-
-
-## Can a Docker Container contains both Fast api and PostgreSQL database ? or we need to create Docker Composer ?
-
-✅ Technically possible 
-❌ Not recommended  
-✅ Best practice → Use Docker Compose with separate containers  
-
-Since you’re building enterprise-style FastAPI, you should definitely use:  
-👉 Separate containers + Docker Compose
-
-**🐳 Option 1: Single Docker Container (FastAPI + PostgreSQL Together)**
-
-You can install both inside one container:
-```
-Container
- ├── FastAPI
- ├── Uvicorn
- └── PostgreSQL Server
+docker info | grep "Docker Root Dir"
 ```
 
-How it would look:
+12. How do I remove a container when Docker is finished?
+To automatically remove a container after it exits, use the --rm flag when starting the container:
 ```
-Postman
-   ↓
-Docker Container
-   ├── FastAPI App
-   └── PostgreSQL DB
+docker run --rm <image-id>
 ```
+This ensures the container is removed as soon as it stops.
 
-❌ Why This Is Bad Practice 
---------------------------------------------------- 
-1. Docker principle = One process per container 
-2. Hard to scale independently  
-3. Hard to restart DB without killing API   
-4. Not cloud-native 
-5. Not production-friendly  
-6. Docker containers are designed to run one main service.  
 
-**✅ Option 2 (Recommended): Separate Containers Using Docker Compose**
 
-This is industry standard.
-```
-Container 1 → FastAPI
-Container 2 → PostgreSQL
-```
-
-Managed by: 👉 Docker Compose
-
-**🚀 Why Separate Containers Is Best Practice**
-| Feature          | Single Container  | Docker Compose   |
-| ---------------- | ----------------- | ---------------- |
-| Scalability      | ❌ No             | ✅ Yes          |
-| Maintenance      | ❌ Hard           | ✅ Easy         |
-| Restart DB only  | ❌ No             | ✅ Yes          |
-| Production Ready | ❌ No             | ✅ Yes          |
-| Cloud Deployable | ❌ Poor           | ✅ Excellent    |
-
-**🔥 Real Industry Pattern**
-
-In production:
-    -   1 container → FastAPI
-    -   1 container → PostgreSQL
-    -   1 container → Redis (optional)
-    -   1 container → Nginx (optional)
-    -   All managed by Docker Compose or Kubernetes
-
-## 🐳 Docker vs Virtual Machine (Deep Architecture)
-
-> Virtual machines virtualize hardware and run a full OS per instance, whereas Docker containers virtualize at the OS level, sharing the host kernel, making them lightweight and faster to start.
-
-**🔹 Virtual Machine Architecture**
-```
-Hardware
-   ↓
-Hypervisor (VMware, VirtualBox)
-   ↓
-Guest OS
-   ↓
-Application
-```
-Each VM has:
-  - Full OS
-  - Own kernel
-  - Dedicated resources
-Heavyweight.
-
-**🔹 Docker Architecture**
-```
-Hardware
-   ↓
-Host OS
-   ↓
-Docker Engine
-   ↓
-Containers
-```
-
-Containers:
-  - Share host kernel
-  - Use namespaces
-  - Use cgroups
-  - No full OS per container
-Lightweight.
-
-| Feature        | Virtual Machine | Docker Container |
-| -------------- | --------------- | ---------------- |
-| OS             | Full OS per VM  | Shared OS kernel |
-| Startup Time   | Minutes         | Seconds          |
-| Size           | GBs             | MBs              |
-| Isolation      | Strong          | Process-level    |
-| Performance    | Slower          | Near-native      |
-| Resource Usage | High            | Low              |
-| Scaling        | Slow            | Fast             |
-
-**🧠 Kernel Sharing Concept** 
-VM:
-```
-VM1 → Linux Kernel
-VM2 → Linux Kernel
-VM3 → Linux Kernel
-```
-
-Docker:
-```
-Container1 → Shared Kernel
-Container2 → Shared Kernel
-Container3 → Shared Kernel
-```
-That’s why containers are lighter.
-
-**🔒 Isolation Mechanism**
-
-Docker uses:
-  - Linux Namespaces (PID, Network, Mount)
-  - Cgroups (CPU, Memory limits)
-  - Union Filesystem (Layered FS)
-
-VM uses:
-  - Hardware virtualization
-
-**🏗 Enterprise Architecture Example**  
-
-VM-Based Deployment
-```
-VM1 → App
-VM2 → DB
-VM3 → Cache
-```
-High cost, heavy infra.
-
-Container-Based Microservices
-```
-Node
- ├── Container (API)
- ├── Container (DB)
- ├── Container (Redis)
-```
-Scalable & cloud-native.
-
-**🎯 When to Use VM Instead of Docker?**  
-✔ Strong isolation required  
-✔ Different OS kernels needed  
-✔ Legacy monolithic apps 
-
-**🎯 When to Use Docker?**  
-✔ Microservices   
-✔ CI/CD  
-✔ DevOps pipelines   
-✔ Cloud-native apps    
-✔ Fast scaling 
-
-## Docker Compose vs Docker Container
-
-Docker Compose is a tool for managing multi-container applications, while the docker container command is used for managing individual containers. Docker Compose uses a single YAML configuration file to define how all the services of an application should work together, which simplifies running complex, multi-service applications. 
-
-#### Docker Container
-
-  ✔ Function: Manages individual containers, such as starting, stopping, or viewing the status of a single, running instance of a Docker image.  
-  ✔ Usage: It uses direct command-line arguments (e.g., docker run, docker stop, docker network create) which can become complex and lengthy when managing multiple containers and their configurations.   
-  ✔ Best For: Simple applications with a single service, quick testing of an individual image, or performing one-off administrative tasks.   
-
-#### Docker Compose
-
-  ✔ Function: Orchestrates an entire application stack consisting of multiple, interconnected services (e.g., a web application, a database, and a cache).   
-  ✔ Usage: It uses a declarative configuration file (docker-compose.yml or compose.yml) where you define services, networks, and volumes. A single command, such as docker compose up, then creates and starts all the defined services and their dependencies automatically.    
-  ✔ Best For: Multi-service applications, ensuring consistent development and CI/CD environments, managing dependencies between services, and simplifying the setup and tear-down of complex application environments.     
