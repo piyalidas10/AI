@@ -262,3 +262,57 @@ docker stop $(docker ps -q)
 ```
 docker rm $(docker ps -aq)
 ```
+
+### Reset and Rebuild your Docker Compose environment
+```
+docker compose down -v
+docker compose build --no-cache
+docker compose up
+```
+
+**1. Stop and remove everything**
+```
+docker compose down -v
+```
+Removes:
+- Running containers
+- Networks
+- Volumes (-v)
+- Anonymous data
+
+Useful when:
+- Database got corrupted
+- Cache issues
+- Old dependencies remain
+- Fresh environment needed
+
+**2. Rebuild images from scratch**
+```
+docker compose build --no-cache
+```
+Forces Docker to:
+- Ignore previous cached layers
+- Reinstall packages
+- Re-run all Dockerfile steps
+
+Useful when:
+- package.json changed
+- requirements.txt changed
+- Docker cache causing issues
+- ENV variables updated
+
+**3. Start services**
+```
+docker compose up
+```
+Starts all services defined in docker-compose.yml.
+
+For background mode:
+```
+docker compose up -d
+```
+For live logs:
+```
+docker compose logs -f
+```
+

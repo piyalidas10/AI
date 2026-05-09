@@ -5,6 +5,8 @@ Compose simplifies the control of your entire application stack, making it easy 
 
 Compose works in all environments - production, staging, development, testing, as well as CI workflows. 
 
+<img src="imgs/Docker_Compose_Default.png" width="100%" />
+
 **It also has commands for managing the whole lifecycle of your application:**
 - Start, stop, and rebuild services
 - View the status of running services
@@ -18,6 +20,9 @@ Compose works in all environments - production, staging, development, testin
 - One-Command Operations: Use docker compose up to build and start everything at once, and docker compose down to stop and remove all related resources
 
 ## docker-compose.yml
+
+<img src="imgs/Docker_Compose.png" width="100%" />
+
 ```
 services:
 
@@ -140,7 +145,7 @@ Inside:
 ```
 FastAPI Application (uvicorn)
 ```
-runs.
+runs. FastAPI is a web framework for building the logic of your application, while Uvicorn is a web server that runs that application. 
 
 Responsibilities of API Service
 
