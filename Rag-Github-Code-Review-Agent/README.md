@@ -22,15 +22,16 @@ This agent will:
 - Retrieve relevant code
 - Use LLM to review code
 
-| Layer       | Tool                     |
-| ----------- | ------------------------ |
-| API         | FastAPI                  |
-| Agent       | LangChain / Autogen      |
-| LLM         | OpenAI / Ollama / Claude |
-| Embedding   | Nomic / Ada-003          |
-| Vector DB   | Qdrant                   |
-| Repo access | GitHub API               |
-| UI          | Streamlit / Jinja2       |
+| Layer               | Technology            |
+| ------------------- | --------------------- |
+| Orchestration       | Docker Compose        |
+| API Layer           | FastAPI               |
+| AI Inference        | Ollama                |
+| Vector Storage      | Qdrant                |
+| Persistence         | Docker Volumes        |
+| Networking          | Docker Bridge Network |
+| Development Runtime | Uvicorn               |
+
 
 Project structure:
 ```
@@ -59,12 +60,6 @@ docker compose down -v
 docker compose build --no-cache
 docker compose up
 ```
-<img src="imgs/docker_compose_down_v.png" width="70%">
-<img src="imgs/docker_compose_build_no_cache.png" width="70%">
-<img src="imgs/docker_compose_up.png" width="70%">
-
-> The docker compose down command stops and removes the containers, networks, and the default network that were created by docker compose up.
-> Restart your containers: docker compose restart
 
 3. From your project root:
 open new gitbash or cmd to run the command following command.
@@ -73,7 +68,6 @@ docker exec -it ollama ollama pull phi3
 docker exec -it ollama ollama pull nomic-embed-text
 ```
 Wait until both models download completely.
-<img src="imgs/ollama_pull.png" width="70%">
 
 You can verify:
 ```
@@ -82,7 +76,7 @@ docker exec -it ollama ollama list
 
 You should see something like:
 ```
-llama3
+phi3
 nomic-embed-text
 ```
 
@@ -95,6 +89,118 @@ So 👉 AFTER containers are running, not before docker compose build.
    -  Ollama service is not running yet
 
 So if you try to pull before container is running → ❌ it won’t work.
+
+4. 🌐 Testing using POSTMAN
+
+Step 1 — Open Postman   
+Step 2 — Test /index_repo   
+Method:
+```
+POST
+```
+URL:
+```
+http://localhost:8000/index_repo
+```
+Add Headers:
+| Key          | Value            |
+| ------------ | ---------------- |
+| Content-Type | application/json |
+
+Add Body (Body → raw → JSON):
+```
+{
+  "repo_url": "https://github.com/pypa/sampleproject.git"
+}
+```
+Click:
+```
+Send
+```
+Expected Response
+```
+{
+    "message": "Repository indexed successfully",
+    "files_loaded": 5,
+    "chunks_created": 5
+}
+```
+<img src="imgs/postman_fastapi_testing.png" width="70%">
+
+Step 6 — Test /review   
+Create another POST request.    
+URL:
+```
+http://localhost:8000/review
+```
+Headers:
+```
+Content-Type: application/json
+```
+Body:
+```
+{
+  "question": "Find security vulnerabilities in authentication code"
+}
+```
+Click:
+```
+Send
+```
+Expected Response
+```
+{
+    "question": "Find security vulnerabilities in authentication code",
+    "review": "FILE: repo/src/sample/auth.py (Assumed file based on context)\nLANGUAGE: python\nCHUNK_TYPE: function\n\ndef authenticate(username, password):\n    \"\"\"Authenticates a user against the system.\"\"\"\n    if username == 'admin' and password == 'password123':  # Hardcoded credentials for simplicity in this example. Not secure!\n        return True\n    else:\n        print(\"Authentication failed.\")\n        return False\n            \n\nIssue Type: Security Vulnerability (Hardcoding Credentials)\nSeverity: High\nExplanation: Storing and comparing credentials directly in the code is a significant security risk. It exposes sensitive information that could be easily exploited by an attacker, leading to unauthorized access if they gain knowledge of these hardcoded values. This practice goes against secure coding standards which advocate for using environment variables or dedicated secrets management systems like HashiCorp's Vault, AWS Secrets Manager, etc.\nSuggested Fix: Store credentials in an external configuration file that is not included in the version control system (e.g., `.env` files",
+    "chunks_used": 2
+}
+```
+<img src="imgs/postman_fastapi_testing_review.png" width="70%">
+
+5. See Actual Embedding Vectors
+
+Use this API:
+```
+POST http://localhost:6333/collections/github_code/points/scroll
+```
+In Postman:
+
+Headers
+```
+Content-Type: application/json
+```
+Body
+```
+{
+  "limit": 1,
+  "with_payload": true,
+  "with_vector": true
+}
+```
+This returns:
+```
+{
+    "result": {
+        "points": [
+            {
+                "id": "129c7a97-5daa-4df0-82c2-f1710545e0a7",
+                "payload": {
+                    "page_content": "def build_and_check_dists(session):\n    session.install(\"build\", \"check-manifest >= 0.42\", \"twine\")\n    # If your project uses README.rst, uncomment the following:\n    # session.install(\"readme_renderer\")\n\n    session.run(\"check-manifest\", \"--ignore\", \"noxfile.py,tests/**\")\n    session.run(\"python\", \"-m\", \"build\")\n    session.run(\"python\", \"-m\", \"twine\", \"check\", \"dist/*\")",
+                    "metadata": {
+                        "source": "repo/noxfile.py",
+                        "language": "python",
+                        "type": "function",
+                        "name": "build_and_check_dists",
+                        "line": 33
+                    }
+                },
+                "vector": [
+                    -0.011668822,
+                    -0.021180112,
+                    -0.17102027,
+                    
+```
+<img src="imgs/localhost_6333_qdrant_vector_embedding.png" width="70%">
 
 4. 🌐 Open FastAPI UI
 ```
@@ -172,15 +278,18 @@ Qdrant → rag_collection
 Let me explain exactly what each part means.
 
 ```
-Point: 0081db12-7b4c-4f8b-8b12-d293331b2dc3
+Point: Point 129c7a97-5daa-4df0-82c2-f1710545e0a7
 Payload:
 {
-  "page_content": "identity. 3. Respect privacy Never include persona…"
-  "metadata": {}
+"page_content":"def build_and_check_dists(session): session.in…"
+"metadata":{
+"source":"repo/noxfile.py"
+"language":"python"
+"type":"function"
+"name":"build_and_check_dists"
+"line":33
 }
-Vectors:
-Default vector
-Length: 768
+}
 ```
 
 🧠 1️⃣ Point ID : 0081db12-7b4c-4f8b-8b12-d293331b2dc3  

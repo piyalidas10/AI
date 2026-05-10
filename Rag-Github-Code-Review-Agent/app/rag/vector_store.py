@@ -1,9 +1,12 @@
 from loguru import logger
 
 from qdrant_client import QdrantClient
-from qdrant_client.http.models import Distance, VectorParams
+from qdrant_client.http.models import (
+    Distance,
+    VectorParams
+)
 
-from langchain_community.vectorstores import Qdrant
+from langchain_qdrant import QdrantVectorStore
 
 
 class VectorStore:
@@ -14,12 +17,14 @@ class VectorStore:
 
         self.collection_name = "github_code"
 
-        # Docker internal hostname
-        self.qdrant_url = "http://qdrant:6333"
+        # Qdrant Docker service
+        self.qdrant_host = "qdrant"
+        self.qdrant_port = 6333
 
+        # Qdrant Client
         self.client = QdrantClient(
-            host="qdrant",
-            port=6333
+            host=self.qdrant_host,
+            port=self.qdrant_port
         )
 
     # =====================================================
@@ -27,6 +32,8 @@ class VectorStore:
     # =====================================================
 
     def ensure_collection(self):
+
+        logger.info("Checking Qdrant collections")
 
         collections = self.client.get_collections().collections
 
@@ -49,8 +56,18 @@ class VectorStore:
                 )
             )
 
+            logger.info(
+                f"Collection created: {self.collection_name}"
+            )
+
+        else:
+
+            logger.info(
+                f"Collection already exists: {self.collection_name}"
+            )
+
     # =====================================================
-    # Create / Store Documents
+    # Store Documents In Qdrant
     # =====================================================
 
     def create_vector_store(self, documents):
@@ -59,21 +76,25 @@ class VectorStore:
             f"Storing {len(documents)} documents in Qdrant"
         )
 
+        # Ensure collection exists
         self.ensure_collection()
 
-        vector_store = Qdrant.from_documents(
+        # Create vector store
+        vector_store = QdrantVectorStore.from_documents(
             documents=documents,
             embedding=self.embeddings,
-            url=self.qdrant_url,
+            url=f"http://{self.qdrant_host}:{self.qdrant_port}",
             collection_name=self.collection_name
         )
 
-        logger.info("Documents stored successfully")
+        logger.info(
+            "Documents stored successfully in Qdrant"
+        )
 
         return vector_store
 
     # =====================================================
-    # Load Existing Collection
+    # Load Existing Vector Store
     # =====================================================
 
     def load_vector_store(self):
@@ -82,8 +103,46 @@ class VectorStore:
             f"Loading collection: {self.collection_name}"
         )
 
-        return Qdrant(
+        vector_store = QdrantVectorStore(
             client=self.client,
             collection_name=self.collection_name,
-            embeddings=self.embeddings
+            embedding=self.embeddings
         )
+
+        logger.info(
+            "Vector store loaded successfully"
+        )
+
+        return vector_store
+
+    # =====================================================
+    # Delete Collection
+    # =====================================================
+
+    def delete_collection(self):
+
+        logger.warning(
+            f"Deleting collection: {self.collection_name}"
+        )
+
+        self.client.delete_collection(
+            collection_name=self.collection_name
+        )
+
+        logger.info("Collection deleted")
+
+    # =====================================================
+    # Get Collection Info
+    # =====================================================
+
+    def get_collection_info(self):
+
+        info = self.client.get_collection(
+            collection_name=self.collection_name
+        )
+
+        logger.info(
+            f"Collection info: {info}"
+        )
+
+        return info

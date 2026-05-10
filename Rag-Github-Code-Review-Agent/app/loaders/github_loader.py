@@ -53,7 +53,12 @@ class GithubLoader:
                     "dist",
                     "build",
                     ".next",
-                    "venv"
+                    "venv",
+                    "docs",
+                    "tests",
+                    "examples",
+                    ".github",
+                    "site-packages"
                 ]
             ]
 

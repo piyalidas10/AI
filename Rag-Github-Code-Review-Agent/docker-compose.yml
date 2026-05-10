@@ -37,7 +37,7 @@ services:
       - ./app/uploaded_docs:/app/uploaded_docs
       - ./logs:/app/logs
 
-    command: uvicorn app.api.main:app --host 0.0.0.0 --port 8000 --reload
+    command: uvicorn app.api.main:app --host 0.0.0.0 --port 8000
 
 volumes:
   qdrant_storage:

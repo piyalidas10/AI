@@ -16,6 +16,7 @@ ollama==0.3.3
 # ✅ Vector Database
 # =========================================================
 qdrant-client==1.11.0
+langchain-qdrant==0.1.4
 
 # =========================================================
 # ✅ Tokenization / Embeddings
@@ -78,5 +79,19 @@ asttokens==2.4.1
 # Used for: TypeScript parsing, JavaScript parsing, Angular semantic chunking, React semantic chunking. 
 # This is the BIG upgrade for your code-review agent.
 # =========================================================
-tree-sitter==0.23.0
+tree-sitter==0.21.3
 tree-sitter-languages==1.10.2
+
+# =========================================================
+# ✅ Validation / Serialization
+# FastAPI already uses it internally, but pinning version avoids future incompatibility issues.
+# Very important for production APIs.
+# =========================================================
+pydantic==2.8.2
+
+# =========================================================
+# ✅ Retry / Resilience
+# Useful later for: Ollama retry, Qdrant retry, GitHub API retry, transient network failure handling
+# Enterprise systems almost always need retries.
+# =========================================================
+tenacity==8.5.0

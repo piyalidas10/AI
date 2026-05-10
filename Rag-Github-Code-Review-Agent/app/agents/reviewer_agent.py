@@ -14,53 +14,42 @@ class CodeReviewerAgent:
         self.llm = ChatOllama(
             model="phi3",
             temperature=0,
+            num_ctx=1024,
+            num_predict=256,
             base_url="http://ollama:11434"
         )
 
         # Prompt Template
         self.prompt = ChatPromptTemplate.from_template(
             """
-            You are a senior software engineer performing a professional code review.
+            You are a senior software engineer performing a code review.
 
-            STRICT RULES:
-            - Use ONLY the provided context
-            - Do NOT hallucinate
-            - If context is insufficient, say so
-            - Focus on practical engineering issues
-            - Be concise but technically accurate
+            Use ONLY the provided context.
+            Do NOT hallucinate.
+            If context is insufficient, say so.
 
             Review for:
-            1. Bugs
-            2. Security vulnerabilities
-            3. Performance issues
-            4. Readability problems
-            5. Best practices
-            6. Maintainability
+            - bugs
+            - security vulnerabilities
+            - performance issues
+            - readability problems
+            - best practices
 
             For each issue provide:
 
             File:
-            Language:
             Issue Type:
             Severity:
             Explanation:
             Suggested Fix:
 
-            ========================
-            CONTEXT
-            ========================
-
+            Context:
             {context}
 
-            ========================
-            QUESTION
-            ========================
-
+            Question:
             {question}
 
-            ========================
-            REVIEW
-            ========================
+            Provide the review now.
             """
         )
 
@@ -88,9 +77,13 @@ class CodeReviewerAgent:
             CHUNK_TYPE: {chunk_type}
             """
 
-            context_parts.append(
-                header + "\n" + doc.page_content
-            )
+            content = f"""
+            {header}
+
+            {doc.page_content[:1500]}
+            """
+
+            context_parts.append(content)
 
         return "\n\n".join(context_parts)
 
