@@ -1,6 +1,8 @@
 # RAG - AI Agents - Agentic RAG
 Here's how the architecture evolved to get there 👇
 
+<img src="./img/RAG%20-%20AI%20Agents%20-%20Agentic%20RAG.gif" width="70%" />
+
 **📌 RAG - Where It All Started**
 
 Give an LLM access to your private data. Retrieve relevant chunks. Augment the prompt. Generate.
