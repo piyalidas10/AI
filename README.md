@@ -45,32 +45,32 @@ The Reality of AI Nobody Tells You | AI Agents, LLMs & Generative AI : https://w
            - Live Web Data: Real-time search engines, news feeds, and live APIs (e.g., fetching weather or stock prices).
            - Version Control & Code: Code repositories (like GitHub) and technical API documentation.
 6. Agentic AI : AI Agent is created by three components LLM (Brain), Memory (Short-Term Memory, Long-Term Memory, External Memory) and Tools.
-   Tools : Agents become powerful when connected to tools.
+      - Tools : Agents become powerful when connected to tools.
          - APIs
          - databases
          - email systems
          - payment gateways
          - search engines
          - CRMs   
-   Agent Workflow : Observe → Plan → Act → Reflect
-   Multi-Agent Systems :
+      - Agent Workflow : Observe → Plan → Act → Reflect
+      - Multi-Agent Systems :
       
-   | Agent          | Responsibility     |
-   | -------------- | ------------------ |
-   | Order Agent    | Order handling     |
-   | Payment Agent  | Payment processing |
-   | Delivery Agent | Rider coordination |
-   | Support Agent  | Customer issues    |
+         | Agent          | Responsibility     |
+         | -------------- | ------------------ |
+         | Order Agent    | Order handling     |
+         | Payment Agent  | Payment processing |
+         | Delivery Agent | Rider coordination |
+         | Support Agent  | Customer issues    |
 
-   Popular Agentic AI Frameworks
-    - For Simple Workflows
-      - LangChain
-    - For Complex Multi-Agent Systems
-     - LangGraph
-     - Enterprise Managed Platforms
-     - Amazon Web Services Bedrock
-     - Microsoft AutoGen
-     - Google Vertex AI
+      - Popular Agentic AI Frameworks
+       - For Simple Workflows
+         - LangChain
+       - For Complex Multi-Agent Systems
+        - LangGraph
+        - Enterprise Managed Platforms
+        - Amazon Web Services Bedrock
+        - Microsoft AutoGen
+        - Google Vertex AI
 
 So the correct hierarchy is:
 ```
