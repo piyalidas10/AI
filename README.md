@@ -1,4 +1,23 @@
 # Artificial Intelligent
+
+## Foundational explanation of how Modern AI Systems evolved from Rule-based Systems to Agentic AI
+The Reality of AI Nobody Tells You | AI Agents, LLMs & Generative AI : https://www.youtube.com/watch?v=gqRWi9X_TD0
+
+1. Conventional AI (Rule-Based AI) : The system follows predefined rules. Examples are Spam detection, Fraud detection, Traffic signal systems. Fails when new unseen patterns appear.
+2. Deep Learning : Instead of manually writing rules, the system learns patterns from data. Examples are Netflix recommendations, Instagram reels feed, YouTube recommendations, Face recognition. The model learns from user behavior, preferences, timing, engagement patterns etc, but cannot generate truly new content independently.
+3. Generative AI : This is where modern LLMs come in. Examples are OpenAI's ChatGPT, Google's Gemini, Anthropic's Claude etc. It creates text, code, images, music, summaries, emails, UI code, documentation etc. Limitation of Generative AI is that it can search hotels, flights but can't book for you.
+4. Agentic AI : AI Agent is created by three components LLM (Brain), Memory and Tools.
+
+So the correct hierarchy is:
+```
+AI
+ └── Machine Learning
+      └── Deep Learning
+           └── Generative AI
+                └── Agentic AI Systems
+```
+That’s the technically accurate structure.
+
 <img src="imgs/ai_system_layers.gif" width="70%"/>
 
 ## 𝗚𝗲𝗻𝗲𝗿𝗮𝘁𝗶𝘃𝗲 𝗔𝗜 vs 𝗔𝗴𝗲𝗻𝘁𝗶𝗰 𝗔𝗜 vs 𝗟𝗟𝗠𝘀
