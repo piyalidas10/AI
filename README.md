@@ -3,10 +3,74 @@
 ## Foundational explanation of how Modern AI Systems evolved from Rule-based Systems to Agentic AI
 The Reality of AI Nobody Tells You | AI Agents, LLMs & Generative AI : https://www.youtube.com/watch?v=gqRWi9X_TD0
 
-1. Conventional AI (Rule-Based AI) : The system follows predefined rules. Examples are Spam detection, Fraud detection, Traffic signal systems. Fails when new unseen patterns appear.
-2. Deep Learning : Instead of manually writing rules, the system learns patterns from data. Examples are Netflix recommendations, Instagram reels feed, YouTube recommendations, Face recognition. The model learns from user behavior, preferences, timing, engagement patterns etc, but cannot generate truly new content independently.
-3. Generative AI : This is where modern LLMs come in. Examples are OpenAI's ChatGPT, Google's Gemini, Anthropic's Claude etc. It creates text, code, images, music, summaries, emails, UI code, documentation etc. Limitation of Generative AI is that it can search hotels, flights but can't book for you.
-4. Agentic AI : AI Agent is created by three components LLM (Brain), Memory and Tools.
+1. Conventional AI (Rule-Based AI) : The system follows predefined rules. It refers to systems designed to analyze specific data, recognize patterns, and make decisions or predictions within predefined parameters.
+   Examples are :
+    - Spam Filters: AI algorithms in email providers (like Gmail) analyze incoming messages for patterns, flagging potential junk or phishing before it hits the inbox.
+    - Predictive Text: Smartphone keyboards and word processors use AI to analyze the words being typed and suggest the next logical word or correct typos.
+    - Recommendation Systems: Streaming platforms (like Netflix) and online retailers (like Amazon) use machine learning to analyze past purchases and viewing history, then suggest relevant items.
+    - Dynamic Pricing: Ride-sharing apps (like Uber) use conventional AI models to instantly analyze traffic, time of day, and rider demand to calculate fares.
+    - Fraud Detection: Banking institutions use AI to instantly analyze transaction histories in real-time, identifying unusual activity that deviates from a customer's standard behavior.
+    - Credit Scoring: Loan applications are frequently evaluated by AI models that quickly assess financial risk based on thousands of historical data points.
+    - Route Optimization: Mapping apps (like Google Maps) utilize AI algorithms to evaluate travel speed, distance, and real-time traffic data to find the fastest route.
+    - Voice Assistants: Digital assistants (like Apple Siri) rely on speech recognition and natural language processing to process audio commands and execute specific tasks.
+    - Medical Diagnostics: In healthcare, AI models are trained on thousands of medical images (like X-rays or MRIs) to identify early signs of abnormalities or diseases.
+    - Autonomous Driving: Self-driving cars (like Tesla) rely on computer vision and obstacle detection AI to continuously process environmental data and make real-time navigational decisions.
+
+   Fails when new unseen patterns appear.
+3. Deep Learning : Instead of manually writing rules, the system learns patterns from data. Examples are Netflix recommendations, Instagram reels feed, YouTube recommendations, Face recognition. The model learns from user behavior, preferences, timing, engagement patterns etc, but cannot generate truly new content independently.
+4. Generative AI : This is where modern LLMs come in. Examples are OpenAI's ChatGPT, Google's Gemini, Anthropic's Claude etc. It creates text, code, images, music, summaries, emails, UI code, documentation etc. Limitation of Generative AI is that it can search hotels, flights but can't book for you.
+   - LLM works : LLMs are trained on trillions of tokens. A token can be word, subword, punctuation.
+       Example: "My name is Ajay"
+        Tokens:
+          - My
+          - name
+          - is
+          - Ajay
+         These tokens become vectors (embeddings).
+    - Embeddings & Vector Databases : Text → converted into numbers (vectors).
+       Those vectors are stored in:
+        - Qdrant
+        - Pinecone
+        - Weaviate
+        - Chroma
+       This enables:
+        - semantic search
+        - similarity matching
+        - contextual retrieval
+     - RAG (Retrieval-Augmented Generation) : LLMs do not know your company’s private data.
+        - External knowledge sources
+           - Unstructured Text: Internal wikis, policy manuals, corporate reports, emails, legal contracts, and knowledge bases.
+           - Media & Files: PDFs, research papers, slide decks, and whitepapers.
+           - Structured Data: SQL or NoSQL databases, product catalogs, employee directories, and CRM platforms.
+           - Live Web Data: Real-time search engines, news feeds, and live APIs (e.g., fetching weather or stock prices).
+           - Version Control & Code: Code repositories (like GitHub) and technical API documentation.
+6. Agentic AI : AI Agent is created by three components LLM (Brain), Memory (Short-Term Memory, Long-Term Memory, External Memory) and Tools.
+   Tools : Agents become powerful when connected to tools.
+         - APIs
+         - databases
+         - email systems
+         - payment gateways
+         - search engines
+         - CRMs   
+   Agent Workflow : Observe → Plan → Act → Reflect
+   Multi-Agent Systems :
+      
+   | Agent          | Responsibility     |
+   | -------------- | ------------------ |
+   | Order Agent    | Order handling     |
+   | Payment Agent  | Payment processing |
+   | Delivery Agent | Rider coordination |
+   | Support Agent  | Customer issues    |
+
+   Popular Agentic AI Frameworks
+    - For Simple Workflows
+      - LangChain
+    - For Complex Multi-Agent Systems
+     - LangGraph
+     - Enterprise Managed Platforms
+     - Amazon Web Services Bedrock
+     - Microsoft AutoGen
+     - Google Vertex AI
 
 So the correct hierarchy is:
 ```
