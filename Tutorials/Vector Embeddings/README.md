@@ -43,6 +43,10 @@ This allows:
 ## 🔹 What are Embedding Models ?
 Embedding models take text, images, or other data and transform them into numerical representations. These numbers capture the essential meaning of the data, allowing machines to understand it better.
 
+<img src="imgs/Correct vs incorrect embedding approach for similarity search.png" width="100%" />
+
+> In a RAG (Retrieval-Augmented Generation) system, the document embeddings and the user query embeddings should generally be created using the same embedding model. This is one of the most important requirements for obtaining accurate similarity search results.
+
 Think of it like this: Imagine a dictionary that translates words into unique codes. Embedding models do something similar, but instead of single words, they code complex ideas and relationships.
 
 **Benefits of Embeddings:**  
