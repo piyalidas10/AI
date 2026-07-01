@@ -45,6 +45,10 @@ That’s the default production stack.
 - **Agentic AI (Advanced Form)**: Agentic RAG combines RAG with autonomous agents that can reason, plan, use multiple tools, and break down complex queries into multiple steps. Unlike standard RAG, Agentic RAG acts as a proactive researcher rather than just a lookup tool.
 - **Predictive AI**: RAG is not typically classified as predictive AI, which is used for forecasting numerical trends rather than generating content or retrieving information.
 
+### RAG (Retrieval-Augmented Generation) Evaluation Metrics
+<img src="./img/RAG%20(Retrieval-Augmented%20Generation)%20evaluation%20metrics.png" width="100%" />
+
+
 <details>
 
 <summary><strong>What is RAG ?</strong></summary>
