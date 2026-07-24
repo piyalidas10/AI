@@ -8,6 +8,7 @@ As a term, LLM is often used by AI practitioners to refer to systems that work w
 
 **Tutorials**
 1. LLM Fundamentals: https://www.youtube.com/playlist?list=PLLlTVphLQsuPL2QM0tqR425c-c7BvuXBD
+2. LLM Bootcamp in Hindi : https://www.youtube.com/playlist?list=PLzjZaW71kMwS2MrPcY22-oZxHjrpi6yEZ
 
 <img src="img/LLM_Evaluation.png" width="100%" />
 
