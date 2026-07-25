@@ -120,47 +120,123 @@ This framework (Context → Persona → Examples → Task → Format → Tone) f
   - reference text
   - sample inputs/outputs
   - constraints or hints
-You just ask the question or give the instruction directly.
+You just ask the question or give the instruction directly. Ask the AI to perform a task without providing any examples.
 
 **Example of Zero-shot prompt (no content):**  
 ```
-Translate this to French: "Good morning"
+Generate a role-based dashboard for an Employee Management System.
+
+There are three roles:
+- Admin
+- Manager
+- Employee
+
+Use Angular 19 standalone components and Signals.
 ```
 
-**🔹 Compare with others**
-1. Zero-shot (what you asked)
+**Real-Life Use Cases :**
+- Quick summaries
+- Simple coding questions
+- Email drafting
+- Documentation generation
+
+## ⭐ One-Shot Prompting
+
+Give one example so AI understands the expected format.
+
+**Prompt**
 ```
-Classify sentiment: "I love this product"
+Example:
+
+Role: Customer
+
+Dashboard:
+- My Orders
+- Wishlist
+- Cart
+
+Now generate a dashboard for an Employee Management System.
+
+Roles:
+- Admin
+- Manager
+- Employee
 ```
-2. Few-shot (has examples)
+
+**AI Output**
 ```
-Text: "I hate this" → Negative  
-Text: "Amazing experience" → Positive  
-Text: "I love this product" →
-```
-3. With context
-```
-You are a sentiment analysis expert. Classify sentiment strictly as Positive, Negative, or Neutral.
-Text: "I love this product"
+Role: Admin
+Dashboard
+- User Management
+- Roles & Permissions
+- Reports
+
+Role: Manager
+Dashboard
+- Team Performance
+- Approvals
+- Attendance
+
+Role: Employee
+Dashboard
+- My Attendance
+- Leave
+- Salary
 ```
 
 ## ⭐ Few-shot prompting
 Few-shot prompting is when you give the model a few examples (shots) of how to do a task—so it learns the pattern and follows it.  
 > Few-shot prompting = “Show the model a few correct examples, and it will mimic the pattern.”
 
-**Instead of just asking:**
+**Prompt**
 ```
-Classify sentiment: "I love this product"
-```
-You teach by example:
-```
-Text: "I hate this" → Negative  
-Text: "Amazing experience" → Positive  
-Text: "Worst service ever" → Negative  
+Example 1
 
-Text: "I love this product" →
+Role: Student
+
+Dashboard
+- Courses
+- Assignments
+- Grades
+
+----------------
+
+Example 2
+
+Role: Doctor
+
+Dashboard
+- Patients
+- Appointments
+- Prescriptions
+
+----------------
+
+Example 3
+
+Role: Customer
+
+Dashboard
+- Orders
+- Wishlist
+- Profile
+
+----------------
+
+Now generate a dashboard for
+
+Admin
+Manager
+Employee
 ```
-👉 The model infers the pattern from the examples and continues it.
+
+**Real-Life Use Cases :**
+- Resume generation
+- Invoice creation
+- API documentation
+- Test case generation
+- UI design consistency
+
 
 **🔹 Why it works**  
 LLMs are very good at pattern completion. Few-shot prompting:
@@ -211,18 +287,24 @@ Output:
 | Few-shot  | Instruction + examples | High        |
 
 ## ⭐ Chain-of-Thought (CoT) prompting
-It’s a prompting technique where you encourage the model to show step-by-step reasoning instead of jumping straight to the final answer.
+It’s a prompting technique where you encourage the model to show step-by-step reasoning instead of jumping straight to the final answer. Ask the AI to reason through the problem step by step before producing the answer.
 
-👉 Instead of:
+**Prompt Example 1**
 ```
-What is 23 × 47?
-```
-You guide it like:
-```
-What is 23 × 47? Think step by step.
+You are a Senior Angular Architect.
+
+Design a role-based dashboard.
+
+Think step by step.
+
+1. Identify user roles.
+2. Determine each user's responsibilities.
+3. Decide what information should appear first.
+4. Design dashboard widgets.
+5. Finally generate the Angular component structure.
 ```
 
-**🔹 Example**  
+**Prompt Example 2**  
 ❌ Without CoT (direct answer)
 ```
 Q: If a train travels 60 km in 1 hour, how far in 3.5 hours?
@@ -252,6 +334,70 @@ Without it, models may:
 - skip steps
 - make hidden errors
 
+**Best Use Cases :**
+- Debugging
+- Algorithms
+- Architecture
+- Interview questions
+- System Design
+
+## Tree of Thought (ToT)
+Instead of following one reasoning path, the AI explores multiple possible solutions, compares them, and recommends the best one.
+
+**Prompt**
+```
+You are a Solution Architect.
+
+Design a role-based dashboard.
+
+Explore three different approaches.
+
+Approach 1:
+Simple Dashboard
+
+Approach 2:
+Analytics Dashboard
+
+Approach 3:
+AI-powered Dashboard
+
+Compare each approach based on:
+
+- Complexity
+- Development Time
+- User Experience
+- Scalability
+
+Recommend the best solution for an enterprise application.
+```
+
+**AI Output**
+```
+| Approach     | Pros                 | Cons               |
+| ------------ | -------------------- | ------------------ |
+| Simple       | Fast development     | Limited features   |
+| Analytics    | Rich insights        | More backend work  |
+| AI Dashboard | Predictive analytics | Highest complexity |
+```
+
+**Best Use Cases :**
+- System Architecture
+- Cloud Design
+- AI Solution Design
+- Choosing a Tech Stack
+- Business Strategy
+- Interview Case Studies
+
+## Comparison of All 5 Techniques
+| Technique                  | Examples Given | Reasoning                                | Best For                       | Example                                                |
+| -------------------------- | -------------- | ---------------------------------------- | ------------------------------ | ------------------------------------------------------ |
+| **Zero-Shot**              | ❌ No           | Minimal                                  | Simple tasks                   | "Generate an Angular dashboard."                       |
+| **One-Shot**               | ✅ One          | Learns from one pattern                  | Consistent formatting          | One dashboard example, then generate another           |
+| **Few-Shot**               | ✅ Multiple     | Learns from several patterns             | Structured generation          | Multiple dashboard examples                            |
+| **Chain of Thought (CoT)** | Optional       | Single step-by-step reasoning path       | Debugging, maths, architecture | Explain reasoning before generating the solution       |
+| **Tree of Thought (ToT)**  | Optional       | Multiple reasoning paths with comparison | Decision-making and planning   | Compare three dashboard designs and recommend the best |
+
+
 ## System message vs Grounding context vs Few shot learning
 | Feature        | System Message                              | Grounding Context (RAG)                  | Few-Shot Learning                     |
 |----------------|----------------------------------------------|------------------------------------------|--------------------------------------|
@@ -260,6 +406,22 @@ Without it, models may:
 | Dynamic?       | Generally static per session                 | Dynamic per query                         | Can be dynamic, usually static       |
 | Best for       | Behavior consistency                         | Accuracy on proprietary info              | Complex formatting or logic          |
 
+## Which technique should you use?
+| Task                                                                                                                                         | Recommended Technique |
+| -------------------------------------------------------------------------------------------------------------------------------------------- | --------------------- |
+| Write an email                                                                                                                               | Zero-Shot             |
+| Generate code in a specific style                                                                                                            | One-Shot              |
+| Create consistent documentation                                                                                                              | Few-Shot              |
+| Solve a bug or design an algorithm                                                                                                           | Chain of Thought      |
+| Compare architectures (Microservices vs Monolith), choose Angular state management (NgRx vs Signal Store), or decide between OAuth providers | Tree of Thought       |
+
+## ## Which technique should you use as an Angular/AI engineer?
+
+For your work as an Angular/AI engineer, you'll most often use:
+- Zero-Shot for quick coding assistance.
+- Few-Shot for generating consistent components, APIs, and documentation.
+- Chain of Thought for debugging and system design.
+- Tree of Thought for evaluating architectural decisions, technology choices, and enterprise solution design.
 
 ## 🔹 Real-world usage (important for you 👇)
 
