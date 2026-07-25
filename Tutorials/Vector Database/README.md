@@ -3,6 +3,9 @@ A vector database stores and searches high-dimensional embeddings (vectors) — 
 — enabling very fast similarity search and semantic retrieval, which traditional databases can’t do efficiently. 
 They’re essential in modern AI applications like semantic search, recommendation engines, RAG (Retrieval-Augmented Generation), personalized search, and more.
 
+## Tutorials
+1. Pinecone : https://docs.pinecone.io/guides/index-data/indexing-overview
+
 ## 🔥 Why Vector DB Is Powerful
 | Traditional DB  | Vector DB               |
 | --------------- | ----------------------- |
