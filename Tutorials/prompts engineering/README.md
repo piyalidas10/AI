@@ -40,7 +40,7 @@ It’s about controlling how the model answers, by giving clear instructions, no
   -  Real, up-to-date answers
   -  Enterprise-grade AI systems
 
-## Zero-shot prompting
+## ⭐ Zero-shot prompting
 “Zero-shot prompting (no context/content)” is a specific way of using an LLM where you give only the task instruction—nothing else.
 
 **🔹What it means**
@@ -74,7 +74,7 @@ You are a sentiment analysis expert. Classify sentiment strictly as Positive, Ne
 Text: "I love this product"
 ```
 
-## Few-shot prompting
+## ⭐ Few-shot prompting
 Few-shot prompting is when you give the model a few examples (shots) of how to do a task—so it learns the pattern and follows it.  
 > Few-shot prompting = “Show the model a few correct examples, and it will mimic the pattern.”
 
@@ -140,7 +140,7 @@ Output:
 | Zero-shot | Only instruction       | Medium      |
 | Few-shot  | Instruction + examples | High        |
 
-## Chain-of-Thought (CoT) prompting
+## ⭐ Chain-of-Thought (CoT) prompting
 It’s a prompting technique where you encourage the model to show step-by-step reasoning instead of jumping straight to the final answer.
 
 👉 Instead of:
