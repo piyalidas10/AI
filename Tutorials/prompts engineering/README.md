@@ -45,28 +45,32 @@ It’s about controlling how the model answers, by giving clear instructions, no
 **1. Zero-Shot Prompting**
   - Give only the task without examples.
   - Example: Summarize prompt engineering in a few sentences.
+
 **2. One-Shot Prompting**
   - Provide one example before asking the model to perform the task.
   - Helps establish the expected output style.
+
 **3. Few-Shot Prompting**
   - Provide multiple examples to teach the model the desired pattern.
   - Improves consistency and accuracy for complex tasks.
+
 **4. Chain of Thought (CoT)**
   - Encourage the model to reason through a problem step by step.
   - Useful for logical reasoning, mathematics, and multi-step decision-making.
+
 **5. Tree of Thought (ToT)**
   - Explore multiple reasoning paths before selecting the best solution.
   - Useful for planning, optimization, brainstorming, and complex problem solving.
 
 ## Six Essential Components of an Effective Prompt
-+ Context – Background information the model needs.
-+ Persona – The role the AI should assume (e.g., Senior Angular Architect, Data Scientist).
-+ Examples – Sample inputs and outputs (optional but valuable).
-+ Task – The specific objective to accomplish.
-+ Format – Desired output structure (table, JSON, Markdown, bullet points, code, etc.).
-+ Tone – Writing style (professional, concise, technical, friendly, executive, etc.).
++ ✅ Context – Background information the model needs.
++ ✅ Persona – The role the AI should assume (e.g., Senior Angular Architect, Data Scientist).
++ ✅ Examples – Sample inputs and outputs (optional but valuable).
++ ✅ Task – The specific objective to accomplish.
++ ✅ Format – Desired output structure (table, JSON, Markdown, bullet points, code, etc.).
++ ✅ Tone – Writing style (professional, concise, technical, friendly, executive, etc.).
 
-**Prompt Template**
+**✅ Prompt Template**
 ```
 Context:
 <Provide background information>
@@ -87,7 +91,7 @@ Tone:
 <Professional / Technical / Concise / Friendly>
 ```
 
-**Example**
+**✅ Example**
 ```
 Context:
 You are helping a software engineer prepare for an Angular interview.
