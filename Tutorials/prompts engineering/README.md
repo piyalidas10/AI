@@ -1,9 +1,9 @@
 # 📜 Prompt Engineering
 
+Prompt engineering is the practice of designing clear, structured prompts so an AI model produces accurate, relevant, and consistent responses. A good prompt provides the necessary context, assigns a role (persona), defines the task, specifies the desired output format and tone, and, when helpful, includes examples.
+
 > **Prompt engineering is the practice of controlling LLM output by combining user questions, system instructions, and retrieved external data.**
 > Prompt engineering is the **technique of designing prompts to get better outputs from LLMs**.
-
-<img src="https://github.com/piyalidas10/AI/blob/dfdab04347ea66789b5ad43405451a0b46ab217e/prompts%20engineering/img/prompt_engineering.png" width="600px" />
 
 When you talk to an AI model, there are two main things involved.
   -  First, there is the user prompt — this is the question you ask.
@@ -25,7 +25,7 @@ It’s about controlling how the model answers, by giving clear instructions, no
 
 > Prompt engineering is not about better questions — it’s about better instructions.
 
-### 🧠 What this Short is actually teaching
+## 🧠 What this Short is actually teaching
 
 **Prompt Engineering =**
   -  Writing questions
@@ -39,6 +39,72 @@ It’s about controlling how the model answers, by giving clear instructions, no
   -  LLM + Database
   -  Real, up-to-date answers
   -  Enterprise-grade AI systems
+
+## Common Prompting Techniques
+
+**1. Zero-Shot Prompting**
+  - Give only the task without examples.
+  - Example: Summarize prompt engineering in a few sentences.
+**2. One-Shot Prompting**
+  - Provide one example before asking the model to perform the task.
+  - Helps establish the expected output style.
+**3. Few-Shot Prompting**
+  - Provide multiple examples to teach the model the desired pattern.
+  - Improves consistency and accuracy for complex tasks.
+**4. Chain of Thought (CoT)**
+  - Encourage the model to reason through a problem step by step.
+  - Useful for logical reasoning, mathematics, and multi-step decision-making.
+**5. Tree of Thought (ToT)**
+  - Explore multiple reasoning paths before selecting the best solution.
+  - Useful for planning, optimization, brainstorming, and complex problem solving.
+
+## Six Essential Components of an Effective Prompt
++ Context – Background information the model needs.
++ Persona – The role the AI should assume (e.g., Senior Angular Architect, Data Scientist).
++ Examples – Sample inputs and outputs (optional but valuable).
++ Task – The specific objective to accomplish.
++ Format – Desired output structure (table, JSON, Markdown, bullet points, code, etc.).
++ Tone – Writing style (professional, concise, technical, friendly, executive, etc.).
+
+**Prompt Template**
+```
+Context:
+<Provide background information>
+
+Persona:
+<Assign a role to the AI>
+
+Examples:
+<Input → Output examples (optional)>
+
+Task:
+<Describe exactly what you want>
+
+Output Format:
+<Table / JSON / Markdown / Code / Bullets>
+
+Tone:
+<Professional / Technical / Concise / Friendly>
+```
+
+**Example**
+```
+Context:
+You are helping a software engineer prepare for an Angular interview.
+
+Persona:
+Act as a Senior Angular 19 Architect.
+
+Task:
+Explain Angular Signals and compare them with RxJS Observables.
+
+Output Format:
+A comparison table followed by a real-world example.
+
+Tone:
+Professional and interview-focused.
+```
+This framework (Context → Persona → Examples → Task → Format → Tone) forms the foundation of effective prompt engineering and can be combined with techniques like Zero-Shot, One-Shot, Few-Shot, Chain of Thought, and Tree of Thought depending on the complexity of the task.
 
 ## ⭐ Zero-shot prompting
 “Zero-shot prompting (no context/content)” is a specific way of using an LLM where you give only the task instruction—nothing else.
