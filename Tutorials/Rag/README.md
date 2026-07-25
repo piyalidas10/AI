@@ -7,6 +7,8 @@
 
 Instead of relying only on what the LLM learned during training, RAG allows it to use up-to-date, private, and domain-specific knowledge.
 
+<img src="./img/Retrieval-augmented generation.png" width="100%" />
+
 **👉 RAG = Retriever (search relevant data) + Generator (LLM creates answer)**     
 So instead of guessing, the model uses real data at runtime.
 
