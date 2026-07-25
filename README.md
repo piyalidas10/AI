@@ -1,5 +1,8 @@
 # Artificial Intelligent
 
+## Tutorials
+1.  Artificial Intelligence (AI) : https://www.geeksforgeeks.org/artificial-intelligence/what-is-artificial-intelligence-ai/
+
 ## Foundational explanation of how Modern AI Systems evolved from Rule-based Systems to Agentic AI
 The Reality of AI Nobody Tells You | AI Agents, LLMs & Generative AI : https://www.youtube.com/watch?v=gqRWi9X_TD0
 
