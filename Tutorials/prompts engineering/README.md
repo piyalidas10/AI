@@ -341,7 +341,7 @@ Without it, models may:
 - Interview questions
 - System Design
 
-## Tree of Thought (ToT)
+## ⭐ Tree of Thought (ToT)
 Instead of following one reasoning path, the AI explores multiple possible solutions, compares them, and recommends the best one.
 
 **Prompt**
