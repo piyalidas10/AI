@@ -3,6 +3,9 @@
 LangChain is a framework for building applications using LLMs. It acts as a middle layer between User/Application and the LLM. It simplifies development of advanced LLM-based applications.    
 LangChain is used to build scalable, flexible, and advanced LLM applications with easy model switching and feature integration.
 
+## Tutorials
+1. LangChain Tutorial 2025 | Build LLM Apps, Chains & Agents Step-by-Step : https://www.youtube.com/watch?v=GLpitbsSJtw&list=PLzjZaW71kMwS2MrPcY22-oZxHjrpi6yEZ&index=7
+
 ## 🔥 Real Enterprise Example (Bank Use Case)
 
 In Kolkata branch (since you’re in India 🇮🇳):
