@@ -3,8 +3,179 @@
 LangChain is a framework for building applications using LLMs. It acts as a middle layer between User/Application and the LLM. It simplifies development of advanced LLM-based applications.    
 LangChain is used to build scalable, flexible, and advanced LLM applications with easy model switching and feature integration.
 
-## Tutorials
-1. LangChain Tutorial 2025 | Build LLM Apps, Chains & Agents Step-by-Step : https://www.youtube.com/watch?v=GLpitbsSJtw&list=PLzjZaW71kMwS2MrPcY22-oZxHjrpi6yEZ&index=7
+## LangChain Architecture
+Modern LangChain is built around Runnables (LCEL), and Chains and Agents are two major application patterns built on top of them.
+
+```
+                    LangChain
+                        │
+        ┌───────────────┴───────────────┐
+        │                               │
+     Chains                         Agents
+        │                               │
+   Fixed Workflow               Dynamic Workflow
+        │                               │
+        └───────────────┬───────────────┘
+                        │
+                  Runnables (LCEL)
+```
+
+1. Chains
+
+A Chain is a predefined sequence of steps.
+
+The execution path is fixed.
+
+Example:
+```
+User Question
+      │
+      ▼
+PromptTemplate
+      │
+      ▼
+ Gemini
+      │
+      ▼
+Output Parser
+      │
+      ▼
+ Final Answer
+```
+Example code:
+```
+const chain = PromptTemplate
+    .fromTemplate("Explain {topic}")
+    .pipe(model)
+    .pipe(new StringOutputParser());
+
+const answer = await chain.invoke({
+    topic: "LangChain"
+});
+```
+The model always follows the same pipeline.
+
+2. Agents
+
+An Agent can reason, decide, and choose which tools to use.
+
+Instead of following a fixed path, it decides the next action based on the user's request.
+
+Example:
+```
+User:
+What's the weather in London?
+        │
+        ▼
+      Agent
+        │
+        ▼
+Should I answer directly?
+        │
+       No
+        │
+        ▼
+Call Weather Tool
+        │
+        ▼
+Receive Result
+        │
+        ▼
+Generate Final Answer
+```
+Another example:
+```
+User asks:
+
+"Search the web, summarise the article and email it."
+
+Agent decides:
+
+Search Tool
+      │
+      ▼
+Summariser
+      │
+      ▼
+Email Tool
+      │
+      ▼
+Done
+```
+The workflow is dynamic, not hard-coded.
+
+**Chains vs Agents**
+
+| Feature         | Chain                           | Agent                            |
+| --------------- | ------------------------------- | -------------------------------- |
+| Workflow        | Fixed                           | Dynamic                          |
+| Tool usage      | Optional                        | Core feature                     |
+| Decision making | No                              | Yes                              |
+| Reasoning       | No                              | Yes                              |
+| Predictable     | Yes                             | Less predictable                 |
+| Speed           | Faster                          | Usually slower                   |
+| Best for        | RAG, summarisation, translation | Assistants, copilots, automation |
+
+## Real-World Examples
+
+**Chain**
+```
+PDF
+ │
+ ▼
+Text Splitter
+ │
+ ▼
+Embedding Model
+ │
+ ▼
+Vector Database
+ │
+ ▼
+Retriever
+ │
+ ▼
+LLM
+ │
+ ▼
+Answer
+```
+Everything is predetermined.
+
+**Agent**
+```
+User:
+"Analyse this sales CSV and create a PowerPoint."
+
+          Agent
+             │
+     ┌───────┼────────┐
+     ▼       ▼        ▼
+ Read CSV  Python   PowerPoint Tool
+     │       │        │
+     └───────┴────────┘
+             ▼
+      Final Response
+```
+The agent decides which tools to invoke and in what order.
+
+## Modern LangChain Layers
+```
+                 LangChain
+                      │
+        ┌─────────────┴─────────────┐
+        │                           │
+     Runnables (LCEL)           LangGraph
+        │                           │
+   PromptTemplate              Agent Workflows
+   RunnableSequence            Multi-Agent Systems
+   RunnableParallel            Memory
+   RunnableLambda              State Management
+```
+
+- LCEL (LangChain Expression Language) is used to compose chains with runnables such as pipe(), RunnableSequence, and RunnableParallel.
+- LangGraph is the recommended framework for building advanced, stateful agent workflows.
+
 
 ## 🔥 Real Enterprise Example (Bank Use Case)
 
