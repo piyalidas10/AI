@@ -1,0 +1,936 @@
+# RAG Based Code Review Agent (Production-Grade RAG Security + Monitoring + Tracing)
+
+This agent will:
+- Clone a GitHub repo
+- Load code files
+- Chunk the code
+- Create embeddings
+- Store in Qdrant
+- Retrieve relevant code
+- Use LLM to review code
+
+You are building:
+```
+AI code review agent
+```
+This is one of the MOST parser-sensitive RAG applications.
+
+For this type of application, the MOST critical engineering challenge is not the LLM itself.
+
+It is:
+1. Code parsing quality
+2. Semantic chunking quality
+3. Retrieval precision
+4. Context assembly
+5. RAG evaluation
+
+Because if retrieval fails:
+1. the LLM hallucinates
+2. reviews become generic
+3. bugs are missed
+4. security issues are skipped
+5. function relationships disappear
+
+##RAG evaluation measures how well a Retrieval-Augmented Generation system performs.  
+
+**Architecture includes:**
+- Guardrails
+- Prompt Injection Protection
+- RAG Observability
+- Query Tracing
+- Metrics Dashboard
+- Retrieval Analytics
+- Secure Output Filtering
+- Monitoring Infrastructure
+- Enterprise Logging
+- Performance Metrics
+
+## ⭐ Requirements
+
+| Layer            | Current Choice | Evaluation               |
+| ---------------- | -------------- | ------------------------ |
+| API              | FastAPI        | Excellent                |
+| Containerization | Docker Compose | Excellent                |
+| Vector DB        | Qdrant         | One of the best          |
+| Local LLM        | Ollama         | Excellent for private AI |
+| Orchestration    | LangGraph      | Production-capable       |
+| Chunking         | Tree-sitter    | Critical upgrade         |
+| Retrieval        | MMR            | Correct choice           |
+| Logging          | Loguru         | Good                     |
+| Runtime          | Uvicorn        | Standard                 |
+
+
+## Project structure:
+```
+app/
+│
+├── loaders/
+│   └── github_loader.py
+│
+├── rag/
+│   ├── embedder.py
+│   ├── retriever.py
+│   └── vector_store.py
+│
+├── agents/
+│   └── reviewer_agent.py
+│
+├── api/
+│   └── main.py
+```
+
+## Run Application
+1. Install Docker & Run Docker Desktop first
+2. Inside application folder (Rag-LLM-Evaluation), open gitbash or cmd to run the command following command. requirements.txt file should be on the same path.
+```
+docker compose down -v
+docker compose build --no-cache
+docker compose up
+```
+
+3. From your project root:
+open new gitbash or cmd to run the command following command.
+```
+docker exec -it ollama ollama pull phi3
+docker exec -it ollama ollama pull nomic-embed-text
+```
+Wait until both models download completely.
+
+You can verify:
+```
+docker exec -it ollama ollama list
+```
+
+You should see something like:
+```
+phi3
+nomic-embed-text
+```
+
+So 👉 AFTER containers are running, not before docker compose build. 
+
+🧠 Why?  
+🔹 docker compose build 
+   -  Builds the Docker image
+   -  Does NOT start the container
+   -  Ollama service is not running yet
+
+So if you try to pull before container is running → ❌ it won’t work.
+
+4. 🌐 Testing using POSTMAN
+
+Step 1 — Open Postman   
+Step 2 — Test /index_repo   
+Method:
+```
+POST
+```
+URL:
+```
+http://localhost:8000/index_repo
+```
+Add Headers:
+| Key          | Value            |
+| ------------ | ---------------- |
+| Content-Type | application/json |
+
+Add Body (Body → raw → JSON):
+```
+{
+  "repo_url": "https://github.com/pypa/sampleproject.git"
+}
+```
+Click:
+```
+Send
+```
+Expected Response
+```
+{
+    "message": "Repository indexed successfully",
+    "files_loaded": 5,
+    "chunks_created": 5
+}
+```
+<img src="imgs/postman_fastapi_testing.png" width="100%">
+
+Step 6 — Test /review   
+Create another POST request.    
+URL:
+```
+http://localhost:8000/review
+```
+Headers:
+```
+Content-Type: application/json
+```
+Body:
+```
+{
+  "question": "Find security vulnerabilities in authentication code"
+}
+```
+Click:
+```
+Send
+```
+Expected Response
+```
+{
+    "question": "Find security vulnerabilities in authentication code",
+    "review": "FILE: repo/src/sample/auth.py (Assumed file based on context)\nLANGUAGE: python\nCHUNK_TYPE: function\n\ndef authenticate(username, password):\n    \"\"\"Authenticates a user against the system.\"\"\"\n    if username == 'admin' and password == 'password123':  # Hardcoded credentials for simplicity in this example. Not secure!\n        return True\n    else:\n        print(\"Authentication failed.\")\n        return False\n            \n\nIssue Type: Security Vulnerability (Hardcoding Credentials)\nSeverity: High\nExplanation: Storing and comparing credentials directly in the code is a significant security risk. It exposes sensitive information that could be easily exploited by an attacker, leading to unauthorized access if they gain knowledge of these hardcoded values. This practice goes against secure coding standards which advocate for using environment variables or dedicated secrets management systems like HashiCorp's Vault, AWS Secrets Manager, etc.\nSuggested Fix: Store credentials in an external configuration file that is not included in the version control system (e.g., `.env` files",
+    "chunks_used": 2
+}
+```
+<img src="imgs/postman_fastapi_testing_review.png" width="100%">
+
+5. See Actual Embedding Vectors
+
+Use this API:
+```
+POST http://localhost:6333/collections/github_code/points/scroll
+```
+In Postman:
+
+Headers
+```
+Content-Type: application/json
+```
+Body
+```
+{
+  "limit": 1,
+  "with_payload": true,
+  "with_vector": true
+}
+```
+This returns:
+```
+{
+    "result": {
+        "points": [
+            {
+                "id": "129c7a97-5daa-4df0-82c2-f1710545e0a7",
+                "payload": {
+                    "page_content": "def build_and_check_dists(session):\n    session.install(\"build\", \"check-manifest >= 0.42\", \"twine\")\n    # If your project uses README.rst, uncomment the following:\n    # session.install(\"readme_renderer\")\n\n    session.run(\"check-manifest\", \"--ignore\", \"noxfile.py,tests/**\")\n    session.run(\"python\", \"-m\", \"build\")\n    session.run(\"python\", \"-m\", \"twine\", \"check\", \"dist/*\")",
+                    "metadata": {
+                        "source": "repo/noxfile.py",
+                        "language": "python",
+                        "type": "function",
+                        "name": "build_and_check_dists",
+                        "line": 33
+                    }
+                },
+                "vector": [
+                    -0.011668822,
+                    -0.021180112,
+                    -0.17102027,
+                    
+```
+<img src="imgs/localhost_6333_qdrant_vector_embedding.png" width="100%">
+
+4. 🌐 Open FastAPI UI
+```
+http://localhost:8000
+```
+<img src="imgs/localhost_8000.png" width="100%">
+
+Fast API
+```
+http://localhost:8000/docs
+```
+<img src="imgs/test_api.png" width="100%">
+
+It will store embeddings into Qdrant using Ollama.
+
+Check Container Logs. Run in CMD
+```
+docker compose logs -f
+```
+
+5. Health check:
+```
+http://localhost:8000/health
+```
+6. 📊 Live RAG Monitoring Dashboard
+```
+http://localhost:8000/dashboard
+```
+<img src="imgs/localhost_8000_rag_evaluation_dashboard.png" width="100%">
+
+7. 📜 RAG Query Traces
+```
+http://localhost:8000/traces
+```
+<img src="imgs/localhost_8000_rag_query_traces.png" width="100%">
+
+| Section             | Purpose                       |
+| ------------------- | ----------------------------- |
+| Question            | user input                    |
+| Answer              | generated output              |
+| Metrics             | 10 RAG evaluation scores      |
+| Heatmap             | which chunk influenced answer |
+| Latency             | response time                 |
+| Token usage         | LLM cost                      |
+| Hallucination score | safety check                  |
+
+8. Ollama API
+
+Test:
+```
+curl http://localhost:11434/api/tags
+```
+
+9. Use Qdrant Web UI for viewing Vector Database (Qdrant Dashboard)
+If your docker-compose.yml exposes port 6333, open:
+```
+http://localhost:6333/dashboard
+```
+<img src="imgs/qdrant_vector_db.png" width="100%">
+
+> after run "docker compose build", one default rag_collection will be created. Don't delete it. If you upload the document, the existing rag_collection will be updated otherwise you will get 500 internet server error.
+
+**📦 Collection: rag_collection**
+```
+Status: 🟢 Green
+```
+That means:
+   -  Collection created successfully
+   -  Vector indexing active
+   -  No errors
+
+**You’re seeing a stored point inside**
+Qdrant → rag_collection
+
+Let me explain exactly what each part means.
+
+```
+Point: Point 129c7a97-5daa-4df0-82c2-f1710545e0a7
+Payload:
+{
+"page_content":"def build_and_check_dists(session): session.in…"
+"metadata":{
+"source":"repo/noxfile.py"
+"language":"python"
+"type":"function"
+"name":"build_and_check_dists"
+"line":33
+}
+}
+```
+
+🧠 1️⃣ Point ID : 0081db12-7b4c-4f8b-8b12-d293331b2dc3  
+
+This is a UUID generated automatically. Each document chunk gets:
+   -  Unique ID
+   -  One vector
+   -  One payload
+
+Think of it like:
+```
+1 chunk = 1 row in vector DB
+```
+
+## 🏗️ Final Architecture
+```
+                ┌─────────────────────┐
+                │   GitHub Repository │
+                └──────────┬──────────┘
+                           │
+                           ▼
+                ┌─────────────────────┐
+                │ Repo Loader/Cloner  │
+                └──────────┬──────────┘
+                           │
+                           ▼
+                ┌─────────────────────┐
+                │ Code Parser         │
+                │ AST / Tree-Sitter   │
+                └──────────┬──────────┘
+                           │
+                           ▼
+                ┌─────────────────────┐
+                │ Semantic Chunking   │
+                └──────────┬──────────┘
+                           │
+                           ▼
+                ┌─────────────────────┐
+                │ Embedding Model     │
+                │ Ollama Embeddings   │
+                └──────────┬──────────┘
+                           │
+                           ▼
+                ┌─────────────────────┐
+                │ Qdrant Vector DB    │
+                └──────────┬──────────┘
+                           │
+                           ▼
+                ┌─────────────────────┐
+                │ Retriever (MMR)     │
+                └──────────┬──────────┘
+                           │
+                           ▼
+                ┌─────────────────────┐
+                │ Prompt Builder      │
+                └──────────┬──────────┘
+                           │
+                           ▼
+                ┌─────────────────────┐
+                │ Ollama LLM          │
+                │ phi3 / codellama    │
+                └──────────┬──────────┘
+                           │
+                           ▼
+                ┌─────────────────────┐
+                │ Code Review Output  │
+                └─────────────────────┘
+```
+
+**1. Tree-Sitter Parsing (VERY IMPORTANT)**
+
+Without semantic parsing:
+- chunks break randomly
+- functions split incorrectly
+- imports lose relationships
+- retrieval quality collapses
+
+Your use of:
+```
+tree-sitter
+tree-sitter-languages
+```
+is one of the biggest upgrades possible.
+
+Especially for:
+- Angular
+- React
+- TypeScript
+- JavaScript
+
+AST-based chunking is MUCH better than:
+- RecursiveCharacterTextSplitter
+- fixed chunk size
+- token splitting
+
+Instead of splitting code randomly:
+```
+line 1-500
+```
+split semantically:
+```
+function
+class
+method
+```
+Huge quality improvement for RAG.
+
+**2. MMR Retrieval (Correct Choice)**
+
+You already switched to:
+```
+search_type="mmr"
+```
+That is correct for codebases.
+
+Why?
+
+Repositories contain:
+- duplicate helpers
+- repeated utility functions
+- similar imports
+- boilerplate
+
+Similarity search alone returns near-duplicate chunks.
+
+MMR improves:
+- diversity
+- function coverage
+- contextual completeness
+
+Best settings:
+```
+search_type="mmr"
+
+search_kwargs={
+    "k": 6,
+    "fetch_k": 30
+}
+```
+Exactly what you implemented.
+
+**3. Context Assembly (CRITICAL)**
+
+This is the hidden bottleneck.
+
+Bad context formatting destroys review quality.
+
+Your structured context builder is GOOD:
+```
+FILE:
+LANGUAGE:
+CHUNK_TYPE:
+```
+This dramatically improves:
+- grounding
+- source attribution
+- hallucination reduction
+
+**4. Embedding Quality**
+
+This matters more than most people realize.
+
+Cheap embeddings = terrible retrieval.
+
+Recommended local embeddings:
+| Model             | Quality       |
+| ----------------- | ------------- |
+| nomic-embed-text  | Excellent     |
+| mxbai-embed-large | Excellent     |
+| bge-large         | Excellent     |
+| all-minilm        | Weak for code |
+
+For code RAG:
+```
+mxbai-embed-large
+```
+is a very strong choice.
+
+**5. RAG Evaluation (VERY IMPORTANT)**
+
+You mentioned RAG evaluation earlier.
+
+For THIS system, evaluation should measure:
+
+| Metric             | Meaning                          |
+| ------------------ | -------------------------------- |
+| Context Precision  | Retrieved chunks are relevant    |
+| Context Recall     | Important code was retrieved     |
+| Faithfulness       | LLM response grounded in context |
+| Answer Relevancy   | Review actually answers query    |
+| Chunk Hit Rate     | Correct function retrieved       |
+| Hallucination Rate | Fake issues generated            |
+| Retrieval Latency  | Vector search speed              |
+
+Production AI systems ALWAYS evaluate retrieval separately from generation.
+
+**6. Best Future Upgrades**
+
+Your next production-grade upgrades should be:
+
+A. Hybrid Search
+
+Combine:
+- vector search
+- keyword/BM25 search
+
+Best for code retrieval.
+
+Qdrant supports this.
+
+B. Cross-Encoder Reranking
+
+Architecture:
+```
+Retriever → Top 30 chunks
+           ↓
+Reranker model
+           ↓
+Best 5 chunks
+           ↓
+LLM
+```
+Massive quality improvement.
+
+C. Parent-Child Retrieval
+
+Store:
+- small semantic chunks
+- full parent function/class
+
+Retrieve:
+- precise chunk
+- expand to full function
+
+This is HUGE for code review.
+
+D. Graph RAG
+
+For enterprise repos:
+- import relationships
+- class dependencies
+- function calls
+
+Graph retrieval becomes extremely powerful.
+
+**7. Production Monitoring**
+
+Excellent additions:
+
+A. Guardrails
+
+Protects against:
+- prompt injection
+- repo poisoning
+- jailbreak attempts
+
+B. Query Tracing
+
+Lets you debug:
+- bad retrieval
+- missing chunks
+- hallucinations
+
+C. Live Monitoring
+
+Critical for:
+- latency
+- retrieval failures
+- chunk counts
+- token usage
+
+These are enterprise-level additions.
+
+
+## 🐳 Deployment Architecture (Docker)
+```
+┌────────────────────────────────────────┐
+│              Docker Host               │
+│                                        │
+│  ┌───────────────┐                     │
+│  │  app container │  FastAPI           │
+│  └───────────────┘                     │
+│         │                              │
+│         │ internal docker network      │
+│         ▼                              │
+│  ┌───────────────┐                     │
+│  │ qdrant        │                     │
+│  └───────────────┘                     │
+│         │                              │
+│         ▼                              │
+│  ┌───────────────┐                     │
+│  │ ollama        │                     │
+│  └───────────────┘                     │
+└────────────────────────────────────────┘
+```
+
+## LLM Model
+Your current model:
+```
+phi3
+```
+is small.
+
+For code review, better local models are:
+
+| Model          | Better For             |
+| -------------- | ---------------------- |
+| deepseek-coder | code review            |
+| codellama      | code understanding     |
+| qwen2.5-coder  | strongest local coding |
+| starcoder2     | repo reasoning         |
+
+You can still keep Phi3 for lightweight workflows.
+
+## Embedding Models
+
+For high-performance RAG in 2026, mxbai-embed-large and BGE-M3 are top contenders for accuracy, with Snowflake Arctic-Embed excelling in production efficiency. Nomic-embed-text is a top choice for long-context tasks (8192 tokens) over the standard 512-token limit.
+
+**Here is a breakdown of the models:**
+- **mxbai-embed-large:** Generally considered a state-of-the-art model for overall semantic search quality, offering high-dimensional, rich representations.
+- **BGE-M3 (BAAI):** Distinguished by its multi-functionality, supporting multilingual, multi-granularity (dense/sparse), and multi-functionality retrieval. It is a very high-performance choice but can be slower.
+- **Snowflake-arctic-embed:** Optimized for production RAG, providing high accuracy (NDCG@10 of 55.98) with a strong performance-to-size ratio.
+- **Nomic-embed-text:** A top performer for long-context tasks (8192 tokens), outperforming smaller models and offering open-source training data and reproducibility.BGE-Large-v1.5: A strong, established model, often seen as a reliable benchmark.
+
+**Which one to choose?**
+- **For maximum accuracy:** Use mxbai-embed-large or bge-m3.
+- **For long documents (RAG):** Use nomic-embed-text for its 8192 context window.
+- **For fast/efficient production:** Use snowflake-arctic-embed.
+- **For multilingual support:** Use bge-m3.
+
+## Code Chunking
+```
+from langchain.text_splitter import RecursiveCharacterTextSplitter
+```
+and:
+```
+splitter = RecursiveCharacterTextSplitter(
+    chunk_size=1200,
+    chunk_overlap=200
+)
+```
+RecursiveCharacterTextSplitter is fundamentally a character-based splitter.
+
+It tries to split text recursively using separators like:
+```
+\n\n
+\n
+space
+character
+```
+but ultimately the chunk size is measured in characters/tokens, not code structure.
+```
+So your current pipeline is:
+
+Code File
+   ↓
+1200-character chunks
+   ↓
+Embeddings
+```
+
+**For code-review agents, you should eventually move to:**
+- AST chunking
+- function-level chunking
+- class-level chunking
+
+This improves review quality massively.
+
+## Why Character chunking is a Problem for Code RAG ?
+**Suppose you have:**
+```
+class AuthService:
+
+    def validate_token(self):
+        ...
+
+    def login(self):
+        ...
+```
+
+**Character chunking may split like:**
+
+Chunk 1
+```
+class AuthService:
+
+    def validate_token(self):
+```
+
+Chunk 2
+```
+...
+    def login(self):
+```
+
+Now the LLM loses context.
+
+**This causes:**
+- hallucinations
+- incomplete review
+- missed bugs
+- poor retrieval quality
+
+## Best chunking = Structure-Aware Chunking
+For code-review agents, chunk by:
+
+| Better Chunking | Why                     |
+| --------------- | ----------------------- |
+| function        | keeps logic together    |
+| class           | preserves relationships |
+| AST nodes       | best semantic retrieval |
+| module          | preserves architecture  |
+
+**Example of AST-Based Chunking**
+
+Instead of:
+```
+1200 characters
+```
+You do:
+```
+One function = one chunk
+```
+Example:
+```
+def authenticate():
+```
+becomes one chunk.
+
+## Why Big AI Companies Use AST Chunking
+
+Because code is NOT normal text.
+
+Code has:
+- syntax trees
+- scopes
+- dependencies
+- function boundaries
+
+AST chunking preserves semantics.
+
+you now store:
+```
+One function = one semantic chunk
+One class = one semantic chunk
+```
+
+This massively improves:
+- retrieval accuracy
+- bug detection
+- security review
+- hallucination reduction
+
+Now each chunk contains:
+```
+{
+    "source": "auth/service.py",
+    "type": "function",
+    "name": "login_user",
+    "line": 42
+}
+```
+This is VERY powerful later for:
+- PR comments
+- source attribution
+- GitHub annotations
+
+Python AST only works for:
+```
+.py
+```
+
+## Why need Parser ? can't we directly break the code
+Yes — you can directly break the code without a parser.
+That is actually how many basic RAG systems start.
+```
+Example:
+
+splitter = RecursiveCharacterTextSplitter(
+    chunk_size=1200,
+    chunk_overlap=200
+)
+```
+This works.
+
+But the reason parsers (AST / Tree-sitter) are important is because code is structured, not plain text.
+
+**Direct Chunking vs Parser-Based Chunking**
+| Approach            | Works? | Quality |
+| ------------------- | ------ | ------- |
+| Character chunking  | ✅      | Basic   |
+| Line chunking       | ✅      | Better  |
+| Regex chunking      | ✅      | Medium  |
+| AST/Parser chunking | ✅      | Best    |
+
+**What Happens Without a Parser**
+
+Suppose you split this Angular service:
+```
+@Injectable()
+export class AuthService {
+
+  login() {
+      ...
+  }
+
+  refreshToken() {
+      ...
+  }
+}
+```
+Using character chunking:
+```
+Chunk 1:
+@Injectable()
+export class AuthService {
+   login() {
+
+Chunk 2:
+...
+refreshToken() {
+```
+
+Now:
+- ❌ function broken
+- ❌ incomplete logic
+- ❌ retriever confusion
+- ❌ weaker embeddings
+
+**Why This Hurts RAG**
+
+Embeddings depend on semantic meaning.
+
+Broken code chunks create embeddings like:
+```
+"refreshToken() {"
+```
+without context.
+
+The vector DB cannot understand:
+- class ownership
+- dependencies
+- scope
+- relationships
+
+**Parser-Based Chunking**
+
+Parser understands syntax tree:
+```
+Class
+ ├── login()
+ └── refreshToken()
+```
+
+Now chunking becomes:
+```
+Chunk 1 = login()
+Chunk 2 = refreshToken()
+```
+Much cleaner.
+
+**Real Difference in Retrieval**
+
+Without parser
+
+Query:
+```
+review login authentication
+```
+Retriever may return:
+```
+half login + half refreshToken
+```
+
+With parser
+
+Retriever returns:
+```
+full login() method
+```
+Huge improvement.
+
+**For SMALL repos:**
+```
+simple chunking is enough
+```
+
+**For LARGE enterprise repos:**
+```
+AST parsing becomes critical
+```
+
+Especially for:
+- Angular monorepos
+- Nx workspaces
+- microfrontends
+- backend services
+
+## 🏛️ Architecture Summary (Professional Description)
+
+My system is:
+
+> A Local AI system that can read documents, answer questions, and evaluate how good the answers are.
+
+You could say:
+   -  Presentation Layer: Jinja2 UI
+   -  Application Layer: FastAPI
+   -  Retrieval Layer: LangChain RAG pipeline
+   -  Data Layer: Qdrant vector database
+   -  AI Layer: Ollama 
+      - Embedding Model : nomic-embed-text
+      - LLM Model : phi3(used) / llama3.2 / gemma
+   -  Infrastructure Layer: Docker Compose
+      Services typically include:
+      - fastapi
+      - qdrant
+      - ollama

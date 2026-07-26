@@ -1,0 +1,165 @@
+version: "3.9"
+
+services:
+
+  # ======================================================
+  # QDRANT VECTOR DATABASE
+  # ======================================================
+
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: qdrant
+
+    restart: unless-stopped
+
+    ports:
+      - "6333:6333"
+
+    volumes:
+      - qdrant_storage:/qdrant/storage
+
+    # prevents startup race conditions with the API service that depends on Qdrant being ready
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:6333/healthz"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+    networks:
+      - rag-network
+
+  # ======================================================
+  # OLLAMA LLM SERVER
+  # ======================================================
+
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+
+    restart: unless-stopped
+
+    ports:
+      - "11434:11434"
+
+    volumes:
+      - ollama_storage:/root/.ollama
+
+    environment:
+      OLLAMA_KEEP_ALIVE: "24h"
+
+    tty: true
+
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:11434/api/tags"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+    networks:
+      - rag-network
+
+  # ======================================================
+  # PROMETHEUS
+  # ======================================================
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+
+    restart: unless-stopped
+
+    ports:
+      - "9090:9090"
+
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+
+    networks:
+      - rag-network
+
+  # ======================================================
+  # GRAFANA
+  # dashboards survive restart
+  # ======================================================
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+
+    restart: unless-stopped
+
+    ports:
+      - "3000:3000"
+
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: admin
+
+    volumes:
+      - grafana_storage:/var/lib/grafana
+
+    depends_on:
+      - prometheus
+
+    networks:
+      - rag-network
+
+  # ======================================================
+  # FASTAPI APPLICATION
+  # ======================================================
+
+  api:
+    build: .
+    container_name: Rag-Github-Code-Review-Agent
+
+    restart: unless-stopped
+
+    ports:
+      - "8000:8000"
+    
+    # API waits for services to be healthy before starting to avoid connection issues on startup
+    depends_on:
+      qdrant:
+        condition: service_healthy
+
+      ollama:
+        condition: service_healthy
+
+    environment:
+      OLLAMA_BASE_URL: http://ollama:11434
+      QDRANT_URL: http://qdrant:6333
+
+      PYTHONUNBUFFERED: 1
+
+    volumes:
+      - ./app/uploaded_docs:/app/uploaded_docs
+      - ./logs:/app/logs
+
+    command: >
+      uvicorn app.api.main:app
+      --host 0.0.0.0
+      --port 8000
+      --reload
+
+    networks:
+      - rag-network
+
+# ======================================================
+# NETWORKS
+# ======================================================
+
+networks:
+  rag-network:
+    driver: bridge
+
+# ======================================================
+# VOLUMES
+# ======================================================
+
+volumes:
+  qdrant_storage:
+  ollama_storage:
+  grafana_storage:

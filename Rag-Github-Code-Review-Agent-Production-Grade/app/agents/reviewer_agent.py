@@ -1,0 +1,114 @@
+from loguru import logger
+
+from langchain_ollama import ChatOllama
+from langchain.prompts import ChatPromptTemplate
+
+
+class CodeReviewerAgent:
+
+    def __init__(self):
+
+        logger.info("Initializing Code Reviewer Agent")
+
+        # Ollama model
+        self.llm = ChatOllama(
+            model="phi3",
+            temperature=0,
+            num_ctx=1024,
+            num_predict=256,
+            base_url="http://ollama:11434"
+        )
+
+        # Prompt Template
+        self.prompt = ChatPromptTemplate.from_template(
+            """
+            You are a senior software engineer performing a code review.
+
+            Use ONLY the provided context.
+            Do NOT hallucinate.
+            If context is insufficient, say so.
+
+            Review for:
+            - bugs
+            - security vulnerabilities
+            - performance issues
+            - readability problems
+            - best practices
+
+            For each issue provide:
+
+            File:
+            Issue Type:
+            Severity:
+            Explanation:
+            Suggested Fix:
+
+            Context:
+            {context}
+
+            Question:
+            {question}
+
+            Provide the review now.
+            """
+        )
+
+    # =====================================================
+    # Build Context
+    # =====================================================
+
+    def build_context(self, documents):
+
+        context_parts = []
+
+        for doc in documents:
+
+            metadata = doc.metadata
+
+            source = metadata.get("source", "unknown")
+
+            language = metadata.get("language", "unknown")
+
+            chunk_type = metadata.get("type", "unknown")
+
+            header = f"""
+            FILE: {source}
+            LANGUAGE: {language}
+            CHUNK_TYPE: {chunk_type}
+            """
+
+            content = f"""
+            {header}
+
+            {doc.page_content[:1500]}
+            """
+
+            context_parts.append(content)
+
+        return "\n\n".join(context_parts)
+
+    # =====================================================
+    # Review Code
+    # =====================================================
+
+    def review_code(self, question, documents):
+
+        logger.info(
+            f"Starting code review with {len(documents)} documents"
+        )
+
+        # Build structured context
+        context = self.build_context(documents)
+
+        # Create chain
+        chain = self.prompt | self.llm
+
+        # Invoke model
+        response = chain.invoke({
+            "context": context,
+            "question": question
+        })
+
+        logger.info("Code review completed")
+
+        return response.content
