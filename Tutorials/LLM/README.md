@@ -7,8 +7,10 @@ Typical examples of LLMs include OpenAI's GPT-4, Google's PaLM, and Meta's LLaMA
 As a term, LLM is often used by AI practitioners to refer to systems that work with language. GPT, or Generative Pre-trained Transformer, is one of these large language models.
 
 **Tutorials**
-1. LLM Fundamentals: https://www.youtube.com/playlist?list=PLLlTVphLQsuPL2QM0tqR425c-c7BvuXBD
-2. LLM Bootcamp in Hindi : https://www.youtube.com/playlist?list=PLzjZaW71kMwS2MrPcY22-oZxHjrpi6yEZ
+1. How LLMs Works? - Overview : https://www.youtube.com/watch?v=K45s2PgywvI
+2. LLM Fundamentals: https://www.youtube.com/playlist?list=PLLlTVphLQsuPL2QM0tqR425c-c7BvuXBD
+3. LLM Bootcamp in Hindi : https://www.youtube.com/playlist?list=PLzjZaW71kMwS2MrPcY22-oZxHjrpi6yEZ
+4. LLMs — How ChatGPT works & What is RAG? | Retrieval-Augmented Generation Explained 🔥 : https://www.youtube.com/watch?v=hYZKrPOyEYk
 
 <img src="img/LLM_Evaluation.png" width="100%" />
 

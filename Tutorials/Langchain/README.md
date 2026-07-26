@@ -22,115 +22,484 @@ https://www.langchain.com/
 ## LangChain Architecture
 Modern LangChain is built around Runnables (LCEL), and Chains and Agents are two major application patterns built on top of them.
 
+LangChain is not just Chains and Agents.
+
+Think of it as a toolkit for building LLM applications.
 ```
-                    LangChain
+                 LangChain Framework
                         │
-        ┌───────────────┴───────────────┐
-        │                               │
-     Chains                         Agents
-        │                               │
-   Fixed Workflow               Dynamic Workflow
-        │                               │
-        └───────────────┬───────────────┘
-                        │
-                  Runnables (LCEL)
+    ┌───────────┬─────────────┬──────────────┐
+    │           │             │              │
+LLMs        Prompts       Memory        Documents
+    │           │             │              │
+    └───────────┼─────────────┼──────────────┘
+                │
+           Chains / LCEL
+                │
+            Agents
+                │
+          External Tools
+                │
+         Complete AI Application
 ```
 
-1. Chains
+1. LLM Wrappers
 
-A Chain is a predefined sequence of steps.
+Purpose:
+Connect to different LLM providers using one interface.
 
-The execution path is fixed.
+Instead of learning every API separately:
+- OpenAI
+- Gemini
+- Claude
+- Mistral
+- Ollama
+- Groq
+
+LangChain provides a common interface.
 
 Example:
 ```
-User Question
-      │
-      ▼
-PromptTemplate
-      │
-      ▼
- Gemini
-      │
-      ▼
-Output Parser
-      │
-      ▼
- Final Answer
+from langchain_openai import ChatOpenAI
+
+llm = ChatOpenAI(
+    model="gpt-4.1",
+    temperature=0
+)
 ```
-Example code:
+Instead of OpenAI:
 ```
-const chain = PromptTemplate
-    .fromTemplate("Explain {topic}")
-    .pipe(model)
-    .pipe(new StringOutputParser());
-
-const answer = await chain.invoke({
-    topic: "LangChain"
-});
+from langchain_google_genai import ChatGoogleGenerativeAI
 ```
-The model always follows the same pipeline.
+or
+```
+from langchain_ollama import ChatOllama
+```
+Your application barely changes.
 
-2. Agents
+2. Chains
 
-An Agent can reason, decide, and choose which tools to use.
+A chain is simply:
+```
+Input
+   ↓
+Prompt
+   ↓
+LLM
+   ↓
+Output
+```
+Example
 
-Instead of following a fixed path, it decides the next action based on the user's request.
+User:
+```
+Summarize this PDF
+```
+Workflow
+```
+PDF
 
+↓
+
+Prompt
+
+↓
+
+LLM
+
+↓
+
+Summary
+```
+Earlier versions used:
+```
+LLMChain
+```
+Modern LangChain uses LCEL.
+
+Example:
+```
+chain = prompt | llm
+```
+
+3. Agents
+
+Chains follow a fixed path.
+
+Agents decide the path dynamically.
+
+Example:
+
+User asks
+```
+What's the weather in London?
+```
+Agent thinks:
+```
+Need weather
+
+↓
+
+Call weather tool
+
+↓
+
+Get response
+
+↓
+
+Return answer
+```
 Example:
 ```
 User:
-What's the weather in London?
-        │
-        ▼
-      Agent
-        │
-        ▼
-Should I answer directly?
-        │
-       No
-        │
-        ▼
-Call Weather Tool
-        │
-        ▼
-Receive Result
-        │
-        ▼
-Generate Final Answer
-```
-Another example:
-```
-User asks:
+Find Tesla stock price and email it.
 
-"Search the web, summarise the article and email it."
+Agent:
 
-Agent decides:
+Need stock price
 
-Search Tool
-      │
-      ▼
-Summariser
-      │
-      ▼
-Email Tool
-      │
-      ▼
+↓
+
+Use finance tool
+
+↓
+
+Need email
+
+↓
+
+Use Gmail tool
+
+↓
+
 Done
 ```
-The workflow is dynamic, not hard-coded.
+Agents can call multiple tools.
 
-**Chains vs Agents**
+4. Tools
 
-| Feature         | Chain                           | Agent                            |
-| --------------- | ------------------------------- | -------------------------------- |
-| Workflow        | Fixed                           | Dynamic                          |
-| Tool usage      | Optional                        | Core feature                     |
-| Decision making | No                              | Yes                              |
-| Reasoning       | No                              | Yes                              |
-| Predictable     | Yes                             | Less predictable                 |
-| Speed           | Faster                          | Usually slower                   |
-| Best for        | RAG, summarisation, translation | Assistants, copilots, automation |
+Tools are functions the LLM can invoke.
+
+Examples:
+```
+Calculator
+Weather API
+Google Search
+Wikipedia
+SQL Database
+Python REPL
+Custom APIs
+```
+Example tool:
+```
+@tool
+def multiply(a: int, b: int):
+    return a * b
+```
+Now the agent can use it.
+
+5. Memory
+
+Memory stores previous conversations.
+
+Without memory:
+```
+User:
+My name is Alice.
+
+Later:
+
+What's my name?
+
+↓
+
+LLM:
+I don't know.
+```
+
+With memory:
+```
+User:
+My name is Alice.
+
+↓
+
+Stored
+
+↓
+
+Later
+
+↓
+
+My name is Alice
+```
+Older example:
+```
+ConversationBufferMemory
+```
+Modern LangChain encourages using message history and LangGraph for durable memory.
+
+6. Prompt Templates
+
+Instead of writing prompts manually.
+
+Bad:
+```
+prompt = f"Translate {text}"
+```
+Better:
+```
+from langchain_core.prompts import PromptTemplate
+
+prompt = PromptTemplate.from_template(
+    "Translate this into French:\n{text}"
+)
+```
+Later:
+```
+prompt.invoke({
+    "text": "Hello"
+})
+```
+Produces
+
+Translate this into French:
+```
+Hello
+```
+
+7. Output Parsers
+
+LLMs return text.
+
+Applications often need structured data.
+
+Example output:
+```
+Name: John
+Age: 25
+```
+Instead, return JSON:
+```
+{
+  "name": "John",
+  "age": 25
+}
+```
+Output parsers help convert LLM responses into:
+- JSON
+- Pydantic models
+- Lists
+- Enums
+- Structured objects
+
+Example:
+```
+parser = JsonOutputParser()
+```
+
+8. Document Loaders & Text Splitters
+
+For RAG.
+
+Load documents.
+
+Examples:
+```
+PDF
+Word
+CSV
+Web pages
+Notion
+Confluence
+SharePoint
+Google Docs
+```
+Then split into chunks.
+
+Example
+```
+100-page PDF
+
+↓
+
+Chunk 1
+
+Chunk 2
+
+Chunk 3
+
+...
+
+Chunk 500
+```
+Why?
+
+LLMs have context limits.
+
+9. Vector Stores
+
+Store embeddings.
+
+Workflow:
+```
+Documents
+
+↓
+
+Embedding Model
+
+↓
+
+Vectors
+
+↓
+
+Vector Database
+
+↓
+
+Similarity Search
+```
+Popular vector databases:
+- Pinecone
+- Chroma
+- FAISS
+- Qdrant
+- Milvus
+- Weaviate
+
+Example:
+```
+Question:
+
+"What is our leave policy?"
+
+↓
+
+Search vector DB
+
+↓
+
+Top 5 relevant chunks
+
+↓
+
+Send to LLM
+
+↓
+
+Answer
+```
+This is the foundation of Retrieval-Augmented Generation (RAG).
+
+10. Runnables (LCEL)
+
+This is the modern LangChain way.
+
+Everything is a Runnable.
+
+You connect components with |.
+
+Example:
+```
+Prompt
+
+↓
+
+LLM
+
+↓
+
+Parser
+
+Code:
+
+chain = (
+    prompt
+    | llm
+    | parser
+)
+```
+This replaces many older chain classes and makes pipelines composable and reusable.
+
+## Complete RAG Flow
+```
+               User Question
+                     │
+                     ▼
+             Prompt Template
+                     │
+                     ▼
+              Document Loader
+                     │
+                     ▼
+              Text Splitter
+                     │
+                     ▼
+             Embedding Model
+                     │
+                     ▼
+              Vector Database
+                     │
+             Similar Documents
+                     │
+                     ▼
+                 LLM Wrapper
+                     │
+                     ▼
+              Output Parser
+                     │
+                     ▼
+                 Final Answer
+```
+If you add an agent:
+```
+User
+
+↓
+
+Agent
+
+↓
+
+Needs Documents?
+     │
+     ├── Yes → Vector DB
+     │
+     ├── Needs Search → Google Tool
+     │
+     ├── Needs SQL → Database Tool
+     │
+     ├── Needs Calculator → Math Tool
+     │
+     └── Needs API → Custom Tool
+
+↓
+
+LLM
+
+↓
+
+Answer
+```
+
+## How these pieces fit together in a real application
+| Component        | Responsibility          | Used in Chatbot | Used in RAG | Used in AI Agent |
+| ---------------- | ----------------------- | --------------- | ----------- | ---------------- |
+| LLM Wrapper      | Connect to model        | ✅               | ✅           | ✅                |
+| Prompt Template  | Build prompts           | ✅               | ✅           | ✅                |
+| Memory           | Maintain conversation   | ✅               | Optional    | ✅                |
+| Chains / LCEL    | Define workflow         | ✅               | ✅           | ✅                |
+| Tools            | External capabilities   | ❌               | Optional    | ✅                |
+| Agents           | Dynamic decision-making | ❌               | Optional    | ✅                |
+| Document Loaders | Read source documents   | ❌               | ✅           | Optional         |
+| Text Splitters   | Chunk documents         | ❌               | ✅           | Optional         |
+| Vector Store     | Semantic retrieval      | ❌               | ✅           | Optional         |
+| Output Parsers   | Structured results      | Optional        | ✅           | ✅                |
+
 
 ## Real-World Examples
 
