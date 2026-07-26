@@ -3,11 +3,20 @@
 LangChain is a framework for building applications using LLMs. It acts as a middle layer between User/Application and the LLM. It simplifies development of advanced LLM-based applications.    
 LangChain is used to build scalable, flexible, and advanced LLM applications with easy model switching and feature integration.
 
+https://www.langchain.com/
+
 ## Tutorials
-1. LangChain Tutorial 2025 | Build LLM Apps, Chains & Agents Step-by-Step : https://www.youtube.com/watch?v=GLpitbsSJtw&list=PLzjZaW71kMwS2MrPcY22-oZxHjrpi6yEZ&index=7
-2. LangChain Agents Tutorial 2025 | Build AI-Powered Live News Q&A Agent ⚡LangChain 2025 Step-by-Step : https://www.youtube.com/watch?v=Z3vgQnQ2f1g&list=PLzjZaW71kMwS2MrPcY22-oZxHjrpi6yEZ&index=8
-3. LangChain Agents Tutorial 2025 | Build AI-Powered Live News Q&A Agent ⚡LangChain 2025 Step-by-Step : https://www.youtube.com/watch?v=Z3vgQnQ2f1g&list=PLzjZaW71kMwS2MrPcY22-oZxHjrpi6yEZ&index=8
-4. Build a Smart Restaurant AI Assistant ⚡ LangChain Agents + Gemini 2025 : https://www.youtube.com/watch?v=nVhl7NyTPXc&list=PLzjZaW71kMwS2MrPcY22-oZxHjrpi6yEZ&index=9
+1. Langchain: https://www.langchain.com/
+2. JS Langchain Docs: https://js.langchain.com/docs/introduction/
+3. Python Langchain Docs: https://python.langchain.com/docs/introduction/
+4. V3 Langchain API: https://v03.api.js.langchain.com/index.html
+5. Langchain chat: https://chat.langchain.com/
+6. TavilySearch: https://www.tavily.com/
+7. LangChain Tutorial 2025 | Build LLM Apps, Chains & Agents Step-by-Step : https://www.youtube.com/watch?v=GLpitbsSJtw&list=PLzjZaW71kMwS2MrPcY22-oZxHjrpi6yEZ&index=7
+8. LangChain Agents Tutorial 2025 | Build AI-Powered Live News Q&A Agent ⚡LangChain 2025 Step-by-Step : https://www.youtube.com/watch?v=Z3vgQnQ2f1g&list=PLzjZaW71kMwS2MrPcY22-oZxHjrpi6yEZ&index=8
+9. LangChain Agents Tutorial 2025 | Build AI-Powered Live News Q&A Agent ⚡LangChain 2025 Step-by-Step : https://www.youtube.com/watch?v=Z3vgQnQ2f1g&list=PLzjZaW71kMwS2MrPcY22-oZxHjrpi6yEZ&index=8
+10. Build a Smart Restaurant AI Assistant ⚡ LangChain Agents + Gemini 2025 : https://www.youtube.com/watch?v=nVhl7NyTPXc&list=PLzjZaW71kMwS2MrPcY22-oZxHjrpi6yEZ&index=9
+11. LangChain Tutorial for Beginners | Generative AI Series 🔥 : https://www.youtube.com/watch?v=cQUUkZnyoD0&list=PLu0W_9lII9aiS4rUVp2jXwIvCruo27sG6&index=4
 
 
 ## LangChain Architecture
