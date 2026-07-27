@@ -5,6 +5,22 @@ LangChain is used to build scalable, flexible, and advanced LLM applications wit
 
 https://www.langchain.com/
 
+**Even Shorter (Interview Style)**  
+LangChain → LLM application framework.  
+LangGraph → AI workflow orchestration framework.  
+LangSmith → AI observability and evaluation platform.  
+
+**Easy to Remember**  
+🏗️ LangChain → Build  
+🔄 LangGraph → Orchestrate  
+🔍 LangSmith → Observe & Improve  
+
+| Tool          | One-liner                                                                                       |
+| ------------- | ----------------------------------------------------------------------------------------------- |
+| **LangChain** | **Build AI applications using a single interface for multiple LLMs and tools.**                 |
+| **LangGraph** | **Build stateful, multi-agent AI workflows that can pause, resume, and recover from failures.** |
+| **LangSmith** | **Monitor, debug, evaluate, and optimize AI applications in production.**                       |
+
 ## Tutorials
 1. Langchain: https://www.langchain.com/
 2. JS Langchain Docs: https://js.langchain.com/docs/introduction/
