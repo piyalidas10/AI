@@ -17,6 +17,7 @@ https://www.langchain.com/
 9. LangChain Agents Tutorial 2025 | Build AI-Powered Live News Q&A Agent ⚡LangChain 2025 Step-by-Step : https://www.youtube.com/watch?v=Z3vgQnQ2f1g&list=PLzjZaW71kMwS2MrPcY22-oZxHjrpi6yEZ&index=8
 10. Build a Smart Restaurant AI Assistant ⚡ LangChain Agents + Gemini 2025 : https://www.youtube.com/watch?v=nVhl7NyTPXc&list=PLzjZaW71kMwS2MrPcY22-oZxHjrpi6yEZ&index=9
 11. LangChain Tutorial for Beginners | Generative AI Series 🔥 : https://www.youtube.com/watch?v=cQUUkZnyoD0&list=PLu0W_9lII9aiS4rUVp2jXwIvCruo27sG6&index=4
+12. LangChain vs LangGraph vs LangSmith : https://www.youtube.com/watch?v=RbP3LrCkP_4
 
 
 ## LangChain Architecture
