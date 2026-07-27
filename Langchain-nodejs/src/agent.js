@@ -2,16 +2,32 @@ import { config } from "dotenv";
 config();
 
 import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
-import { PromptTemplate } from "@langchain/core/prompts";
-import { StringOutputParser } from "@langchain/core/output_parsers";
 import { TavilySearch } from "@langchain/tavily";
+import { HumanMessage } from "@langchain/core/messages";
+import { createReactAgent } from "@langchain/langgraph/prebuilt";
+
+// =======================================================
+// Validate Environment Variables
+// =======================================================
+
+if (!process.env.GOOGLE_API_KEY) {
+  throw new Error("GOOGLE_API_KEY is missing.");
+}
+
+if (!process.env.TAVILY_API_KEY) {
+  throw new Error("TAVILY_API_KEY is missing.");
+}
+
+// =======================================================
+// Gemini Model
+// =======================================================
 
 // 1. Create the model
+// The SDK automatically reads: GOOGLE_API_KEY from .env.
 const model = new ChatGoogleGenerativeAI({
   model: "gemini-2.5-flash",
   temperature: 0.7,
   maxOutputTokens: 2048,
-  apiKey: process.env.GOOGLE_API_KEY,
 });
 
 /**
@@ -31,11 +47,15 @@ const model = new ChatGoogleGenerativeAI({
  * topic: "general" or "news" - This parameter specifies the type of content to be searched by the Tavily search tool.
  * general: Searches the web broadly. The agent can be used to answer questions, provide information, or perform tasks based on the capabilities of the integrated tools and model.
  * news: Focuses on recent and news-oriented content. The agent can be used to fetch the latest news articles or updates based on user queries.
+ * 
+ * The Tavily package also automatically reads: TAVILY_API_KEY  from .env.
  */
-const searchTool = new TavilySearch({
-  apiKey: process.env.TAVILY_API_KEY,
+// =======================================================
+// Tavily Search Tool
+// =======================================================
+const tavily = new TavilySearch({
   maxResults: 5,
-  topic: "general", // "general" or "news"
+  topic: "general",
 });
 
 /**
@@ -47,9 +67,12 @@ const searchTool = new TavilySearch({
  * 1. Import necessary modules and configure environment variables.
  * 2. Create a Google Generative AI model with specified parameters.
  */
+// =======================================================
+// Create React Agent
+// =======================================================
 const agent = createReactAgent({
-  llm: model,
-  tools: [searchTool],
+  model,
+  tools: [tavily],
 });
 
 /**
@@ -57,14 +80,45 @@ const agent = createReactAgent({
  * 
  * The method takes an object with a "messages" property, which is an array of message objects. 
  * Each message object should have a "role" (e.g., "user") and "content" (the actual message text).
- */
-const result = await agent.invoke({
-  messages: [
+ * 
+ * If you do: console.log(response);
+ * The object may contain:
     {
-      role: "user",
-      content: "What is the latest news about ISRO?"
+      messages: [
+        HumanMessage {},
+        AIMessage {}
+      ]
     }
-  ]
-});
+  
+  Using: console.log(JSON.stringify(response, null, 2)); formats the object into readable JSON (when the object is serializable).
+  A better way to inspect them is: console.dir(response, { depth: null });
+ */
+// =======================================================
+// Execute
+// =======================================================
+try {
 
-console.log(result);
+  const result = await agent.invoke({
+    messages: [
+      new HumanMessage(
+        "What is the latest news about ISRO?"
+      ),
+    ],
+  });
+
+  console.dir(result, {
+    depth: null,
+    colors: true,
+  });
+
+  console.log("\n==============================");
+
+  console.log(result.messages.at(-1)?.content);
+
+} catch (err) {
+
+  console.error("\nAgent Error\n");
+
+  console.error(err);
+
+}
