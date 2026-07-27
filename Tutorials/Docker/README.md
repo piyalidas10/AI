@@ -4,6 +4,7 @@ Docker is an OS‑level virtualization (or containerization) platform, which all
 1. Docker Docs : https://docs.docker.com/reference/cli/docker/
 2. What is Docker | Docker Tutorial for Beginners : https://www.youtube.com/watch?v=lkFfzozx93o
 3. Docker In One Shot - Part 1 : https://www.youtube.com/watch?v=31k6AtW-b3Y
+4. Docker Vs Kubernetes | What is Docker ? | What is Kubernetes ? : https://www.youtube.com/watch?v=oyjGMFzKgVQ
 
 ## How Docker Containers Differ from Virtual Machines
 Before Docker, deploying applications across different environments was a nightmare. Differences in dependencies, library versions, and OS configurations led to the infamous “works on my machine” problem.
