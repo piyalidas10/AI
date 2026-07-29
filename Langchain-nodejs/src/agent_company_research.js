@@ -4,38 +4,23 @@ import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
 import { TavilySearch } from "@langchain/tavily";
 import { createReactAgent } from "@langchain/langgraph/prebuilt";
 
-async function main() {
-  try {
-    // Gemini LLM
-    const model = new ChatGoogleGenerativeAI({
-      model: "gemini-2.5-flash",
-      temperature: 0,
-      apiKey: process.env.GOOGLE_API_KEY,
-    });
+const model = new ChatGoogleGenerativeAI({
+  model: "gemini-2.5-flash",
+  temperature: 0.2,
+  apiKey: process.env.GOOGLE_API_KEY,
+});
 
-    // Tavily Search Tool
-    /**
-     * the TavilySearch tool allows the agent to perform web searches and retrieve relevant information from the internet. 
-     * It is configured with an API key and a maximum number of results to return.
-     * 
-     * @param {string} apiKey - The API key for TavilySearch.
-     * @param {number} maxResults - The maximum number of search results to return.
-     */
-    const tavilyTool = new TavilySearch({
-      apiKey: process.env.TAVILY_API_KEY,
-      maxResults: 5,
-    });
+const searchTool = new TavilySearch({
+  apiKey: process.env.TAVILY_API_KEY,
+  maxResults: 3,
+});
 
-    // ReAct Agent
-    /**
-     * The ReAct agent is created using the Gemini LLM and the Tavily Search tool.
-     * It can process user queries, perform web searches, and provide relevant information in response to user prompts.
-     */
-    const agent = createReactAgent({
-      llm: model,
-      tools: [tavilyTool],
-    });
+const agent = createReactAgent({
+  llm: model,
+  tools: [searchTool],
+});
 
+async function research() {
     // Invoke the agent with a user query
     /**
      * The agent is invoked with a user query asking for the current CEO of OpenAI.
@@ -53,36 +38,40 @@ async function main() {
      * what is the purpose of the messages array? 
      * The messages array is used to provide context and instructions to the agent, allowing it to understand the user's query and generate an appropriate response.
      */
-    const response = await agent.invoke({
-      messages: [
-        {
-          role: "user",
-          content:
-            "Who is the current CEO of OpenAI? Search the web and provide a short answer.",
+  const result = await agent.invoke({
+  messages: [
+    {
+      role: "user",
+      content: `
+    Research OpenAI.
+
+    Find:
+
+    - CEO
+    - Employees
+    - Latest funding
+    - Major products
+    - Recent announcements
+    `,
         },
-      ],
+    ],
     });
 
-    console.log("\n=========================\n");
-
-    const finalMessage = response.messages.at(-1);
-
-    console.log(finalMessage.content);
-
-    console.log("\n=========================\n");
-  } catch (err) {
-    console.error(err);
-  }
+        console.log("--------------------------------");
+        console.log(result.messages.at(-1).content);
+        console.log("--------------------------------\n");
 }
 
-main();
-
+research();
 
 /**
- * 
-=========================
+ * --------------------------------
+Here's the information about OpenAI:
 
-Sam Altman is the current CEO of OpenAI.
-
-=========================
+*   **CEO:** Sam Altman
+*   **Employees:** As of June 30, 2026, OpenAI has 10,050 employees.
+*   **Latest funding:** OpenAI raised $6.6 billion in its latest funding round.
+*   **Major products:** ChatGPT is a major product, and OpenAI operates in the Generative AI, AI Infrastructure, and Artificial Intelligence sectors.
+*   **Recent announcements:** In February 2026, Sam Altman announced that ChatGPT is "back to exceeding 10% monthly growth" and that an "updated Chat model" was being prepared for launch that week.
+--------------------------------
  */

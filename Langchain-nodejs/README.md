@@ -28,7 +28,12 @@ LangChain Architecture
 9. LangChain Agents Tutorial 2025 | Build AI-Powered Live News Q&A Agent ⚡LangChain 2025 Step-by-Step : https://www.youtube.com/watch?v=Z3vgQnQ2f1g&list=PLzjZaW71kMwS2MrPcY22-oZxHjrpi6yEZ&index=8
 10. Build a Smart Restaurant AI Assistant ⚡ LangChain Agents + Gemini 2025 : https://www.youtube.com/watch?v=nVhl7NyTPXc&list=PLzjZaW71kMwS2MrPcY22-oZxHjrpi6yEZ&index=9
 
-## Run files
+## Install Application
+```
+npm install --legacy-peer-deps
+```
+
+## Run Application
 ```
 node src/index.js
 node src/chain.js
@@ -147,3 +152,82 @@ Best for:
 - Conversation history
 - Memory
 - Multi-turn interactions
+
+## Why LangChain exists
+
+**Without LangChain, you'd need different code for every provider.**
+```
+OpenAI API
+    │
+Different request
+
+Gemini API
+    │
+Different request
+
+Claude API
+    │
+Different request
+
+Mistral API
+    │
+Different request
+```
+
+**With LangChain:**
+```
+Your Code
+      │
+      ▼
+LangChain Messages
+      │
+      ▼
+Converts to
+      │
+ ┌────┼────┬─────┐
+ ▼    ▼    ▼     ▼
+GPT Gemini Claude Mistral
+```
+You change only the model class, while the rest of your application can remain largely unchanged.
+
+## Which roles will you use most?
+
+This is one of the most important concepts in building AI agents.
+
+Think of the messages array as the conversation history that the LLM sees. The role tells the model who produced each message and how it should interpret it.
+
+There are 6 roles in the messages array: "user", "assistant", "system", "tool", "function", and "error".
+- role: "user" indicates that the message is from the user, and the content contains the query.
+- role: "assistant" indicates that the message is from the assistant, and the content contains the response.
+- role: "system" indicates that the message is from the system, and the content contains instructions or context for the agent.
+- role: "tool" indicates that the message is from a tool, and the content contains information retrieved from a tool.
+- role: "function" indicates that the message is from a function, and the content contains information returned from a function call.
+- role: "error" indicates that the message is from an error, and the content contains information about an error that occurred during processing.
+
+When building agents with Node.js + LangChain + LangGraph + Gemini, these are the roles you'll encounter most frequently:
+
+| Role        | Who creates it?             | Purpose                                                                        |
+| ----------- | --------------------------- | ------------------------------------------------------------------------------ |
+| `system`    | Developer                   | Sets the assistant's behavior, rules, and instructions                         |
+| `user`      | Human                       | Provides questions or requests                                                 |
+| `assistant` | LLM                         | Stores the model's responses for conversation history                          |
+| `tool`      | Agent framework             | Contains the output of external tools such as Tavily or a calculator           |
+| `function`  | Older function-calling APIs | Represents function outputs; largely superseded by `tool` in modern frameworks |
+| `error`     | Framework-specific          | Represents tool or workflow errors if the framework supports it                |
+
+## Which roles should you learn today?
+
+If you're building modern AI agents with LangChain or LangGraph, focus on these:
+```
+System
+    │
+    ▼
+User
+    │
+    ▼
+Assistant
+    │
+    ▼
+Tool
+```
+These four roles form the backbone of contemporary agent applications across Gemini, OpenAI, Claude, Mistral, and other major providers. function is mainly useful for understanding older OpenAI examples, while error is an application-level concept rather than a standard LLM conversation role.
