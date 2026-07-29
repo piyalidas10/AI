@@ -5,6 +5,7 @@ They’re essential in modern AI applications like semantic search, recommendati
 
 ## Tutorials
 1. Pinecone : https://docs.pinecone.io/guides/index-data/indexing-overview
+2. What is Vector Database | Internal Implementation of Vector DataBase | | GenAI Full Course #7 : https://www.youtube.com/watch?v=lvH_zPj2o04
 
 ## 🔥 Why Vector DB Is Powerful
 | Traditional DB  | Vector DB               |
