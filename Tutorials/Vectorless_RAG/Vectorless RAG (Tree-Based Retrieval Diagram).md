@@ -116,28 +116,29 @@ Node:
 - Like reading index of a book
 
 ## 🧪 Mermaid Tree Diagram
-```graph TD
+```mermaid
+graph TD
 
-R[Root: Document]
+R[📄 Root: Document]
 
-R --> A[Section A]
-R --> B[Section B]
-R --> C[Section C]
+R --> A[📁 Section A]
+R --> B[📁 Section B]
+R --> C[📁 Section C]
 
-A --> A1[Page 1]
-A --> A2[Page 2]
+A --> A1[📄 Page 1]
+A --> A2[📄 Page 2]
 
-A2 --> A21[Subsection]
+A2 --> A21[📄 Subsection]
 
-B --> B1[Topic 1]
-B --> B2[Revenue Analysis]
-B --> B3[Topic 3]
+B --> B1[📄 Topic 1]
+B --> B2[📊 Revenue Analysis]
+B --> B3[📄 Topic 3]
 
-B2 --> B21[Q3 Drop Reason]
-B2 --> B22[Other Factors]
+B2 --> B21[📉 Q3 Drop Reason]
+B2 --> B22[📈 Other Factors]
 
-C --> C1[Summary]
-C --> C2[Appendix]
+C --> C1[📝 Summary]
+C --> C2[📚 Appendix]
 ```
 
 
