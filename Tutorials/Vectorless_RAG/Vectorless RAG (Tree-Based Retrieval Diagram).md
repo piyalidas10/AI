@@ -116,29 +116,36 @@ Node:
 - Like reading index of a book
 
 ## 🧪 Mermaid Tree Diagram
+
 ```mermaid
 graph TD
 
-R[📄 Root: Document]
+Root["📚 Root Document"]
 
-R --> A[📁 Section A]
-R --> B[📁 Section B]
-R --> C[📁 Section C]
+Root --> Intro["📖 Introduction"]
+Root --> Finance["💰 Financial Reports"]
+Root --> HR["👥 HR Policies"]
+Root --> Legal["⚖️ Legal Documents"]
 
-A --> A1[📄 Page 1]
-A --> A2[📄 Page 2]
+Finance --> Revenue["📊 Revenue Analysis"]
+Finance --> Expenses["💸 Expenses"]
+Finance --> Forecast["📈 Forecast"]
 
-A2 --> A21[📄 Subsection]
+Revenue --> Q1["Q1"]
+Revenue --> Q2["Q2"]
+Revenue --> Q3["Q3 Drop"]
+Revenue --> Q4["Q4"]
 
-B --> B1[📄 Topic 1]
-B --> B2[📊 Revenue Analysis]
-B --> B3[📄 Topic 3]
+Legal --> Contract["Contract Rules"]
+Legal --> GDPR["GDPR"]
 
-B2 --> B21[📉 Q3 Drop Reason]
-B2 --> B22[📈 Other Factors]
+Q3 --> Cause["Revenue Drop Cause"]
+Q3 --> Market["Market Conditions"]
+Q3 --> Sales["Sales Performance"]
 
-C --> C1[📝 Summary]
-C --> C2[📚 Appendix]
+Cause --> Page125["📄 Original Page 125"]
+Market --> Page126["📄 Original Page 126"]
+Sales --> Page130["📄 Original Page 130"]
 ```
 
 
