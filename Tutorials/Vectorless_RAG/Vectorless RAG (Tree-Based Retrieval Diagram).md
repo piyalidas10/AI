@@ -125,6 +125,53 @@ classDef section fill:#20c997,color:#fff
 classDef topic fill:#ffc107,color:#000
 classDef page fill:#f8f9fa,color:#000
 
+R[Root Document]
+
+A[Section A]
+B[Section B]
+C[Section C]
+
+A1[Page 1]
+A2[Page 2]
+A21[Subsection]
+
+B1[Topic 1]
+B2[Revenue Analysis]
+B3[Topic 3]
+
+B21[Q3 Drop Reason]
+B22[Other Factors]
+
+C1[Summary]
+C2[Appendix]
+
+R --> A
+R --> B
+R --> C
+
+A --> A1
+A --> A2
+A2 --> A21
+
+B --> B1
+B --> B2
+B --> B3
+
+B2 --> B21
+B2 --> B22
+
+C --> C1
+C --> C2
+
+class R root
+class A,B,C section
+class B2,B21,B22 topic
+class A1,A2,A21,B1,B3,C1,C2 page
+```
+
+```mermaid
+graph TD
+
 Root["📚 Root Document"]
 
 Root --> Intro["📖 Introduction"]
@@ -152,7 +199,6 @@ Cause --> Page125["📄 Original Page 125"]
 Market --> Page126["📄 Original Page 126"]
 Sales --> Page130["📄 Original Page 130"]
 ```
-
 
 
 
