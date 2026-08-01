@@ -169,6 +169,10 @@ class B2,B21,B22 topic
 class A1,A2,A21,B1,B3,C1,C2 page
 ```
 
+## Even Better for Vectorless RAG
+
+This version more closely matches how a Page Index Tree works.
+
 ```mermaid
 graph TD
 
