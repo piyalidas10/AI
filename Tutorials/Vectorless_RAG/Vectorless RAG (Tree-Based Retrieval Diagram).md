@@ -116,7 +116,7 @@ Node:
 - Like reading index of a book
 
 ## 🧪 Mermaid Tree Diagram
-graph TD
+```graph TD
 
 R[Root: Document]
 
@@ -138,7 +138,7 @@ B2 --> B22[Other Factors]
 
 C --> C1[Summary]
 C --> C2[Appendix]
-
+```
 
 
 
