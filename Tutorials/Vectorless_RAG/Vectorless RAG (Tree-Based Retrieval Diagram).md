@@ -120,6 +120,11 @@ Node:
 ```mermaid
 graph TD
 
+classDef root fill:#0d6efd,color:#fff,stroke:#0d6efd
+classDef section fill:#20c997,color:#fff
+classDef topic fill:#ffc107,color:#000
+classDef page fill:#f8f9fa,color:#000
+
 Root["📚 Root Document"]
 
 Root --> Intro["📖 Introduction"]
