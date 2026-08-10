@@ -223,6 +223,56 @@ document = "handbook.pdf"
 page = 15
 ```
 
+## Where does ANN come in?
+
+**Your transcript mentions:**
+```
+Approximate Nearest Neighbor — ANN
+```
+
+**Imagine a vector database containing:**
+```
+10 vectors
+```
+Easy.
+
+**But a production system might contain:**
+```
+100 million vectors
+```
+You don't want to compare the query against every single vector.
+```
+Query
+  │
+  ├── compare → Vector 1
+  ├── compare → Vector 2
+  ├── compare → Vector 3
+  ├── compare → Vector 4
+  ├── ...
+  └── compare → Vector 100,000,000
+```
+That can be expensive.
+
+ANN indexing algorithms make the search dramatically more efficient by navigating an index designed to find very close candidates without exhaustively checking everything.
+
+**Conceptually:**
+```
+             Query
+               │
+               ▼
+        ANN Index
+        /       \
+       /         \
+   Candidate    Candidate
+      │             │
+      ▼             ▼
+   Vector A       Vector B
+      │
+      ▼
+   Top-K Results
+```
+This is why vector databases can perform similarity search efficiently at scale.
+
 ## 🔹 What is Nomic Embedding?
 
 Nomic AI created a popular open-source embedding model.    
