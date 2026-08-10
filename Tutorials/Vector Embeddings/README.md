@@ -1,5 +1,9 @@
 # 🔹 What Are Vector Embeddings?
 
+> **Vectors → Embeddings → Vector Database → Similarity Search**, which is one of the most important parts of a RAG system.
+
+An embedding is not a random number representation. An embedding model learns to map semantically related data to nearby points in a high-dimensional vector space.
+
 Vector embeddings are numerical representations of unstructured data such as:
   -  Text (documents, PDFs, queries)
   -  Images
