@@ -28,6 +28,86 @@ These vectors:
   -  Allow similarity search
   -  Are used in vector databases (like Qdrant, Weaviate)
 
+## What exactly is a vector?
+
+A vector is simply a list of numbers.
+
+**For example:**
+```
+Apple
+ ↓
+[0.12, 0.81, -0.23, 0.44, 0.91]
+```
+**Another:**
+```
+Banana
+ ↓
+[0.15, 0.78, -0.20, 0.48, 0.88]
+```
+**And:**
+```
+Car
+ ↓
+[-0.72, 0.13, 0.91, -0.54, 0.11]
+```
+The embedding model places semantically related things closer together.
+
+**Conceptually:**
+```
+                 Fruits
+
+          Apple ●
+                \
+                 ● Banana
+                   \
+                    ● Mango
+
+
+                                      Vehicles
+
+                              ● Car
+                                   \
+                                    ● Bus
+```
+In reality, embeddings usually have hundreds or thousands of dimensions, not just 2 or 3.
+
+## Why do we need embeddings?
+
+Consider this traditional search:
+```
+User:
+"How can I change my password?"
+```
+Traditional SQL search might do:
+```
+SELECT *
+FROM documents
+WHERE text LIKE '%change%'
+   OR text LIKE '%password%';
+```
+But imagine the document contains:
+```
+"Users can reset their credentials from the account settings page."
+```
+There is no exact "change password" match.
+
+Yet the meaning is very similar.
+
+**Semantic search solves this.**
+```
+"How can I change my password?"
+              ↓
+         Embedding
+              ↓
+     [0.21, -0.42, ...]
+              ↓
+        Vector Search
+              ↓
+"Users can reset their credentials
+ from the account settings page."
+```
+Even though the words are different, the meaning is similar.
+
 ## Why Convert to Numbers?
 
 Computers don’t understand meaning directly.  
@@ -62,6 +142,86 @@ Think of it like this: Imagine a dictionary that translates words into unique co
 There are many options available, here are a few resources to get you started:  
   -  Hugging Face: [Hugging Face Embeddings] offers pre-trained models for text and code.
   -  OpenAI API: [OpenAI Embeddings] provides text embedding models with adjustable size for performance optimization.
+
+## Traditional Search vs Semantic Search
+
+**Traditional keyword search**
+```
+Query:
+"How do I change my password?"
+
+             ↓
+
+      Match exact words
+
+             ↓
+
+     "change"
+     "password"
+
+             ↓
+
+       Search Results
+```
+It primarily focuses on words.
+
+**Semantic search**
+```
+Query:
+"How do I change my password?"
+
+             ↓
+
+       Embedding Model
+
+             ↓
+
+       Query Vector
+
+             ↓
+
+   Similarity Calculation
+
+             ↓
+
+┌─────────────────────────────┐
+│ "reset my credentials"      │
+│ "forgot my login password"  │
+│ "update account password"   │
+└─────────────────────────────┘
+```
+It focuses on meaning.
+
+## What is stored in a vector database?
+
+A common misconception is that the database stores only vectors.
+
+**Usually you store:**
+```
+┌───────────────────────────────────────┐
+│ Vector Database                       │
+├───────────────────────────────────────┤
+│                                       │
+│ ID: 101                               │
+│ Vector: [0.12, -0.43, 0.77, ...]     │
+│ Text: "Employees receive 25 days..."  │
+│ Metadata: {source: "handbook.pdf"}    │
+│                                       │
+│ ID: 102                               │
+│ Vector: [0.21, -0.15, 0.82, ...]     │
+│ Text: "Employees can work remotely..."│
+│ Metadata: {source: "handbook.pdf"}    │
+│                                       │
+└───────────────────────────────────────┘
+```
+The metadata is extremely useful for filtering.
+
+**For example:**
+```
+department = "HR"
+document = "handbook.pdf"
+page = 15
+```
 
 ## 🔹 What is Nomic Embedding?
 
