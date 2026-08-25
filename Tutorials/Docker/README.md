@@ -220,5 +220,38 @@ docker run --rm <image-id>
 ```
 This ensures the container is removed as soon as it stops.
 
+## Suppose i created a docker angular application in my windows machine, then will run that application in another linux machine using the docker file without installing nodejs, npm. is it possible ?
+
+If you build your Angular application inside a Docker image on your Windows machine, you can run that same image on a Linux machine, provided the target Linux machine has Docker installed.
+
+The target host machine (Linux Machine) needs only the Docker Engine installed. It acts as an isolated execution platform, while the container image carries every dependency, runtime, and configuration your application requires to execute.
+
+Why Host-Level Dependencies Are Unnecessary
+When using a multi-stage Docker build, the target server relies entirely on the self-contained layers packed into your final image:
+```
+┌─────────────────────────────────────────────────────────┐
+│                      LINUX HOST                         │
+│                                                         │
+│   ┌─────────────────────────────────────────────────┐   │
+│   │                 DOCKER ENGINE                   │   │
+│   │                                                 │   │
+│   │   ┌─────────────────────────────────────────┐   │   │
+│   │   │        MY-ANGULAR-APP CONTAINER         │   │   │
+│   │   │                                         │   │   │
+│   │   │  • Alpine Linux Base OS Layer           │   │   │
+│   │   │  • Nginx Binary Layer                   │   │   │
+│   │   │  • Compiled Angular Static Files (/dist) │   │   │
+│   │   └─────────────────────────────────────────┘   │   │
+│   └─────────────────────────────────────────────────┘   │
+└─────────────────────────────────────────────────────────┘
+```
+
+**Isolation**: The container packages its own minimal operating system layer (e.g., Alpine Linux) alongside Nginx and the static bundle generated during the build step.
+
+**Zero Pollution**: The server stays clean—no version collisions between different applications needing different versions of Node.js or web servers.
+
+**Consistency**: If the container starts up successfully on your local Windows Docker Desktop setup, it will behave identically on the target Linux Docker Engine (given matching CPU architectures).
+
+<img src="./imgs/Deploying_Docker_Angular_Application_Windows_to_Linux.png" width="90%" />
 
 
