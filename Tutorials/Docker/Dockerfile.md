@@ -1,373 +1,246 @@
-# Dockerfile
+# Docker concepts: image layers and build cache
 
-Complete Dockerfile
+> [!NOTE]  
+> Every Dockerfile instruction creates a layer, and Docker caches those layers. If a layer changes, Docker rebuilds that layer and every layer after it.
 
-For the example in your transcript, it would look like:
-```
-FROM node
-
-WORKDIR /app
-
-COPY . /app
-
-RUN npm install
-
-EXPOSE 80
-
-CMD ["node", "server.js"]
-```
-
-## 1. FROM — choose a base image
-```
-FROM node
-```
-Your custom image starts from the existing node image.
-
-Think of it as:
-```
-Node.js image → your custom image
-```
-You could also specify a version, which is generally better for reproducibility:
-```
-FROM node:20
-```
-
-## 2. WORKDIR — define the application directory
-```
-WORKDIR /app
-```
-This tells Docker:
-
-From this point onward, treat /app as the working directory.
-
-So commands such as npm install and node server.js execute inside /app.
-
-## 3. COPY — copy your application into the image
-```
-COPY . /app
-```
-This means:
-```
-Local machine
-    │
-    │ COPY
-    ▼
-Docker image
-    /app
-       ├── package.json
-       ├── package-lock.json
-       ├── server.js
-       └── ...
-```
-The first . means the current build context.
-
-The /app is the destination inside the image.
-
-## 4. RUN — execute something while building the image
-```
-RUN npm install
-```
-This happens during image creation.
-
-So:
-```
-docker build
-      │
-      ├── FROM node
-      ├── WORKDIR /app
-      ├── COPY . /app
-      ├── RUN npm install   ← happens now
-      │
-      ▼
-   Docker Image
-```
-The dependencies become part of the image.
-
-## 5. EXPOSE — document the application's port
-
-For example, if your Node.js application listens on port 80:
-```
-EXPOSE 80
-```
-Important: EXPOSE does not actually publish the port to your host machine. It documents which port the containerized application expects to use.
-
-You still need port mapping when running the container:
-```
-docker run -p 8080:80 my-node-app
-```
-Meaning:
-```
-Your Windows machine          Docker container
-       │                              │
-       │  localhost:8080              │
-       └─────────────────────────────►│ port 80
-                                      │
-                                  Node.js
-```
-
-## 6. CMD — what happens when the container starts
-```
-CMD ["node", "server.js"]
-```
-This is different from RUN.
-
-RUN:
-```
-RUN npm install
-```
-→ executes when the image is built
-
-CMD:
-```
-CMD ["node", "server.js"]
-```
-→ executes when a container is started
-
-This distinction is extremely important.
-
-## The overall mental model
-```
-                  docker build
-                       │
-                       ▼
-              ┌─────────────────┐
-              │   Dockerfile    │
-              └────────┬────────┘
-                       │
-        ┌──────────────┼──────────────┐
-        ▼              ▼              ▼
-     FROM           COPY/RUN        EXPOSE
-        │              │              │
-        └──────────────┼──────────────┘
-                       ▼
-               ┌───────────────┐
-               │ Docker Image  │
-               │ my-node-app   │
-               └───────┬───────┘
-                       │
-                  docker run
-                       │
-                       ▼
-               ┌───────────────┐
-               │   Container   │
-               │               │
-               │ node server.js│
-               │     :80       │
-               └───────┬───────┘
-                       │
-                 -p 8080:80
-                       │
-                       ▼
-                 localhost:8080
-```
-One correction to the transcript: COPY does not become relative to WORKDIR in the way described there. WORKDIR affects subsequent RUN, CMD, and ENTRYPOINT instructions; 
-for clarity and correctness, COPY . /app is the better form when you explicitly want to copy into /app.
-
-Also, in a real project, I would usually add a .dockerignore so things such as node_modules, .git, logs, 
-and build artifacts aren't unnecessarily copied into the Docker build context.
-
--------------------------
-
-# Docker workflow: Dockerfile → Image → Container → Port Mapping
-
-The most important thing to understand is that EXPOSE and -p are different.
-
-For run the Docker file, open terminal or cmd inside the path where Dockerfile is kept.
-```
-# Build image
-docker build -t my-node-app .
-
-# See images
-docker images
-
-# Run container
-docker run -p 3000:80 my-node-app
-
-# See running containers
-docker ps
-
-# See all containers
-docker ps -a
-
-# Stop container
-docker stop <container-name-or-id>
-```
-
-## 1. Build the image
-
-**From the folder containing your Dockerfile:**
-```
-docker build .
-```
-Docker reads the Dockerfile and creates an image.
-
-**A better practice is to give the image a name:**
-```
-docker build -t my-node-app .
-```
-
-Here:
-- docker build → create an image
-- -t my-node-app → give the image a name/tag
-- . → Docker build context is the current directory
-
-**You can verify it:**
-```
-docker images
-```
-
-## 2. Run a container from the image
-```
-docker run my-node-app
-```
-This creates a new container from my-node-app.
-
-**If your Dockerfile contains:**
-```
-CMD ["node", "server.js"]
-```
-
-**then Docker executes:**
-```
-node server.js
-```
-inside the container.
-
-Because the Node server keeps running, the container also keeps running.
-
-## 3. Why EXPOSE 80 doesn't make localhost work
-
-Suppose your application listens on:
-```
-Container
-    │
-    └── Node.js → port 80
-```
-And your Dockerfile contains:
-```
-EXPOSE 80
-```
-That doesn't mean:
-```
-Your PC → localhost:80 → Container:80
-```
-EXPOSE is primarily metadata/documentation saying:
-
-This containerized application expects to use port 80.
-
-## 4. Use -p to publish the port
-
-You need:
-```
-docker run -p 3000:80 my-node-app
-```
-The syntax is:
-```
--p HOST_PORT:CONTAINER_PORT
-```
-So:
-```
--p 3000:80
-   │    │
-   │    └── port inside container
-   │
-   └─────── port on your machine
-```
-The resulting flow is:
-```
-Browser
-   │
-   │ http://localhost:3000
-   ▼
-Windows machine
-   │
-   │ port 3000
-   ▼
-Docker
-   │
-   │ port mapping
-   ▼
-Container
-   │
-   │ port 80
-   ▼
-Node.js server
-```
-This is why you can access:
-```
-http://localhost:3000
-```
-even though Node is listening on port 80 inside the container.
-
-## 5. Check running containers
-```
-docker ps
-```
-This shows only running containers.
+## 1. Think of the Dockerfile as a stack of layers
 
 **For example:**
 ```
-CONTAINER ID   IMAGE          PORTS
-abc123         my-node-app    0.0.0.0:3000->80/tcp
+FROM node:20
+
+WORKDIR /app
+
+COPY package.json /app
+
+RUN npm install
+
+COPY . /app
+
+EXPOSE 80
+
+CMD ["node", "server.js"]
 ```
 
-**The important part is:**
+**Conceptually:**
 ```
-3000->80
+┌──────────────────────────────┐
+│ CMD ["node", "server.js"]    │
+├──────────────────────────────┤
+│ EXPOSE 80                    │
+├──────────────────────────────┤
+│ COPY . /app                  │
+├──────────────────────────────┤
+│ RUN npm install              │
+├──────────────────────────────┤
+│ COPY package.json /app       │
+├──────────────────────────────┤
+│ WORKDIR /app                 │
+├──────────────────────────────┤
+│ FROM node:20                 │
+└──────────────────────────────┘
+```
+Each instruction contributes to the image.
+
+## 2. Docker caches the layers
+
+Suppose you run:
+```
+docker build -t my-node-app .
 ```
 
-**It means:**
+**The first build might look conceptually like:**
 ```
-Host 3000 → Container 80
+FROM node:20          → executed
+WORKDIR /app          → executed
+COPY package.json     → executed
+RUN npm install       → executed
+COPY . /app           → executed
+EXPOSE 80             → executed
+CMD ...               → executed
 ```
 
-## 6. Stop the container
-
-Find the container:
+**Now run the same command again:**
 ```
-docker ps
+docker build -t my-node-app .
 ```
-Then:
+
+**Docker can say:**
 ```
-docker stop abc123
+FROM node:20          → CACHED
+WORKDIR /app          → CACHED
+COPY package.json     → CACHED
+RUN npm install       → CACHED
+COPY . /app           → CACHED
+EXPOSE 80             → CACHED
+CMD ...               → CACHED
 ```
-You can use either the container ID or container name.
+So the second build can be dramatically faster.
 
-## 7. See stopped containers
+## 3. What happens when server.js changes?
 
-After stopping it:
+**Suppose your original Dockerfile is:**
 ```
-docker ps
+FROM node:20
+
+WORKDIR /app
+
+COPY . /app
+
+RUN npm install
+
+EXPOSE 80
+
+CMD ["node", "server.js"]
 ```
-may show nothing.
 
-That's because docker ps only shows running containers.
-
-Use:
+**Initially:**
 ```
-docker ps -a
+FROM          ✓
+WORKDIR       ✓
+COPY          ✓
+RUN npm       ✓
+EXPOSE        ✓
+CMD           ✓
 ```
-Now you'll see both running and stopped containers.
+
+**Now you modify:**
+```
+server.js
+```
+
+**When Docker reaches:**
+```
+COPY . /app
+```
+it detects that the files being copied are different.
+
+**Therefore:**
+```
+FROM          CACHED
+WORKDIR       CACHED
+COPY          REBUILD  ← changed
+RUN npm       REBUILD  ← after changed layer
+EXPOSE        REBUILD
+CMD           REBUILD
+```
+
+**This is the important rule:**
+> [!IMPORTANT]  
+> When Docker's cache is invalidated at a layer, subsequent layers also need to be rebuilt.
+
+Docker doesn't simply think:
+> "Only server.js changed, therefore npm install isn't necessary."
+
+It doesn't perform that kind of application-level dependency analysis.
+
+## 4. Why COPY package.json separately?
+
+This is the optimization being taught in the lecture.
+
+**Instead of:**
+```
+COPY . /app
+RUN npm install
+```
+
+**use:**
+```
+COPY package.json /app
+
+RUN npm install
+
+COPY . /app
+```
+
+**Now your Dockerfile becomes:**
+```
+FROM node:20
+
+WORKDIR /app
+
+COPY package.json /app
+
+RUN npm install
+
+COPY . /app
+
+EXPOSE 80
+
+CMD ["node", "server.js"]
+```
+
+**The layer structure becomes:**
+```
+FROM node
+      ↓
+WORKDIR /app
+      ↓
+COPY package.json
+      ↓
+npm install
+      ↓
+COPY source code
+      ↓
+EXPOSE
+      ↓
+CMD
+```
+
+**Now imagine you modify:**
+```
+server.js
+```
+
+**Docker sees:**
+```
+FROM node          → CACHED
+WORKDIR            → CACHED
+package.json       → CACHED
+npm install        → CACHED
+COPY source code   → REBUILD
+EXPOSE             → REBUILD
+CMD                → REBUILD
+```
+Most importantly:
+
+npm install does not run again.
+
+That's the optimization.
+
+## 5. What if package.json changes?
+
+This is where the optimization becomes even clearer.
+
+**Suppose you add a dependency:**
+```
+{
+  "dependencies": {
+    "express": "...",
+    "axios": "..."
+  }
+}
+```
+
+**Now:**
+```
+COPY package.json /app
+```
+detects a change.
+
+**Therefore:**
+```
+FROM node          → CACHED
+WORKDIR            → CACHED
+COPY package.json  → REBUILD
+npm install        → REBUILD
+COPY source code   → REBUILD
+EXPOSE              → REBUILD
+CMD                 → REBUILD
+```
+And that's exactly what we want.
+
+Because changing package.json can change your dependencies, so npm install needs to execute again.
 
 
-| Docker concept | Purpose                                          |
-| -------------- | ------------------------------------------------ |
-| `Dockerfile`   | Instructions for creating an image               |
-| `docker build` | Creates an image                                 |
-| Image          | Template/blueprint                               |
-| `docker run`   | Creates and starts a container                   |
-| Container      | Running instance of an image                     |
-| `EXPOSE 80`    | Documents intended container port                |
-| `-p 3000:80`   | Actually maps host port 3000 → container port 80 |
-| `docker stop`  | Stops a running container                        |
-| `docker ps`    | Shows running containers                         |
-| `docker ps -a` | Shows all containers                             |
 
-The key mental model is:
-> [!IMPORTANT]
-> **Dockerfile → Image → Container**
-
-And port publishing happens when you run the container, not when you build the image.
-
-> [!NOTE]  
-> EXPOSE 80 in the Dockerfile in the end is optional. It documents that a process in the container will expose this port. But you still need to then actually expose the port with -p when running docker run. So technically, -p is the only required part when it comes to listening on a port. Still, it is a best practice to also add EXPOSE in the Dockerfile to document this behavior.
