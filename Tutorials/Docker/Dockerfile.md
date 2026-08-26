@@ -368,3 +368,5 @@ The key mental model is:
 
 And port publishing happens when you run the container, not when you build the image.
 
+> [!NOTE]
+> EXPOSE 80 in the Dockerfile in the end is optional. It documents that a process in the container will expose this port. But you still need to then actually expose the port with -p when running docker run. So technically, -p is the only required part when it comes to listening on a port. Still, it is a best practice to also add EXPOSE in the Dockerfile to document this behavior.
