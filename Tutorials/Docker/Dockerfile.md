@@ -364,6 +364,7 @@ Now you'll see both running and stopped containers.
 | `docker ps -a` | Shows all containers                             |
 
 The key mental model is:
+> [!IMPORTANT]
 > **Dockerfile → Image → Container**
 
 And port publishing happens when you run the container, not when you build the image.
