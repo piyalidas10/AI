@@ -3,6 +3,25 @@ As AI systems move from simple chatbots to AI agents that plan, use tools, and t
 That’s where Harness Engineering comes in.
 Think of the harness as the reliability layer around the LLM — the engineering that makes AI systems controlled, observable, verifiable, and production-ready.
 
+> Harness engineering is the engineering discipline of building the environment, constraints, interfaces, feedback loops, and verification mechanisms around an AI model so that autonomous behavior remains reliable, observable, controllable, and aligned with the application's objectives.
+
+It includes things like:
+- Context engineering
+- Agent orchestration
+- Tool/API contracts
+- Authorization
+- Guardrails
+- Human-in-the-loop
+- Sandboxing
+- Retries and recovery
+- State management
+- Evaluation
+- Observability
+- Auditability
+- Cost/latency controls
+- Prompt-injection defenses
+- Output validation
+
 <img src="./Harness Engineering.jpg" width="90%" />
 
 ## 🧠 The core workflow:
