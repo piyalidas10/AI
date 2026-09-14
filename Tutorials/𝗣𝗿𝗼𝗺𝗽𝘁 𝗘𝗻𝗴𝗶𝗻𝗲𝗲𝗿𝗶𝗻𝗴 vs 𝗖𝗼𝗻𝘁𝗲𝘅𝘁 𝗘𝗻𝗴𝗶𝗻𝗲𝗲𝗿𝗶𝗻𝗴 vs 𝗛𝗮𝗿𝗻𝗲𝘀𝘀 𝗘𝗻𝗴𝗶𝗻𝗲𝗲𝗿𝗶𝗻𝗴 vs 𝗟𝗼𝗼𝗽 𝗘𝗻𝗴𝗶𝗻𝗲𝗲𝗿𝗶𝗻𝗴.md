@@ -22,10 +22,10 @@ Building reliable AI now means mastering four system layers:
 → Flow: Task → Prompt + Context → Tools + Rules → Checked Output  
 
 ## 𝗟𝗼𝗼𝗽 𝗘𝗻𝗴𝗶𝗻𝗲𝗲𝗿𝗶𝗻𝗴
-→ Designs systems where the model plans, acts, reviews, and retries
-→ Defines stopping conditions, checkpoints, and feedback loops
-→ Works best for coding agents, research agents, and multi-step automation
-→ Flow: Goal → Plan → Act → Review → Retry or Stop → Final Output
+→ Designs systems where the model plans, acts, reviews, and retries  
+→ Defines stopping conditions, checkpoints, and feedback loops  
+→ Works best for coding agents, research agents, and multi-step automation  
+→ Flow: Goal → Plan → Act → Review → Retry or Stop → Final Output  
 
 ## The evolution is simple:
 
