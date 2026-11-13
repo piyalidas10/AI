@@ -1,5 +1,7 @@
 # ✅ RAG (Retrieval-Augmented Generation)
 
+**RAG Demo Codes** : https://github.com/whyashthakker/RAG/tree/main
+
 **Retrieval-Augmented Generation (RAG) is an AI architecture that combines:**
 - Retrieval – Fetching relevant information from external knowledge sources.
 - Augmentation – Adding the retrieved information to the user's prompt as additional context.
