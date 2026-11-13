@@ -1,3 +1,42 @@
+## Transformer Architecture
+
+The foundation of modern LLMs (Large Language Models) is the Transformer architecture.
+
+Unlike RNNs (Recurrent Neural Networks) and LSTMs (Long Short-Term Memory networks), which process text one step after another, the Transformer processes the entire sequence in parallel. This allows better modeling of long-range dependencies and faster training.
+
+![Transformer architecture flow](<Transformer architecture (attention, encoder or decoder, feed-forward).png>)
+
+*Figure: Flow of the Transformer architecture (attention, encoder/decoder, feed-forward). Source: Vaswani et al..*
+
+**How it works in simple terms.** The diagram above shows the path the data follows:
+
+1. The input text is turned into vectors (embeddings).
+2. Those vectors enter a stack of layers. In each layer, three things happen in order:
+   - **Self-attention:** looks at all the tokens together and decides how much each word should "attend to" the others, so the model captures relationships in the sentence.
+   - **Encoder (if present) or decoder:** processes this attended representation.
+   - **Feed-forward:** refines each token position on its own.
+3. The output of one layer becomes the input of the next.
+4. After several such layers, the model has a rich representation of the whole sequence and uses it to predict the next token.
+
+**In short:** input → attention (who relates to whom) → encoder/decoder → feed-forward → repeat over layers → final representation for prediction.
+
+### Main components
+
+**Self-attention mechanism.** Self-attention is the core of the Transformer. It lets the model assign different importance weights to words in a sequence when making predictions. For example, in "The cat sat on the mat because it was tired," the model can learn that "it" refers to "the cat." In mathematical form, attention is:
+
+```
+Attention(Q, K, V) = softmax(QKᵀ / √d_k) V
+```
+
+A more detailed mathematical explanation is given in .
+
+**Encoder and decoder.** The original Transformer has both encoder and decoder stacks. The encoder processes the input; the decoder produces the output. Many generative models, such as GPT (Generative Pre-trained Transformer), use only the decoder .
+
+**Feed-forward networks.** After the attention block, each token is processed by a position-wise fully connected feed-forward network.
+
+---
+
+
 ## Transformers in RAG System : FastAPI + Ollama + Qdrant + RAG + Upload UI (Dockerized)
 
 Your architecture has two different Transformer usages:

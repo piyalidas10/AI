@@ -654,6 +654,108 @@ Instructions + Memory + Tools + (Optional RAG) → LLM → Answer
 
 </details>
 
+<details>
+
+<summary><strong>Training Phases</strong></summary>
+
+# Training Phases
+
+Training turns a generic model into one that can predict text well. It happens in several phases.
+
+### Pre-training
+Large language models are trained on very large text corpora using next-token prediction . The goal is to model the probability of the sequence:
+
+$$P(x) = \prod P(x_t \mid x_{<t})$$
+
+So the model learns to predict each token given all previous tokens. From this, it learns grammar, structure, and factual associations. The training loss is usually cross-entropy.
+
+### Training phases of a Large Language Model
+
+<img src="img/Training%20phases%20from%20data%20to%20a%20trained%20model%20(dataset,%20pre-training,%20loss,%20scaling%20laws,%20in-context%20learning).png" width="100%" />
+
+*Figure: Training phases from data to a trained model (dataset, pre-training, loss, scaling laws, in-context learning).*
+
+#### How it works in simple terms
+The diagram above shows how the model learns from data and gets better over time:
+
+- **Large text dataset:** Training starts with a huge amount of text: books, websites, articles, and code. This is the raw material the model will learn from .
+- **Pre-training:** The model is trained to predict the next token. For example, given "The cat sat on the mat", it learns to predict a likely next word (e.g. "because" or "and"). By doing this over and over on billions of tokens, it learns grammar, facts, and how words relate .
+- **Loss calculation:** For each prediction, the model compares what it predicted with the real next word. When the prediction is wrong, a loss (error) is computed. The training process updates the model so that this loss decreases over time. The graph of loss vs. time goes down as the model improves .
+- **Scaling laws:** Performance improves in a predictable way when we add more data, more parameters (bigger model), and more compute (more computing power). This follows a power-law trend: better performance comes from scaling these three factors .
+- **In-context learning:** After pre-training, the model can learn new tasks from examples in the prompt without changing its weights. For instance, if you show "Translate to French: Hello → Bonjour", the model can do more translations. No extra training step is required; the ability emerges from scale .
+- **Trained language model:** At the end, the model is ready for inference. All the knowledge it learned is stored in the neural network weights. When a user asks a question, the model uses these weights to generate answers .
+
+### Scaling laws
+Model performance improves in a predictable way when we increase parameters, dataset size, and compute . This follows a power-law relationship. Recent work also studies what happens when data growth is limited (data-constrained regimes) .
+
+### Few-shot and in-context learning
+Large models such as GPT-3 can do few-shot and zero-shot learning without updating their weights . By putting examples or instructions in the prompt, the model solves new tasks. This ability emerges from scale and training, not from extra task-specific fine-tuning.
+
+</details>
+
+<details>
+
+<summary><strong>Alignment and Refinement</strong></summary>
+
+# Alignment and Refinement
+
+Raw pre-trained models can produce unsafe or unhelpful outputs. Alignment techniques are used to improve behavior.
+
+### Alignment and refinement in Large Language Models
+
+<img src="img/How%20models%20become%20safer%20and%20more%20helpful%20(human%20feedback,%20reward%20model,%20reinforcement%20learning).png" width="100%" />
+
+*Figure: How models become safer and more helpful (human feedback, reward model, reinforcement learning).*
+
+#### How it works in simple terms
+The diagram above shows the main steps of alignment:
+
+- **From the raw model to answers:** The pre-trained model generates several answers to the same question. These answers are the starting point for human feedback .
+- **Human feedback:** People (annotators) read the model's answers and rank them: for example, answer A is better than B, B is better than C. These ranked answers show what humans prefer: more helpful, safer, or more accurate responses .
+- **Reward Model:** A separate model, the Reward Model, is trained on these human rankings. It learns to score each answer with a number (e.g. +0.9 for a good answer, lower for worse ones). So "human preferences" are turned into a score the computer can use. This model is trained from human rankings only; it does not generate text .
+- **Reinforcement learning (RLHF):** The main LLM is then trained with reinforcement learning (often PPO, Proximal Policy Optimization) to maximize the score given by the Reward Model. When the LLM produces a good answer, the reward is high; when it produces a bad one, the reward is low. Over time, the LLM becomes more helpful and aligned with what humans want .
+- **Aligned model:** After this process, the model is refined: it is more likely to give safe, useful answers and less likely to give harmful or unhelpful ones. Alignment does not change what the model "knows" from pre-training; it changes how it behaves when it answers .
+
+### Alignment Techniques
+
+- **SFT (Supervised Fine-Tuning):** The model is fine-tuned on high-quality human-written examples that show the desired behavior .
+- **RLHF (Reinforcement Learning from Human Feedback):** The process in  works as follows. Human annotators rank model outputs. A Reward Model is trained from these rankings. Then reinforcement learning (typically PPO, Proximal Policy Optimization) is used to train the LLM to maximize that reward. This makes the model more helpful and aligned with user expectations.
+- **Constitutional AI (RLAIF):** Constitutional AI replaces part of human feedback with AI-generated feedback guided by explicit principles (a “constitution”) . The model critiques and improves its own outputs using these rules. This is Reinforcement Learning from AI Feedback (RLAIF). It allows scalable alignment with less human supervision.
+
+</details>
+
+<details>
+
+<summary><strong>Advanced Techniques and Efficiency</strong></summary>
+
+# Advanced Techniques and Efficiency
+
+Beyond architecture, training, and alignment, modern LLMs rely on several techniques to scale and run efficiently.
+
+### Advanced techniques and efficiency in LLMs
+
+<img src="img/How%20modern%20models%20scale%20and%20improve%20performance%20(MoE,%20RAG,%20FlashAttention,%20hardware%20optimization).png" width="100%" />
+
+*Figure: How modern models scale and improve performance (MoE, RAG, FlashAttention, hardware optimization).*
+
+#### How it works in simple terms
+The diagram above shows how scaling challenges are addressed by combining several techniques:
+
+- **Scaling challenge:** Large models need a lot of memory and compute (many GPUs and chips). So efficiency becomes very important: we need ways to make models faster and cheaper to run .
+- **Mixture of Experts (MoE):** Instead of using the whole model for every token, only part of the model is active per token. A router sends each input token to a few experts (sub-networks); for example, only "Expert 2" might be active for one token. This is sparse computation: it allows models with trillions of parameters while keeping the cost per token manageable .
+- **Retrieval-Augmented Generation (RAG):** The model can retrieve external documents before answering. The user query is turned into a vector; a vector search finds relevant documents; then the LLM generates an answer using both the query and those documents. This reduces hallucination and lets the system use up-to-date knowledge without retraining .
+- **FlashAttention:** The attention mechanism uses a lot of GPU memory and compute. FlashAttention and similar methods optimize how attention runs on the GPU. They improve speed and reduce memory use, so larger models or longer sequences can run on the same hardware .
+- **Hardware optimization:** Modern systems are built for distributed GPU setups: many chips work in parallel. Data parallel and model parallel ways of splitting the work are used. So system and hardware engineering are part of model performance, not only the algorithm .
+- **Modern LLM system:** Together, architecture (e.g. MoE), retrieval (RAG), sparsity, and hardware optimization form a modern LLM system. Performance depends on both algorithms and infrastructure .
+
+### Core Techniques
+
+- **Mixture-of-Experts (MoE):** In models such as Switch Transformers, only a subset of parameters is used per token . This is called sparse computation. Models can scale to trillions of parameters while keeping computation per token manageable. The trade-off is more complex systems and the need for good load balancing.
+- **RAG (Retrieval-Augmented Generation):** RAG combines a retrieval system with a language model to improve factual grounding . The model retrieves relevant documents and conditions its generation on them. This can reduce hallucination and allow knowledge updates without retraining. It also introduces new risks, such as prompt injection and manipulation of retrieved data.
+- **FlashAttention and kernel optimization:** Attention is very demanding in memory and compute. FlashAttention-2 and similar methods optimize attention for modern hardware . For example, implementations on NVIDIA Hopper use CUDA kernel fusion and hardware-aware optimization to get large speedups. Scaling LLMs is therefore not only an algorithmic challenge but also a systems and hardware engineering problem .
+
+</details>
+
 
 
 

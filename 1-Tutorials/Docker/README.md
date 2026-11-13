@@ -1,10 +1,42 @@
 # Docker
 Docker is an OS‑level virtualization (or containerization) platform, which allows applications to share the host OS kernel instead of running a separate guest OS like in traditional virtualization. This design makes Docker containers lightweight, fast, and portable, while keeping them isolated from one another.
 
+Docker is a software platform that packages software into containers. Docker images are read-only templates that contain instructions for creating a container. A Docker image is a snapshot or blueprint of the libraries and dependencies required inside a container for an application to run.
+
+To create a Docker container from a Docker image, you primarily use the `docker run` or `docker create` commands.
+When you execute these commands, the Docker engine takes the read-only blueprint (the image) and adds a thin, writable layer on top of it (the container), allowing the application to execute in an isolated environment.
+
 1. Docker Docs : https://docs.docker.com/reference/cli/docker/
 2. What is Docker | Docker Tutorial for Beginners : https://www.youtube.com/watch?v=lkFfzozx93o
 3. Docker In One Shot - Part 1 : https://www.youtube.com/watch?v=31k6AtW-b3Y
 4. Docker Vs Kubernetes | What is Docker ? | What is Kubernetes ? : https://www.youtube.com/watch?v=oyjGMFzKgVQ
+
+## The Architecture: How Containers and Images Interact
+
+**To understand why Docker enforces this order, it helps to understand how they share storage:**
+- Images are Immutable Blueprints: A Docker image is a read-only stack of layers containing the OS, libraries, and application code.
+- Containers are Thin Layers on Top: When you create a container, Docker doesn't copy the image. Instead, it mounts the read-only image layers and adds a very thin, writable container layer on top of them.
+
+Because the container relies on a Copy-on-Write (CoW) filesystem, it reads files directly from the underlying image. If you delete the image, the container's base layer disappears, and it has nothing left to read.
+
+> [!NOTE]
+> You must delete a Docker container before its image because the container directly depends on the image's read-only file system layers to exist and function.
+> If Docker allowed you to delete an image while a container was still attached to it, the container would lose its underlying operating system, application files, and dependencies, leaving it completely broken and unreadable.
+
+## Why are Docker images and containers used?
+Containers allow developers to package software to run on any target system. Previously, you had to package software specifically for different target systems. For example, if you wanted an application to run on macOS and Windows, you had to change the application design and package it for the different systems.
+
+Containerization allows a software application to run as microservices across distributed, cross-platform hardware architectures. Because containers are highly portable, these software applications run on almost any machine with speedy deployment. For example, an enterprise application may have hundreds of microservices. They could run as containers across multiple machines and virtual machines (VMs) in a dedicated data center and the cloud.
+
+## How Docker containers work
+A Docker container is a runtime environment with all the necessary components—like code, dependencies, and libraries—needed to run the application code without using host machine dependencies. This container runtime runs on the engine on a server, machine, or cloud instance. The engine runs multiple containers depending on the underlying resources available. 
+
+To deploy and scale a set of containers to communicate effectively across different machines or virtual machines, you need a container orchestration platform like Kubernetes. This helps whether your machines are on premises or in the cloud. Kubernetes manages multiple machines, known as a cluster, within the context of container operations.
+
+## How Docker images work
+A Docker image, or container image, is a standalone, executable file used to create a container. This container image contains all the libraries, dependencies, and files that the container needs to run. A Docker image is shareable and portable, so you can deploy the same image in multiple locations at once—much like a software binary file. 
+
+You can store images in registries to keep track of complex software architectures, projects, business segments, and user group access. For instance, the public Docker Hub registry contains images such as operating systems, programming language frameworks, databases, and code editors. 
 
 ## How Docker Containers Differ from Virtual Machines
 Before Docker, deploying applications across different environments was a nightmare. Differences in dependencies, library versions, and OS configurations led to the infamous “works on my machine” problem.
