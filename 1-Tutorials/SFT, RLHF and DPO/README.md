@@ -99,6 +99,8 @@ Instead of providing the model with only one correct answer, humans compare mult
 
 ### How RLHF works technically
 
+<img src="./RLHF_Pipeline.jpg" width="100%" />
+
 RLHF commonly involves three major stages.
 
 ```mermaid
@@ -149,6 +151,8 @@ Instead of building a separate scoring system to evaluate every answer, DPO **di
 
 ### How DPO works technically
 
+<img src="./Direct Preference Optimization (DPO).webp" width="100%" />
+
 1. Start with an existing instruction-tuned model.
 2. Prepare human preference datasets.
 3. Each training example contains:
@@ -186,6 +190,9 @@ The training objective encourages the model to prefer the chosen response over t
 ---
 
 ## 5. RLHF vs DPO – What is the actual difference?
+
+<img src="./RLHF vs DPO.jpg" width="100%" />
+
 
 This is probably the most important comparison to remember.
 
