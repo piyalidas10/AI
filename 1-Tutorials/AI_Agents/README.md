@@ -1,3 +1,178 @@
+# LLM vs AI Agent – What Exactly Is an AI Agent?
+
+An LLM is the brain. An AI agent is the complete software system that uses that brain to perform tasks.
+
+Let's break it down from a software architect's perspective, using a practical example.
+
+## 1. What exactly is an AI agent?
+
+An AI agent is a software system that combines:
+
+1. **LLM (Brain):** Understands instructions, reasons, and makes decisions.
+2. **Tools:** Functions the agent can use, such as reading files, calling APIs, querying databases, or sending emails.
+3. **Agent Runtime (Executor):** Executes the tool calls requested by the LLM.
+4. **Context:** Provides the LLM with the user's instructions, available tools, and previous results.
+5. **Control Loop:** Repeatedly sends information to the LLM, executes its requested actions, and returns results until the task is completed.
+
+```text
+AI Agent = LLM + Tools + Orchestration + Execution Loop
+```
+
+*Conceptual architecture of an AI agent.*
+
+![AI Agent = LLM + Tools + Orchestration + Execution Loop](AI Agent.jpg)
+
+## 2. How does an AI agent actually work?
+
+Imagine you ask:
+
+> "Read my project documentation and summarize the architecture."
+
+Here is what happens behind the scenes.
+
+1. **User sends a request**
+
+   "Summarize project documentation."
+
+2. **Agent sends information to the LLM**
+   - User prompt
+   - Available tools
+   - Tool descriptions
+   - Previous conversation context
+
+3. **LLM decides which tool to use**
+
+   It generates a tool call such as:
+
+   ```text
+   read_file("architecture.md")
+   ```
+
+4. **Agent executes the tool**
+
+   The agent runtime invokes the actual file-reading function and retrieves the content.
+
+   > **Important:** The LLM does not directly open the file. The agent software executes that operation.
+
+5. **Tool result goes back to the LLM**
+
+   The agent sends the retrieved file content to the LLM.
+
+6. **LLM makes its next decision**
+
+   It may:
+   - Read another file.
+   - Retrieve additional information.
+   - Generate the final summary.
+
+7. **Agent returns the final response**
+
+   The user receives the architecture summary.
+
+## 3. Understand the architecture visually
+
+This is the interaction loop you should remember.
+
+```mermaid
+flowchart TD
+    U["User<br/>'Summarize my project documentation'"] --> R["AI Agent Runtime<br/>Builds model request and provides tools"]
+    R -->|Prompt + available tools| L["LLM (Brain)<br/>Reasons and decides what to do"]
+    L -->|"Tool call: read_file()"| X["Agent Runtime executes tool"]
+    X --> T["Files / Database / APIs"]
+    T -->|Tool execution result| X
+    X --> L2["LLM receives the result<br/>Decides whether to use another tool or finish"]
+    L2 -->|Repeat until task completion| L
+    L2 -->|Task complete| F["Final response to user"]
+```
+
+## 4. Let's connect this to a local AI development stack
+
+Suppose you build an AI agent using these technologies:
+
+| Component | Technology | Responsibility |
+|-----------|------------|----------------|
+| Frontend | Angular 19 | Chat interface |
+| Backend | FastAPI | Agent runtime |
+| LLM | Ollama + Phi-3 | Reasoning and decisions |
+| Agent framework | LangChain / LangGraph | Tool orchestration |
+| Vector database | Qdrant | Semantic retrieval |
+| Tools | Python functions | File reading, APIs, database queries |
+| Containerization | Docker | Running services |
+
+For example, you could build an agent that can:
+
+- Read uploaded PDF documents.
+- Search internal documentation using RAG.
+- Query PostgreSQL.
+- Call external APIs.
+- Generate reports.
+
+> **Important distinction:** RAG retrieves relevant information for an LLM. An agent can decide when to use RAG, which tools to invoke, and whether additional information is required.
+
+## 5. AI Agent vs LLM vs RAG
+
+These three concepts are related but different.
+
+| Concept | What it does |
+|---------|--------------|
+| LLM | Understands, reasons and generates responses |
+| RAG | Retrieves relevant external knowledge and provides it to the LLM |
+| AI Agent | Uses an LLM to decide and execute multi-step tasks through tools |
+
+For example:
+
+- **LLM:** Answers a question.
+- **RAG:** Answers a question using your company's documents.
+- **AI Agent:** Decides to search company documents, query a database, call an API, and prepare a report.
+
+An agent can use RAG as one of its tools.
+
+## 6. Important concepts to learn next
+
+I recommend following this sequence:
+
+1. AI Agent Architecture
+2. Tool Calling / Function Calling
+3. Agent Execution Loop
+4. Agent Memory and Context Management
+5. Single-Agent vs Multi-Agent Architecture
+6. LangGraph and State Management
+7. MCP (Model Context Protocol)
+8. Agent Guardrails and Human-in-the-Loop
+9. Production Agent Observability and Evaluation
+
+## Test your understanding
+
+**1. Who actually executes a tool call when an LLM requests `read_file()`?**
+
+- The LLM itself
+- **The AI agent runtime** ✅
+- The vector database
+
+*The agent runtime executes the function. The LLM only decides to request it.*
+
+**2. What happens after a tool returns its result?**
+
+- **The result is sent back to the LLM** ✅
+- The agent must immediately stop
+- The LLM is retrained
+
+*The agent sends the tool result back to the LLM so it can decide the next action.*
+
+**3. Can an AI agent use RAG?**
+
+- No, they are competing technologies
+- **Yes, RAG can be one of its tools** ✅
+- Only if the LLM is trained again
+
+*An agent can invoke a RAG retrieval tool whenever it needs external knowledge.*
+
+## Next step
+
+The next particularly important practical lesson is **Tool Calling / Function Calling**. Once you understand how an LLM requests a tool and how FastAPI executes it, you'll understand the foundation of building your own AI agent with Ollama and Docker.
+
+---
+
 # AI AGents Decision Models
 
 These will make or break your AI agents, must know.
@@ -74,3 +249,5 @@ Understand problem → Generate code → Execute program → Analyze results →
 Most people only focus on models, not how they think.
 
 If you want your AI agents to actually reason, act, and scale properly, choosing the right decision model is critical.
+
+
