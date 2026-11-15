@@ -36,7 +36,7 @@ The primary objectives are:
 
 Quantization is the idea of storing those numbers with fewer bits. Instead of keeping a weight as a large and highly precise decimal value, we store an approximation using fewer bits: 8 bits, 4 bits, or sometimes even 2 or 3 bits. The model becomes smaller because each number takes less space. A 4-bit model can use roughly a quarter of the memory of a 16-bit model for its weights.
 
-![model quantization](model quantization.jpg)
+<img src="./model quantization.jpg" width="100%" />
 
 ---
 
@@ -81,7 +81,7 @@ Let's understand them individually.
 - Excellent for memory-constrained environments.
 - Can introduce more accuracy degradation than INT8.
 
-![FP32, FP16, INT8 and INT4](FP32, FP16, INT8 and INT4.jpg)
+<img src="FP32, FP16, INT8 and INT4.jpg" width="100%" />
 
 > **Important:** Lower precision does not automatically mean faster inference. Actual speed depends on hardware, quantization kernels, memory bandwidth and workload.
 
