@@ -317,6 +317,95 @@ Remember this relationship – three inference optimization techniques:
 
 ---
 
+## 12. Finding INT8, INT4 and FP16 in Ollama
+
+You won't see INT8, INT4 or FP16 on the Ollama model library (model search) page, because it is not a quantization selection screen.
+
+This is an important distinction:
+
+- **Model name:** Llama 3.2, Llama 3.1, Phi-3, etc.
+- **Model size:** 3B, 7B, 8B, 70B, etc.
+- **Quantization:** Q4_K_M, Q8_0, FP16, etc.
+
+Ollama generally displays quantization information inside an individual model's details or model tags, rather than showing INT4 and INT8 as global filters on the library page.
+
+### 12.1 Where to find quantization in Ollama
+
+1. Open **Llama 3.2 → All model tags**.
+2. Look for the model variant, such as `3b-instruct`.
+3. Look at the end of its tag name.
+
+For example, these are actual Ollama tags:
+
+| Ollama model tag | Precision |
+|------------------|-----------|
+| `llama3.2:3b-instruct-q4_K_M` | Approximately INT4 |
+| `llama3.2:3b-instruct-q8_0` | Approximately INT8 |
+| `llama3.2:3b-instruct-fp16` | FP16 |
+
+These variants have different download sizes.
+
+### 12.2 How to download each variant
+
+Open PowerShell and execute:
+
+**INT4 equivalent (Q4_K_M)**
+
+```powershell
+ollama pull llama3.2:3b-instruct-q4_K_M
+```
+
+**INT8 equivalent (Q8_0)**
+
+```powershell
+ollama pull llama3.2:3b-instruct-q8_0
+```
+
+**FP16**
+
+```powershell
+ollama pull llama3.2:3b-instruct-fp16
+```
+
+### 12.3 How to verify the quantization
+
+After downloading:
+
+```powershell
+ollama list
+```
+
+Then inspect each model:
+
+```powershell
+ollama show llama3.2:3b-instruct-q4_K_M
+```
+
+Look for the quantization level.
+
+You can also check the model's metadata using:
+
+```powershell
+ollama show --modelfile llama3.2:3b-instruct-q4_K_M
+```
+
+For more detailed inspection, Ollama's API exposes `quantization_level`.
+
+### 12.4 Important mapping
+
+| Concept from AI theory | Ollama terminology |
+|------------------------|--------------------|
+| INT4 | Q4_K_M / Q4_0 |
+| INT8 | Q8_0 |
+| FP16 | FP16 / F16 |
+
+> These are practical precision equivalents, not identical quantization implementations. Q4_K_M and Q8_0 use specific GGUF quantization schemes.
+
+**Recommendation:** Start by comparing Q4_K_M and Q8_0 using the same 3B model. Measure RAM consumption, response speed and answer quality.
+
+---
+
+
 ## Recommended learning sequence
 
 Study these topics next:
