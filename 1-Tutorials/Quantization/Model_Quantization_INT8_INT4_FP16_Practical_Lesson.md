@@ -24,6 +24,8 @@ We can reduce the precision of these numbers while retaining much of the model's
 
 This process is called **quantization**.
 
+![Quantization overview](Quantization.jpg)
+
 The primary objectives are:
 
 - Reduce model file size.
@@ -172,6 +174,8 @@ The `K_M` suffix describes a particular K-quantization scheme and mixed-precisio
 ## 6. Hands-on practical: Ollama
 
 Let's connect the theory to your local environment.
+
+![Find quantization in Ollama](find%20quantization%20in%20Ollama.jpg)
 
 ### Step 1 – Pull a small model
 

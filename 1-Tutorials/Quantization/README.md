@@ -6,6 +6,8 @@ Quantization is especially important when running LLMs locally using tools such 
 
 Let's understand it step by step.
 
+![Quantization overview](Quantization.jpg)
+
 ---
 
 ## 1. Why do LLMs need so much memory?
@@ -53,6 +55,8 @@ For example:
 | INT4 | 4 | 0.1 | 0.5 bytes (packed) |
 
 *Illustrative decimal representations only. Actual quantization values depend on the quantization algorithm and scaling parameters.*
+
+![FP32, FP16, INT8 and INT4 bit layout](FP32%2C%20FP16%2C%20INT8%20and%20INT4.jpg)
 
 **The key idea:**
 
@@ -107,6 +111,8 @@ When working with local LLMs, you'll frequently encounter these formats.
 | BF16 | 16 | Training and inference |
 | INT8 | 8 | Reduced-memory inference |
 | INT4 | 4 | Efficient local LLM inference |
+
+![Precisions at a glance](model%20quantization.jpg)
 
 There is another important concept: quantization formats are not always simple INT8 or INT4.
 
@@ -330,6 +336,8 @@ This is an important distinction:
 Ollama generally displays quantization information inside an individual model's details or model tags, rather than showing INT4 and INT8 as global filters on the library page.
 
 ### 12.1 Where to find quantization in Ollama
+
+![Find quantization in Ollama](find%20quantization%20in%20Ollama.jpg)
 
 1. Open **Llama 3.2 → All model tags**.
 2. Look for the model variant, such as `3b-instruct`.
