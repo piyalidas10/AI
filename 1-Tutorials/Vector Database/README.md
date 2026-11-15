@@ -1,7 +1,45 @@
+# Vector Database vs Embedding Model vs LLM
+
+These three components have different responsibilities.
+
+| Component | Responsibility |
+|-----------|----------------|
+| Embedding model | Converts text into vectors |
+| Vector database | Stores vectors and retrieves similar content |
+| LLM | Understands context and generates responses |
+
+For example, in your local AI setup:
+
+| Technology | Role |
+|------------|------|
+| Ollama | Runs embedding and LLM models locally |
+| nomic-embed-text | Generates embeddings |
+| Qdrant | Stores and searches vectors |
+| FastAPI | Connects the application components |
+| LangChain | Helps orchestrate the RAG pipeline |
+| Angular | Provides the chatbot UI |
+
+---
+
+
 # 🔎 What Is a Vector Database?
 A vector database stores and searches high-dimensional embeddings (vectors) — numerical representations of text, images, audio, video, user behavior, etc. 
 — enabling very fast similarity search and semantic retrieval, which traditional databases can’t do efficiently. 
 They’re essential in modern AI applications like semantic search, recommendation engines, RAG (Retrieval-Augmented Generation), personalized search, and more.
+
+A vector database is a specialized database that stores and searches numerical representations of data called vector embeddings.
+
+Unlike traditional databases, which typically search using exact values, a vector database can find information based on semantic similarity (meaning).
+
+For example, suppose your company has these documents:
+- Document 1: "Employees can apply for annual leave through the HR portal."
+- Document 2: "Staff members can request vacation days online."
+- Document 3: "Customers can reset their banking passwords."
+A traditional database may not identify Document 1 and Document 2 as related because their words are different.
+
+A vector database can identify that they have similar meanings.
+
+<img src=".\imgs\How Vector Search Works.jpg" width="100%" />
 
 ## Tutorials
 1. Pinecone : https://docs.pinecone.io/guides/index-data/indexing-overview
@@ -34,6 +72,44 @@ To quantify the similarity between vectors, distance metrics are used. Common di
 Efficient data retrieval is crucial for the performance of vector databases, especially when dealing with large-scale datasets. Vector indexing is the process of organizing vector embeddings in a structured manner to expedite retrieval operations. Techniques such as clustering and indexing algorithms like Hierarchical Navigable Small World (HNSW) are commonly employed for this purpose.
 
 To see an overview of these concepts in action, Figure 3 illustrates a content-based retrieval workflow using vector space embeddings, demonstrating how documents, images, and audio can be transformed into vector representations and retrieved through an Approximate Nearest Neighbour (ANN) search.
+
+## How does text become a vector embedding?
+An embedding model converts text into a list of numbers.
+
+**For example (simplified illustration):**
+
+Input text:
+```
+"Employees can apply for annual leave."
+```
+
+Generated embedding:
+```
+[0.21, 0.85, -0.32, 0.67, 0.12, ...]
+```
+
+Another sentence:
+```
+"Staff can request vacation days."
+```
+
+Might generate:
+```
+[0.23, 0.82, -0.30, 0.65, 0.15, ...]
+```
+
+These are illustrative values, not actual model outputs.
+
+Because the sentences have similar meanings, their embeddings may be close in vector space.
+
+<img src=".\imgs\How does text become a vector embedding.jpg" width="100%" />
+
+Important concepts:
+- Embedding model: Converts text into numerical vectors.
+- Vector: The numerical representation.
+- Dimensions: Number of values in each vector.
+- Similarity search: Finds vectors representing semantically related content.
+- Metadata: Additional information such as document name, page number and department.
 
 ## 📊 Vector DB Performance Comparison (for AI / RAG / Semantic Search)
 | **Database**               | **Latency**       | **Scalability**            | **Metadata Filtering** | **Hybrid Search** | **Best Strength**                                    |

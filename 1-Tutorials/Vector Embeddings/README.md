@@ -1,3 +1,27 @@
+# Vector Database vs Embedding Model vs LLM
+
+These three components have different responsibilities.
+
+| Component | Responsibility |
+|-----------|----------------|
+| Embedding model | Converts text into vectors |
+| Vector database | Stores vectors and retrieves similar content |
+| LLM | Understands context and generates responses |
+
+For example, in your local AI setup:
+
+| Technology | Role |
+|------------|------|
+| Ollama | Runs embedding and LLM models locally |
+| nomic-embed-text | Generates embeddings |
+| Qdrant | Stores and searches vectors |
+| FastAPI | Connects the application components |
+| LangChain | Helps orchestrate the RAG pipeline |
+| Angular | Provides the chatbot UI |
+
+---
+
+
 # 🔹 What Are Vector Embeddings?
 
 > **Vectors → Embeddings → Vector Database → Similarity Search**, which is one of the most important parts of a RAG system.
