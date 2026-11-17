@@ -153,5 +153,11 @@ Because `Messages` continuously expands during long sessions, agents employ **Co
 
 ## 8. Summary & Architecture Takeaway
 
-> **Core Takeaway:**  
+> **Core Takeaway:**
 > The context window is a **shared working desk**, not an input box. The user prompt is only a small slice of what the model processes. System prompts, tool definitions, rules, agent skills, and full conversation history all share the same token budget. When context fills up, conversation history and tool outputs (`Messages`) are almost always the primary contributors, requiring proactive context compaction and efficient session management.
+
+---
+
+## 9. References & Official Documentation
+
+- [IBM Bob Documentation: Context Window Management](https://bob.ibm.com/docs/ide/core-concepts/context-window-management)
