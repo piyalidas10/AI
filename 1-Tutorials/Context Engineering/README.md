@@ -2,6 +2,8 @@
 
 This article builds directly on what we've just discussed about Agent Harnesses, RAG, memory management and token budgets.
 
+Mastering Context Engineering: Retrieval, Hard Filters, and Multi-Turn Memory : https://www.youtube.com/watch?v=r7ZnrKCjVj4
+
 > **My assessment:** The article presents a good production architecture, but some technical claims need qualification. Its central message is correct: production AI systems need to manage the entire information environment around an LLM, not just write better prompts.
 
 Let's review it from a software architect's perspective, connecting it to your FastAPI + Ollama + Qdrant + Angular architecture.

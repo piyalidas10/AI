@@ -236,6 +236,8 @@ For a production banking chatbot, use a **defence-in-depth** architecture.
 | Audit logging | Record agent decisions, tool calls and data access |
 | LLM provider governance | Control retention, training usage and data processing |
 
+<img src="./Defence-in-Depth Enterprise AI Security.png" width="100%" />
+
 One particularly important point: **prompt screening alone is not sufficient.** The strongest protection is to ensure that even if the model is successfully manipulated, it cannot perform unauthorized actions.
 
 For example, an agent should not be able to email customer account information simply because an LLM requested it. The email service must independently enforce authorization and data-loss prevention rules.
