@@ -25,6 +25,30 @@ Think of it as an **enterprise software warehouse**.
 
 Just as Amazon has a warehouse from which products are distributed to customers, Artifactory has a repository from which software packages are distributed to applications, developers, CI/CD pipelines, and AI agents.
 
+> **JFrog Artifactory** acts as a central binary and artifact repository manager—the **"warehouse"** for your compiled software components—rather than a tool that tracks source code history or executes workloads
+
+<img src="./AI Agent Platform Tool Ecosystem.png" width="90%" />
+
+**The image covers all four tools and their roles:**
+1. Artifactory – Stores and distributes packages, binaries, Docker images and model weights.
+2. GitHub – Manages source code, commits, branches and pull requests.
+3. Docker – Builds and runs isolated application containers.
+4. Ollama – Downloads and runs LLMs locally using RAM/VRAM.
+
+```
+| **Tool**        | **Primary Role**            | **What It Actually Does**                                                                                                                              |
+| --------------- | --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Artifactory** | Artifact Storage & Registry | Stores, versions, proxies, and distributes compiled binaries, packages (npm, Maven, PyPI), container images, and model weights.                        |
+| **GitHub**      | Source Control Management   | Tracks human-readable source code, commit history, branches, and pull requests.                                                                        |
+| **Docker**      | Container Engine / Runtime  | Builds and executes isolated application containers on a host machine (though Artifactory can act as a private Docker registry to *store* the images). |
+| **Ollama**      | Local LLM Runtime           | Downloads, loads into memory (RAM/VRAM), and runs inference on large language models locally.                                                          |
+```
+
+### Where Confusion Usually Happens
+
+- **Storage vs. Execution.** Because Artifactory can host Docker images or AI/ML model files, teams sometimes confuse hosting the file with running it. Artifactory serves the static file over the network; Docker or Ollama must pull that file down to execute it.
+- **Source vs. Build Output.** GitHub holds the raw ingredients (source code), while Artifactory holds the finished product (compiled .jar, .whl, or binary files). Storing large compiled binaries directly in Git bloats repository history, which is why CI/CD pipelines push build outputs to Artifactory instead.
+
 ### Examples of software packages stored in Artifactory
 
 | Ecosystem | Example packages |
@@ -45,6 +69,15 @@ pip install fastapi
 It needs to download the FastAPI package and potentially other dependencies.
 
 Instead of downloading directly from public PyPI, the agent can download it from the organization's Artifactory repository.
+
+### When would centralized Artifactory become necessary?
+Consider introducing JFrog Artifactory or Sonatype Nexus Repository when:
+- Multiple applications and teams share internal libraries.
+- You need a private repository for proprietary packages.
+- Your organization requires controlled package publishing and consumption.
+- You need vulnerability scanning, package approval and provenance controls.
+- You need reproducible builds and controlled dependency promotion.
+- Your production environment cannot access public package registries directly.
 
 ### Where Artifactory fits in the JFrog platform
 
